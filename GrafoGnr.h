@@ -67,7 +67,7 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna un vector de enteros con las posiciones de los vértices
     //      adyacentes al vértice indicado por vrt.
-    vector<int>& obtAdy(int vrt) const;
+    void obtAdy(int vrt, vector<int>& vec) const;
 
     // EFE: retorna el total de vértices en *this.
     int obtTotVrt() const;
@@ -110,9 +110,8 @@ private:
 template < typename V >
 GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
 {
-    if (cntVrt >= 10) // && (0 <= prbAdy < 1)) {
+    if (cntVrt >= 10) && (0 <= prbAdy < 1)) {
     {
-       // vcf = rand()% 5 +1 ;// esto es para el vdf
         this->cntVrt = cntVrt;
         arrVrt.resize(cntVrt);
         srand(time(NULL));
@@ -159,9 +158,7 @@ GrafoGnr< V >::GrafoGnr(string nArch)
  ifstream file;
     file.open(nArch.c_str(), ios::in);
     if (file.is_open() && file.good())
-       // cout << "ok"<< endl;
     {
-       // vcf = rand()% 5 +1 ;// esto es para el vdf
         char line[256];
         memset(&line, 0, 256);//poner memoria en 0
         file.getline(line, 256); //primera linea
@@ -258,8 +255,9 @@ int GrafoGnr< V >::obtTotAdy() const
 
 
 template < typename V >
-V& GrafoGnr< V >::operator[](int vrt) {
-
+V& GrafoGnr< V >::operator[](int vrt)
+{
+if (xstVrt(vrt)) return V[vrt];
 }
 
 template < typename V >
