@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lGL" />
@@ -27,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -37,15 +39,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Grafo.cpp" />
-		<Unit filename="Grafo.h" />
+		<Unit filename="GrafoGnr.h" />
+		<Unit filename="NdoVrt.cpp" />
+		<Unit filename="NdoVrt.h" />
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
-		<Unit filename="Simulador.cpp" />
-		<Unit filename="Simulador.h" />
-		<Unit filename="Visualizador.cpp" />
-		<Unit filename="Visualizador.h" />
+		<Unit filename="include/NdoVrt.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/NdoVrt.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
