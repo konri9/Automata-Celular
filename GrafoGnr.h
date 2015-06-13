@@ -97,6 +97,8 @@ public:
     //      arcos entre todos los vecinos del vértice indicado por vrt.
     double coeficienteAgrupamiento(int vrt) const;
 
+    int **Floyd_Warshall() const;
+
 private:
     struct NdoVrt {
         V vrt;
@@ -129,7 +131,7 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
                 arrVrt[rnum].lstAdy.push_back(i);
             }
         }
-         azarizarTmpChqVrs(vcf);
+         //azarizarTmpChqVrs(vcf);
     }
 }
 
@@ -185,7 +187,7 @@ GrafoGnr< V >::GrafoGnr(string nArch)
                 }
                 count++;
             }
-            azarizarTmpChqVrs(vcf);
+           // azarizarTmpChqVrs(vcf);
         }
         return;
         throw 1;
