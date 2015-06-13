@@ -11,13 +11,13 @@ class NdoVrt
 {
     public:
 
-        NdoVrt();
-        virtual ~NdoVrt();
+    NdoVrt();
+    virtual ~NdoVrt();
 
-        enum E{ // representa el tipo de estados de la red de infección
-        S, // representa un vértice susceptible de infección
-        I, // representa un vértice infectado
-        R, // representa un vértice resistente
+    enum E{ // representa el tipo de estados de la red de infección
+    S, // representa un vértice susceptible de infección
+    I, // representa un vértice infectado
+    R, // representa un vértice resistente
     };
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -33,7 +33,7 @@ class NdoVrt
     int obtCntChVrs(int vrt) const;
 
 
-        /* MÉTODOS MODIFICADORES */
+    /* MÉTODOS MODIFICADORES */
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.

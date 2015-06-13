@@ -1,11 +1,10 @@
 #include "NdoVrt.h"
 
-NdoVrt::NdoVrt()
-{
-
-    GrafoGnr grafo;
+GrafoGnr grafo;
     int vcf = 5;// esto es para el vcf
 
+NdoVrt::NdoVrt()
+{
     //ctor
 }
 
@@ -95,4 +94,7 @@ void NdoVrt::azarizarTmpChqVrs(int vcf)
     }
 }
 
+void Grafo::modEstados(vector<NdoVrt>& stdAct)
+{
+}
 
