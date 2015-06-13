@@ -28,14 +28,9 @@ char grafostr[] = "No hay grafo cargado! por favor cree o cargue un grafo para v
 
 Visualizador::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
     cntVrt = grafo.obtTotVrt();
-   // vector<int>arrAdy;
     arrAdy.resize(cntVrt);
-    //arrAdy = new int [cntVrt];
-   // vector <double> posX, posY;
     posX.resize(cntVrt);
     posY.resize(cntVrt);
-    //posX = new double [cntVrt];
-    //posY = new double [cntVrt];
     hwnd = FindWindow(NULL, "Automata-Celular");
     //ShowWindow(hwnd, SW_HIDE);
     /*this->argc = argc;
