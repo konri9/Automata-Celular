@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -33,6 +34,10 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="GrafoGnr.h" />
+		<Unit filename="NdoVrt.cpp" />
+		<Unit filename="NdoVrt.h" />
+		<Unit filename="Parse.cpp" />
+		<Unit filename="Parse.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
