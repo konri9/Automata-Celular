@@ -116,31 +116,31 @@ private:
 };
 
 
-template < typename V >
-GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
-{
-    if (cntVrt >= 10)// && (0 < prbAdy < 1))
+    template < typename V >
+    GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
     {
+        if (cntVrt >= 10)// && (0 < prbAdy < 1))
         {
-            this->cntVrt = cntVrt;
-            arrVrt.resize(cntVrt);
-            srand(time(NULL));
-            default_random_engine generador(rand());
-            normal_distribution<double> distribucion(prbAdy, 2.0);
-            for (int i = 0; i < this->cntVrt; i++)
             {
-                int rnum = distribucion(generador);
-                if (!xstAdy(i, rnum) && xstVrt(rnum))
+                this->cntVrt = cntVrt;
+                arrVrt.resize(cntVrt);
+                srand(time(NULL));
+                default_random_engine generador(rand());
+                normal_distribution<double> distribucion(prbAdy, 2.0);
+                for (int i = 0; i < this->cntVrt; i++)
                 {
-                    arrVrt[i].lstAdy.push_back(rnum);
-                    arrVrt[rnum].lstAdy.push_back(i);
+                    int rnum = distribucion(generador);
+                    if (!xstAdy(i, rnum) && xstVrt(rnum))
+                    {
+                        arrVrt[i].lstAdy.push_back(rnum);
+                        arrVrt[rnum].lstAdy.push_back(i);
+                    }
                 }
             }
+           return;
+           throw 1;
         }
-       return;
-       throw 1;
     }
-}
 
 
     template < typename V >
@@ -311,7 +311,7 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
 
     template <typename V>
     int **GrafoGnr<V>::Floyd_Warshall() const
-{
+    {
     int** path;
     path = new int*[cntVrt];
     for (int i = 0; i < cntVrt; i++)
@@ -344,7 +344,7 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
             }
 
     return path;
-}
+    }
 
     template < typename V >
     double GrafoGnr< V >::coeficienteAgrupamiento(int vrt) const

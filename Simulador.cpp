@@ -9,13 +9,6 @@
 #include <ctime>
 #include "Simulador.h"
 
-bool prob(double probability) // probability < 1
-{
-    double result = (double)rand() / (double)RAND_MAX;
-    if(result < probability)
-        return true;
-    return false;
-}
 
 Simulador::Simulador(GrafoGnr<> & grf):grafo(g) {
 } //ctor
@@ -88,10 +81,6 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
                 grafo.modTmpChqVrs();
             }
         }
-
-       //ACA tengo la duda....
-        //if (checkeo <= 0) checkeo = vcf;
-        //checkeo--;
     }
 }
 

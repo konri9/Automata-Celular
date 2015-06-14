@@ -9,7 +9,9 @@ using namespace std;
 
 class NdoVrt
 {
+
 public:
+
     enum E  // representa el tipo de estados de la red de infección
     {
         S, // representa un vértice susceptible de infección
@@ -63,9 +65,19 @@ public:
 
 
 protected:
-private:
+
 private:
 
+struct Ndo {
+        E e; // representa el estado del vértice
+        int tmpChqVrs; // representa el temporizador de chequeo de virus
+        int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
+        vector <int> lstAdy;  // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
+        Ndo(): e(S), tmpChqVrs(1){};
+        // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
+    };
+
+    vector<Ndo>arrVrt;
 
 };
 

@@ -13,9 +13,9 @@
 #include "GrafoGnr.h"
 #include "Simulador.h"
 #include "Visualizador.h"
-#include <windows.h>
+//#include <windows.h>
 #include <GL/glut.h>
-#include <process.h>
+//#include <process.h>
 
 using namespace std;
 using namespace line_parse;
