@@ -72,11 +72,6 @@ public:
     // EFE: retorna true si existe un arco entre los vértices con índice vrtO y vrtD.
     bool xstAdy(int vrtO, int vrtD) const;
 
-    // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna un vector de enteros con las posiciones de los vértices
-    //      adyacentes al vértice indicado por vrt.
-    int obtTotVrt();
-
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna un vector de enteros con las posiciones de los vértices
@@ -443,14 +438,14 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
         return 0;
     }
 
-    /*template < typename V >
-    GrafoGnr < V > ::E GrafoGnr< V >::obtEst(int vrt) const
+    template < typename V >
+    GrafoGnr < V > ::obtEst(int vrt) const
     {
         if (xstVrt(vrt) == true)
         {
             return arrVrt[vrt].e;
         }
-    }*/
+    }
 
     template < typename V >
     int GrafoGnr< V >::obtTmpChqVrs(int vrt) const
