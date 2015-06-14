@@ -18,7 +18,7 @@ using namespace std;
 template <typename V>
 void testConstructorGrafo()
 {
-    GrafoGnr< V > grafo(100,0.5);
+    GrafoGnr< V > grafo (100,0.5);
     GrafoGnr< V >  grafo2(1000,0.5);
     if (grafo.obtTotVrt()!=100  || grafo2.obtTotVrt() != 1000)
     {
@@ -57,7 +57,7 @@ void testConstructorString()
 }
 
 template <typename V>
-void testPromLongCmnsCrts()
+void testPromLongCmnsCrts(const V * )
 {
     GrafoGnr< V >  grafo("redMuyPeq.txt");
     double res = grafo.promLongCmnsCrts();

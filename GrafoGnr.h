@@ -174,9 +174,8 @@ private:
     int vcf = 5;
     double prmAdy;
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
-
-
 };
+
 
 template < typename V >
 GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
