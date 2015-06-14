@@ -38,13 +38,6 @@ class GrafoGnr
 
 public:
 
-    enum E  // representa el tipo de estados de la red de infección
-    {
-        S, // representa un vértice susceptible de infección
-        I, // representa un vértice infectado
-        R, // representa un vértice resistente
-    };
-
     /* CONSTRUCTORES */
     // REQ: ( cntVrt >= 10 ) && ( 0 <= prbAdy < 1  )
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
@@ -98,6 +91,8 @@ public:
     //      entre cada pareja de vértices de *this.
     double promLongCmnsCrts() const;
 
+    int **Floyd_Warshall() const;
+
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el "local clustering coefficient" o coeficiente local de agrupamiento
     //      para el vértice indicado por vrt.
@@ -107,66 +102,15 @@ public:
     //      arcos entre todos los vecinos del vértice indicado por vrt.
     double coeficienteAgrupamiento(int vrt) const;
 
-    int **Floyd_Warshall() const;
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna el estado del vértice con índice vrt.
-    E obtEst(int vrt) const;
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna el valor del temporizador de chequeo de antivirus del vértice con índice vrt.
-    int obtTmpChqVrs(int vrt) const;
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
-    int obtCntChVrs(int vrt) const;
-
-
-    /* MÉTODOS MODIFICADORES */
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // MOD: *this.
-    // EFE: cambia el estado del vértice cuyo índice es vrt a ne.
-    void modEst(int vrt, E ne);
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // MOD: *this.
-    // EFE: cambia el valor del temporizador de chequeo de virus del vértice vrt por el valor nt.
-    void modTmpChqVrs(int vrt, int nt);
-
-    // REQ: que exista en *this un vértice con índice vrt.
-    // MOD: *this.
-    // EFE: actualiza el valor del contador de chequeo de virus para la siguiente iteración.
-    void actCntChqVrs(int vrt);
-
-    // REQ: ios << this->obtTotVrt().
-    // MOD: *this.
-    // EFE: cambia el estado a I (infectado) a ios vértices escogidos al azar.
-    //      ios o initial-outbreak-size: cantidad inicial de nodos infectados.
-    void infectar(int ios);
-
-    // MOD: *this
-    // EFE: asigna el valor del temporizador para cada vértice con un número al azar entre 1 y maxTmp.
-    //      vcf o virus-check-frecuency: frecuencia máxima de chequeo antivirus.
-    void azarizarTmpChqVrs(int vcf);
-
-    int **Floyd_Warshall();
 
 private:
     struct NdoVrt
     {
         V vrt;
-        E e; // representa el estado del vértice
-        int tmpChqVrs; // representa el temporizador de chequeo de virus
-        int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
-        NdoVrt(): e(S), tmpChqVrs(1) {};
-        vector <int> lstAdy;
-
+        vector <int> lstAdy; // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
     };
-    // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
 
     int cntVrt; // representa la cantidad total de vértices
-    int vcf = 5;
     double prmAdy;
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
 };
@@ -175,7 +119,7 @@ private:
 template < typename V >
 GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
 {
-    if ((cntVrt >= 10) && (0 <= prbAdy < 1))
+    if (cntVrt >= 10)// && (0 < prbAdy < 1))
     {
         {
             this->cntVrt = cntVrt;
@@ -185,9 +129,6 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
             normal_distribution<double> distribucion(prbAdy, 2.0);
             for (int i = 0; i < this->cntVrt; i++)
             {
-                arrVrt[i].tmpChqVrs = 0;
-
-                arrVrt[i].cntChqVrs = 0;
                 int rnum = distribucion(generador);
                 if (!xstAdy(i, rnum) && xstVrt(rnum))
                 {
@@ -195,7 +136,6 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
                     arrVrt[rnum].lstAdy.push_back(i);
                 }
             }
-            azarizarTmpChqVrs(vcf);
         }
        return;
        throw 1;
@@ -212,9 +152,6 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
             arrVrt.resize(this->cntVrt);
             for (int i = 0; i < this->cntVrt; i++)
             {
-                arrVrt[i].e = orig.obtEst(i);
-                arrVrt[i].tmpChqVrs = orig.obtTmpChqVrs(i);
-                arrVrt[i].cntChqVrs = orig.arrVrt[i].cntChqVrs;
                 for (int j = 0; j < orig.arrVrt[i].lstAdy.size(); j++)
                     arrVrt[i].lstAdy.push_back(orig.arrVrt[i].lstAdy[j]);
             }
@@ -247,16 +184,12 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
                 size_t cant = cantidad_elementos(linea);
                 if (cant > 0)
                 {
-                    arrVrt[count].e = S;
-                    arrVrt[count].tmpChqVrs = 0;
-                    arrVrt[count].cntChqVrs = 0;
                     for (int j = 0; j < cant; j++)
                     {
                         arrVrt[count].lstAdy.push_back(elemento(linea, j));
                     }
                     count++;
                 }
-                azarizarTmpChqVrs(vcf);
             }
             return;
             throw 1;
@@ -375,43 +308,43 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
         delete[] matriz;
         return ((double) sum / (double) total);
     }
+
     template <typename V>
     int **GrafoGnr<V>::Floyd_Warshall() const
+{
+    int** path;
+    path = new int*[cntVrt];
+    for (int i = 0; i < cntVrt; i++)
     {
-        int** path;
-        path = new int*[cntVrt];
-        for (int i = 0; i < cntVrt; i++)
+        path[i] = new int[cntVrt];
+        path[i][i] = 0;
+    }
+    for (int i = 0; i < cntVrt; i++)
+    {
+        for (int j = 0; j < cntVrt; j++)
         {
-            path[i] = new int[cntVrt];
-            path[i][i] = 0;
-        }
-        for (int i = 0; i < cntVrt; i++)
-        {
-            for (int j = 0; j < cntVrt; j++)
+            if (xstAdy(i, j))
             {
-                if (xstAdy(i, j))
-                {
-                    path[i][j] = 1;
-                }
-                else
-                {
-                    path[i][j] = std::numeric_limits<int>::max();
-                }
+                path[i][j] = 1;
+            }
+            else
+            {
+                path[i][j] = std::numeric_limits<int>::max();
             }
         }
-        for (int k = 0; k < cntVrt; k++)
-            for (int i = 0; i < cntVrt; i++)
-                for (int j = 0; j < cntVrt; j++)
-                {
-                    if (path[i][k] == std::numeric_limits<int>::max() || path[k][j] == std::numeric_limits<int>::max()) continue;
-                    int dt = path[i][k] + path[k][j];
-                    if (path[i][j] > dt)
-                        path[i][j] = dt;
-                }
-
-        return path;
     }
+    for (int k = 0; k < cntVrt; k++)
+        for (int i = 0; i < cntVrt; i++)
+            for (int j = 0; j < cntVrt; j++)
+            {
+                if (path[i][k] == std::numeric_limits<int>::max() || path[k][j] == std::numeric_limits<int>::max()) continue;
+                int dt = path[i][k] + path[k][j];
+                if (path[i][j] > dt)
+                    path[i][j] = dt;
+            }
 
+    return path;
+}
 
     template < typename V >
     double GrafoGnr< V >::coeficienteAgrupamiento(int vrt) const
@@ -437,99 +370,6 @@ GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
         }
         return 0;
     }
-
-    template < typename V >
-    GrafoGnr < V > ::obtEst(int vrt) const
-    {
-        if (xstVrt(vrt) == true)
-        {
-            return arrVrt[vrt].e;
-        }
-    }
-
-    template < typename V >
-    int GrafoGnr< V >::obtTmpChqVrs(int vrt) const
-    {
-        return arrVrt[vrt].tmpChqVrs;
-    }
-
-    template < typename V >
-    int GrafoGnr< V >::obtCntChVrs(int vrt)const
-    {
-
-        return arrVrt[vrt].cntChqVrs;
-
-    }
-
-    template < typename V >
-    void GrafoGnr< V >::modEst(int vrt, E ne)
-    {
-        if (xstVrt(vrt))
-        {
-            arrVrt[vrt].e = ne;
-        }
-    }
-
-    template < typename V >
-    void GrafoGnr< V >::modTmpChqVrs(int vrt, int nt)
-    {
-        if(xstVrt(vrt)) arrVrt[vrt].tmpChqVrs = nt;
-    }
-
-
-    template < typename V >
-    void GrafoGnr< V >::actCntChqVrs(int vrt)
-    {
-        if(xstVrt(vrt)&& arrVrt[vrt].cntChqVrs == arrVrt[vrt].tmpChqVrs)
-            arrVrt[vrt].cntChqVrs = 0;
-        else
-        {
-            arrVrt[vrt].cntChqVrs++;
-        }
-    }
-
-
-    template < typename V >
-    void GrafoGnr< V >::infectar(int ios)
-    {
-        if (ios < obtTotVrt())
-        {
-            vector<int>infectemos;
-            int randy;
-            bool esta = true;
-            for (int i = 0; i < ios; i++)
-            {
-                while (esta)
-                {
-                    randy = rand() % obtTotVrt();
-                    esta = false;
-                    for (int j = 0; j < infectemos.size(); j++)
-                    {
-                        if(infectemos[j] == randy) esta = true;
-                    }
-                }
-                infectemos.push_back(randy);
-                esta = true;
-            }
-            for (int i=0; i<infectemos.size(); i++)
-            {
-                arrVrt[infectemos[i]].e = I;
-            }
-        }
-    }
-
-
-    template < typename V >
-    void GrafoGnr< V >::azarizarTmpChqVrs(int vcf)
-    {
-        int randy;
-        for (int i = 0; i < obtTotVrt(); i++)
-        {
-            randy = rand() % vcf + 1;
-            arrVrt[i].tmpChqVrs = randy;
-        }
-    }
-
 
 #endif	/* GRAFOGNR_H */
 
