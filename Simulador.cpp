@@ -17,8 +17,8 @@ bool prob(double probability) // probability < 1
     return false;
 }
 
-Simulador::Simulador(Grafo *g):grafo(g) {
-}
+Simulador::Simulador(GrafoGnr<> & grf):grafo(g) {
+} //ctor
 
 Simulador::~Simulador() {
 }
@@ -32,7 +32,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     if (grafo == NULL) return;
     srand(time(NULL));
     int checkeo;
-    Grafo grafo2(*grafo);
+    GrafoGnr grafo2(*grafo);
 
     for (int i = 0; i < ios; i++) // asigna aleatoreamente ios cantidad de vertices infectados al azar
     {
@@ -43,7 +43,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
             {
                 for (int i = 0; i < grafo->obtTotVrt(); i++)
                 {
-                    grafo->modEst(i, Grafo::I);
+                    grafo->modEst(i, GrafoGnr::I);
                 }
             }
             else
@@ -52,7 +52,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
                 {
                     id = rand() % grafo->obtTotVrt();
                 }
-                grafo->modEst(id, Grafo::I);
+                grafo->modEst(id, GrafoGnr::I);
             }
         }
     }
@@ -62,26 +62,26 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
-            if (grafo2.obtEst(j) == Grafo::I)// si el vertice esta infectado
+            if (grafo2.obtEst(j) == GrafoGnr::I)// si el vertice esta infectado
             {
                 checkeo = grafo.obtTmpChqVrs(j); //obtiene el temporizador de checkeo de virus
                 vector<int>ady;
                 grafo->obtAdy(j,ady);
                 for (int k = 0; k < ady.size(); k++)
                 {
-                    if (grafo2.obtEst(ady[k]) != Grafo::R && prob(vsc))// y el adyacente no es resistente
+                    if (grafo2.obtEst(ady[k]) != GrafoGnr::R && prob(vsc))// y el adyacente no es resistente
                     {
-                        grafo->modEst(ady[k], Grafo::I);//infecta los demas vertices
+                        grafo->modEst(ady[k], GrafoGnr::I);//infecta los demas vertices
                     }
                 }
                 if (chekeo <= 0)// revisar como estaba en el anterior
                 {
                     if (prob(rc))
                     {
-                        grafo->modEst(j, Grafo::S);
+                        grafo->modEst(j, GrafoGnr::S);
                         if (prob(grc))
                         {
-                            grafo->modEst(j, Grafo::R);
+                            grafo->modEst(j, GrafoGnr::R);
                         }
                     }
                 }
@@ -95,7 +95,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     }
 }
 
-void Simulador::asignarGrafo(Grafo* g)
+void Simulador::asignarGrafo(GrafoGnr* g)
 {
     grafo = g;
 }

@@ -9,15 +9,15 @@ using namespace std;
 
 class NdoVrt
 {
-    public:
+public:
 
     NdoVrt();
     virtual ~NdoVrt();
 
 
-    protected:
-    private:
-    private:
+protected:
+private:
+private:
 
 
 };

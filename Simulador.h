@@ -11,7 +11,7 @@
 #include <memory>
 using namespace std;
 
-#include "Grafo.h"
+#include "GrafoGnr.h"
 
 class Simulador {
     // Representa el proceso de simulación de la infección en la red de computadoras.

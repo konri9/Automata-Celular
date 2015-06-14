@@ -10,7 +10,10 @@
 
 //#include <windows.h>
 
-#include "Grafo.h"
+#include <memory>
+using namespace std;
+
+#include "GrafoGnr.h"
 #include "Simulador.h"
 
 class Visualizador {
