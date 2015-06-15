@@ -58,8 +58,10 @@ void Visualizador::visualizar() const {
     /*glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);*/
     glutPostRedisplay();
+    #ifdef _WIN32 || WIN32
     SetForegroundWindow(hwnd);
     SetFocus(hwnd);
+    #endif
 }
 
 void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double grc)

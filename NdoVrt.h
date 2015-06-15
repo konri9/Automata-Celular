@@ -21,20 +21,22 @@ public:
         R, // representa un vértice resistente
     };
 
+
     NdoVrt();
+   // NdoVrt(string str);
     virtual ~NdoVrt();
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el estado del vértice con índice vrt.
-    E obtEst(int vrt) const;
+    E obtEst() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del temporizador de chequeo de antivirus del vértice con índice vrt.
-    int obtTmpChqVrs(int vrt) const;
+    int obtTmpChqVrs() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
-    int obtCntChVrs(int vrt) const;
+    int obtCntChVrs() const;
 
 
     /* MÉTODOS MODIFICADORES */
@@ -42,12 +44,12 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: cambia el estado del vértice cuyo índice es vrt a ne.
-    void modEst(int vrt, E ne);
+    void modEst(E ne);
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: cambia el valor del temporizador de chequeo de virus del vértice vrt por el valor nt.
-    void modTmpChqVrs(int vrt, int nt);
+    void modTmpChqVrs(int nt);
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
@@ -58,7 +60,7 @@ public:
     // MOD: *this.
     // EFE: cambia el estado a I (infectado) a ios vértices escogidos al azar.
     //      ios o initial-outbreak-size: cantidad inicial de nodos infectados.
-    void infectar(int ios);
+ //   void infectar(int ios);
 
     // MOD: *this
     // EFE: asigna el valor del temporizador para cada vértice con un número al azar entre 1 y maxTmp.
@@ -67,24 +69,16 @@ public:
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-    void calcEst(int vrt);
+   // void calcEst(int vrt);
 
 
 protected:
 
 private:
-
-struct Ndo {
         E e; // representa el estado del vértice
         int tmpChqVrs; // representa el temporizador de chequeo de virus
         int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
-        vector <int> lstAdy;  // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
-        Ndo(): e(S), tmpChqVrs(1){};
         // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
-    };
-
-    vector<Ndo>arrVrt;
-
 };
 
 #endif // NDOVRT_H

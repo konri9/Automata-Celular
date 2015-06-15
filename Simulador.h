@@ -7,7 +7,7 @@
 
 #ifndef SIMULADOR_H
 #define	SIMULADOR_H
-
+#include "NdoVrt.h"
 #include <memory>
 using namespace std;
 
@@ -19,7 +19,7 @@ class Simulador {
 public:
 
     // EFE: Construye un simulador que transformará al grafo g.
-    Simulador(NdoVrt* g);
+    Simulador(GrafoGnr<NdoVrt>* grf);
 
     // EFE: Construye un simulador que transformará al grafo g visualizando
     //      los cambios de estado por medio de v.
@@ -46,12 +46,12 @@ public:
     //         puede recuperarse con probabilidad rc.
     //      3. sólo un vértice recuperado puede ganar resistencia con probabilidad grc.
     //      4. Sólo las transformaciones #2 y #3 pueden ser simultáneas.
-    void simular(int cItr, int ios, double vsc, int vcf, double rc, double grc);
+    void simular(int cItr, int ios, double vsc, double rc, double grc);
 
-    void asignarGrafo(NdoVrt *g);
+    void asignarGrafo(GrafoGnr<NdoVrt> *g);
 
 private:
-    NdoVrt *grafo;
+    GrafoGnr<NdoVrt> *grafo;
 };
 
 #endif	/* SIMULADOR_H */

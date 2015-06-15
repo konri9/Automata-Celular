@@ -8,9 +8,10 @@
 #include <random>
 #include <ctime>
 #include "Simulador.h"
+#include "NdoVrt.h"
 
 
-Simulador::Simulador(GrafoGnr<> & grf):grafo(g) {
+Simulador::Simulador(GrafoGnr<NdoVrt> *grf):grafo(grf) {
 } //ctor
 
 Simulador::~Simulador() {
@@ -21,12 +22,12 @@ Simulador::~Simulador() {
 //vcf: checkeo de virus----> Ya no se ocupa entonces
 //rc: probabilidad de recuperacion
 //grc: probabilidad de obtener resistencia
-void Simulador::simular(int cntItr, int ios, double vsc, int vcf, double rc, double grc) {
+void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
     if (grafo == NULL) return;
     srand(time(NULL));
     int checkeo;
-    grafo.azarizarTmpChqVrs(vcf);
-    NdoVrt grafo2(*grafo);
+//    grafo.azarizarTmpChqVrs(vcf);
+    GrafoGnr<NdoVrt> grafo2(*grafo);
     for (int i = 0; i < ios; i++) // asigna aleatoreamente ios cantidad de vertices infectados al azar
     {
         int id = rand() % grafo->obtTotVrt();
@@ -36,16 +37,19 @@ void Simulador::simular(int cntItr, int ios, double vsc, int vcf, double rc, dou
             {
                 for (int i = 0; i < grafo->obtTotVrt(); i++)
                 {
-                    grafo->modEst(i, GrafoGnr::I);
+                    NdoVrt ndo = (*grafo)[i];//.modEst(i, GrafoGnr::I);
+                    ndo.modEst(NdoVrt::I);
                 }
             }
             else
             {
-                while (grafo->obtEst(id) == Grafo::I) // si el que encontro ya esta infectado, pide e infecta otro...
+                NdoVrt ndo = (*grafo)[id];//.modEst(i, GrafoGnr::I);
+                while (ndo.obtEst() == NdoVrt::I) // si el que encontro ya esta infectado, pide e infecta otro...
                 {
                     id = rand() % grafo->obtTotVrt();
                 }
-                grafo->modEst(id, GrafoGnr::I);
+                   NdoVrt ndo2 = (*grafo)[i];//.modEst(i, GrafoGnr::I);
+                  ndo2.modEst(NdoVrt::I);
             }
         }
     }

@@ -262,7 +262,7 @@ private:
     template < typename V >
     V& GrafoGnr< V >::operator[](int vrt)
     {
-        if (xstVrt(vrt)) return V(vrt);
+        if (xstVrt(vrt)) return arrVrt[vrt].vrt;
     }
 
     template < typename V >

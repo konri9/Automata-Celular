@@ -15,12 +15,13 @@ using namespace std;
 
 #include "GrafoGnr.h"
 #include "Simulador.h"
+#include"NdoVrt.h"
 
 class Visualizador {
     // Permite la visualizaci�n gr�fica de una instancia de Grafo.
 
 public:
-    Visualizador(const Grafo& g);
+    Visualizador(const GrafoGnr<NdoVrt>& g);
     ~Visualizador();
 
     // REQ: que el grafo asociado en el constructor est� bien construido.
@@ -48,10 +49,10 @@ public:
     //      4. S�lo las transformaciones #2 y #3 pueden ser simult�neas.
     // EFE: muestra gr�ficamente al grafo asociado diferenciando con distintos
     //      colores los estados de los v�rtices.
-    void visualizar(int cItr, int ios, double vsc, int vcf, double rc, double grc);
+    void visualizar(int cItr, int ios, double vsc, double rc, double grc);
 
 private:
-    Grafo grafo;
+    GrafoGnr<NdoVrt> grafo;
 
     void simular();
 
@@ -96,7 +97,7 @@ private:
    // double *posX = NULL;// vector con las posiciones en X
     //double *posY = NULL;// vector con las posiciones en Y
     //int numVrt = grafo.obtTotVrt();
-    int *arrAdy = NULL;
+    //int *arrAdy = NULL;
     Simulador simulador;
 
     struct infosim{
@@ -104,7 +105,9 @@ private:
         double vsc, rc, grc;
     };
 
+    #ifdef _WIN32 || WIN32
     HWND hwnd;
+    #endif
 
     bool sim = false;
     infosim info;

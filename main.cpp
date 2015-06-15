@@ -14,7 +14,11 @@
 #include "NdoVrt.h"
 #include "Simulador.h"
 #include "Visualizador.h"
-//#include <windows.h>
+#ifdef _WIN32 || WIN32
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif // _WIN32
 #include <GL/glut.h>
 //#include <process.h>
 
@@ -29,10 +33,14 @@ using namespace line_parse;
  int *gargc;
  char **gargv;
 
+#ifdef _WIN32 || WIN32
  void loop(void *arg)
+ #else
+ void *loop(void *arg)
+ #endif
  {
-    //GrafoGnr *grafo = NULL;
-    NdoVrt *graff = NULL;
+    GrafoGnr<NdoVrt> *grafo = NULL;
+    //NdoVrt *grafo = NULL;
     Simulador sv(grafo);
     cout << "Automata Celular\n";
     while (true)
@@ -53,7 +61,7 @@ using namespace line_parse;
                     //cout << param;
                     try {
                         if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr(param.c_str());
+                        grafo = new GrafoGnr<NdoVrt>(param.c_str());
                         cout << "Grafo cargado\n";
                         cout << "Vertices: " << grafo->obtTotVrt() << endl;
                     }
@@ -77,7 +85,7 @@ using namespace line_parse;
                     if (p1 >= 10 && p2 >= 1)
                     {
                         if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr(p1, p2);
+                        grafo = new GrafoGnr<NdoVrt>(p1, p2);
                         cout << "Grafo creado\n";
                     }
                     else
@@ -218,7 +226,7 @@ using namespace line_parse;
             }
             else if (prim == "salir")
             {
-                return;
+                return 0;
 
             }
             else
@@ -240,7 +248,13 @@ int main(int argc, char** argv) {
     glutDisplayFunc(Visualizador::display);
     //glutIdleFunc(Visualizador::idle);
     glutKeyboardFunc(Visualizador::keyboard);
+    #ifdef _WIN32 || WIN32
     _beginthread(loop, 0, (void*)0 );
+    #else // _WIN32
+    int banano = 0;
+    pthread_t thread;
+    pthread_create(&thread, NULL, loop, &banano);
+    #endif
     glutMainLoop();
     return 0;
 }
