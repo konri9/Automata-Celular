@@ -6,8 +6,8 @@
  */
 
 #include "Visualizador.h"
-#include <windows.h>
-#include <process.h>
+//#include <windows.h>
+//#include <process.h>
 #include <GL/glut.h>
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
@@ -83,8 +83,10 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
         visualizar();
         cin >> line;
         simular();
+    #ifdef _WIN32 || WIN32
         SetForegroundWindow(hwnd);
         SetFocus(hwnd);
+        #endif // _WIN32
     } while (line != "salir");
 }
 
