@@ -21,12 +21,12 @@ Simulador::~Simulador() {
 //vcf: checkeo de virus----> Ya no se ocupa entonces
 //rc: probabilidad de recuperacion
 //grc: probabilidad de obtener resistencia
-void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
+void Simulador::simular(int cntItr, int ios, double vsc, int vcf, double rc, double grc) {
     if (grafo == NULL) return;
     srand(time(NULL));
     int checkeo;
-    GrafoGnr grafo2(*grafo);
-
+    grafo.azarizarTmpChqVrs(vcf);
+    NdoVrt grafo2(*grafo);
     for (int i = 0; i < ios; i++) // asigna aleatoreamente ios cantidad de vertices infectados al azar
     {
         int id = rand() % grafo->obtTotVrt();
@@ -67,7 +67,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
                         grafo->modEst(ady[k], GrafoGnr::I);//infecta los demas vertices
                     }
                 }
-                if (chekeo <= 0)// revisar como estaba en el anterior
+                if (checkeo <= 0)// revisar como estaba en el anterior
                 {
                     if (prob(rc))
                     {

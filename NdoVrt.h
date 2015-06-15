@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "GrafoGnr.h"
+
 using namespace std;
 
 class NdoVrt
@@ -62,6 +64,10 @@ public:
     // EFE: asigna el valor del temporizador para cada vértice con un número al azar entre 1 y maxTmp.
     //      vcf o virus-check-frecuency: frecuencia máxima de chequeo antivirus.
     void azarizarTmpChqVrs(int vcf);
+
+    //MOD:*this
+    //EFE: calcula el estado de un vertice a partir de sus vecinos
+    void calcEst(int vrt);
 
 
 protected:

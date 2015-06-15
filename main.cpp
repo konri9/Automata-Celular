@@ -11,6 +11,7 @@
 
 #include "Parse.h"
 #include "GrafoGnr.h"
+#include "NdoVrt.h"
 #include "Simulador.h"
 #include "Visualizador.h"
 //#include <windows.h>
@@ -30,7 +31,8 @@ using namespace line_parse;
 
  void loop(void *arg)
  {
-    GrafoGnr *grafo = NULL;
+    //GrafoGnr *grafo = NULL;
+    NdoVrt *graff = NULL;
     Simulador sv(grafo);
     cout << "Automata Celular\n";
     while (true)

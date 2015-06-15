@@ -1,7 +1,19 @@
 #include "NdoVrt.h"
 
-//GrafoGnr grafo;
-int vcf = 5;// esto es para el vcf
+#include<iostream>
+#include <chrono>
+#include <memory>
+#include <string>
+#include <fstream>
+#include <cstring>
+#include <stdlib.h>
+#include <vector>
+#include <random>
+#include <iostream>
+#include <ctime>
+#include <limits> // std::numeric_limits
+
+using namespace std;
 
 
 bool prob(double probability) // probability < 1
@@ -12,9 +24,18 @@ bool prob(double probability) // probability < 1
     return false;
 }
 
-NdoVrt::NdoVrt()
+NdoVrt::NdoVrt(int cntVrt, double prbAdy)
 {
-    //ctor
+    GrafoGnr<int> grf(cntVrt,prbAdy);
+    Simulador sm;
+    int vcfSeed = 5;// esto es para el vcf
+}
+
+NdoVrt::NdoVrt(string str)
+{
+    GrafoGnr<int> grf(str);
+    Simulador sm;
+    int vcfSeed = 5;// esto es para el vcf
 }
 
 NdoVrt::~NdoVrt()
@@ -25,7 +46,7 @@ NdoVrt::~NdoVrt()
 
 NdoVrt::E NdoVrt::obtEst(int vrt) const
 {
-    if (xstVrt(vrt) == true)
+    if (grafo.xstVrt(vrt) == true)
     {
         return arrVrt[vrt].e;
     }
@@ -45,7 +66,7 @@ int NdoVrt::obtCntChVrs(int vrt)const
 
 void NdoVrt::modEst(int vrt, E ne)
 {
-    if (xstVrt(vrt))
+    if (grafo.xstVrt(vrt))
     {
         arrVrt[vrt].e = ne;
     }
@@ -53,13 +74,13 @@ void NdoVrt::modEst(int vrt, E ne)
 
 void NdoVrt::modTmpChqVrs(int vrt, int nt)
 {
-    if(xstVrt(vrt)) arrVrt[vrt].tmpChqVrs = nt;
+    if(grafo.xstVrt(vrt)) arrVrt[vrt].tmpChqVrs = nt;
 }
 
 
 void NdoVrt::actCntChqVrs(int vrt)
 {
-    if(xstVrt(vrt)&& arrVrt[vrt].cntChqVrs == arrVrt[vrt].tmpChqVrs)
+    if(grafo.xstVrt(vrt)&& arrVrt[vrt].cntChqVrs == arrVrt[vrt].tmpChqVrs)
         arrVrt[vrt].cntChqVrs = 0;
     else
     {
@@ -70,7 +91,7 @@ void NdoVrt::actCntChqVrs(int vrt)
 
 void NdoVrt::infectar(int ios)
 {
-    if (ios < obtTotVrt())
+    if (ios < grafo.obtTotVrt())
     {
         vector<int>infectemos;
         int randy;
@@ -79,7 +100,7 @@ void NdoVrt::infectar(int ios)
         {
             while (esta)
             {
-                randy = rand() % obtTotVrt();
+                randy = rand() % grafo.obtTotVrt();
                 esta = false;
                 for (int j = 0; j < infectemos.size(); j++)
                 {
@@ -104,5 +125,16 @@ void NdoVrt::azarizarTmpChqVrs(int vcf)
     {
         randy = rand() % vcf + 1;
         arrVrt[i].tmpChqVrs = randy;
+    }
+}
+
+void NdoVrt::calcEst(int vrt)
+{
+    for(int i=0; i<arrVrt[vrt].lstAdy.size(); i++)
+    {
+    if (obtEst(vrt) != GrafoGnr::S) return;
+    int cont = 0;
+        if(arrVrt[vrt].lstAdy[i].obtEst() == GrafoGnr::I) cont++;
+        if (cont == arrVrt[vrt].lstAdy.size()) modEst(vrt, I);
     }
 }

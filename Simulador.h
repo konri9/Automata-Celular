@@ -19,7 +19,7 @@ class Simulador {
 public:
 
     // EFE: Construye un simulador que transformará al grafo g.
-    Simulador(Grafo* g);
+    Simulador(NdoVrt* g);
 
     // EFE: Construye un simulador que transformará al grafo g visualizando
     //      los cambios de estado por medio de v.
@@ -46,12 +46,12 @@ public:
     //         puede recuperarse con probabilidad rc.
     //      3. sólo un vértice recuperado puede ganar resistencia con probabilidad grc.
     //      4. Sólo las transformaciones #2 y #3 pueden ser simultáneas.
-    void simular(int cItr, int ios, double vsc, double rc, double grc);
+    void simular(int cItr, int ios, double vsc, int vcf, double rc, double grc);
 
-    void asignarGrafo(Grafo *g);
+    void asignarGrafo(NdoVrt *g);
 
 private:
-    Grafo *grafo;
+    NdoVrt *grafo;
 };
 
 #endif	/* SIMULADOR_H */
