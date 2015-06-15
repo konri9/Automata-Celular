@@ -27,7 +27,8 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     srand(time(NULL));
     int checkeo;
 //    grafo.azarizarTmpChqVrs(vcf);
-    GrafoGnr<NdoVrt> grafo2(*grafo);
+    vector<NdoVrt::E> estados;
+    estados.resize(grafo->obtTotVrt());
     for (int i = 0; i < ios; i++) // asigna aleatoreamente ios cantidad de vertices infectados al azar
     {
         int id = rand() % grafo->obtTotVrt();
@@ -59,36 +60,43 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
-            if (grafo2.obtEst(j) == GrafoGnr::I)// si el vertice esta infectado
+            NdoVrt nodo = (*grafo)[j];
+            if (nodo.obtEst() == NdoVrt::I)// si el vertice esta infectado
             {
-                checkeo = grafo.obtTmpChqVrs(j); //obtiene el temporizador de checkeo de virus
+                checkeo = nodo.obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
                 vector<int>ady;
                 grafo->obtAdy(j,ady);
                 for (int k = 0; k < ady.size(); k++)
                 {
-                    if (grafo2.obtEst(ady[k]) != GrafoGnr::R && prob(vsc))// y el adyacente no es resistente
+                    NdoVrt nodo2 = (*grafo)[ady[k]];
+                    if (nodo2.obtEst() != NdoVrt::R && prob(vsc))// y el adyacente no es resistente
                     {
-                        grafo->modEst(ady[k], GrafoGnr::I);//infecta los demas vertices
+                        nodo2.modEst(NdoVrt::I);//infecta los demas vertices
                     }
                 }
                 if (checkeo <= 0)// revisar como estaba en el anterior
                 {
                     if (prob(rc))
                     {
-                        grafo->modEst(j, GrafoGnr::S);
+                        nodo.modEst(NdoVrt::S);
                         if (prob(grc))
                         {
-                            grafo->modEst(j, GrafoGnr::R);
+                            nodo.modEst(NdoVrt::R);
                         }
                     }
                 }
-                grafo.modTmpChqVrs();
+                nodo.actCntChqVrs();
             }
+        }
+        for (int i = 0; i < estados.size(); i++)
+        {
+            NdoVrt nodo = (*grafo)[i];
+            nodo.modEst(estados[i]);
         }
     }
 }
 
-void Simulador::asignarGrafo(GrafoGnr* g)
+void Simulador::asignarGrafo(GrafoGnr<NdoVrt>* g)
 {
     grafo = g;
 }

@@ -16,11 +16,11 @@
 #include "Visualizador.h"
 #ifdef _WIN32 || WIN32
 #include <windows.h>
+#include <process.h>
 #else
 #include <pthread.h>
 #endif // _WIN32
 #include <GL/glut.h>
-//#include <process.h>
 
 using namespace std;
 using namespace line_parse;
@@ -28,6 +28,7 @@ using namespace line_parse;
 /*
  *
  */
+
 
  extern bool dibujando;
  int *gargc;
@@ -226,8 +227,14 @@ using namespace line_parse;
             }
             else if (prim == "salir")
             {
+                #ifdef _WIN32 || WIN32
+                HWND hwnd = FindWindow(NULL, "Automata-Celular");
+                ShowWindow(hwnd, SW_HIDE);
+                CloseHandle(hwnd);
+                return;
+                #else
                 return 0;
-
+                #endif
             }
             else
             {

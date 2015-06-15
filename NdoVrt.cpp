@@ -61,7 +61,7 @@ void NdoVrt::modTmpChqVrs(int nt)
 }
 
 
-void NdoVrt::actCntChqVrs(int vrt)
+void NdoVrt::actCntChqVrs()
 {
     if(cntChqVrs == tmpChqVrs)
         cntChqVrs = 0;

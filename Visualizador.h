@@ -8,7 +8,9 @@
 #ifndef VISUALIZADOR_H
 #define	VISUALIZADOR_H
 
-//#include <windows.h>
+#ifdef _WIN32 || WIN32
+#include <windows.h>
+#endif
 
 #include <memory>
 using namespace std;

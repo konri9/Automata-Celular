@@ -26,13 +26,15 @@ Visualizador *Visualizador::ptr;
 bool dibujando = false;
 char grafostr[] = "No hay grafo cargado! por favor cree o cargue un grafo para visualizar";
 
-Visualizador::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
+Visualizador::Visualizador(const GrafoGnr<NdoVrt>& g) : grafo(g), simulador(&grafo) {
     cntVrt = grafo.obtTotVrt();
     arrAdy.resize(cntVrt);
     posX.resize(cntVrt);
     posY.resize(cntVrt);
+    #ifdef _WIN32 || WIN32
     hwnd = FindWindow(NULL, "Automata-Celular");
-    //ShowWindow(hwnd, SW_HIDE);
+    ShowWindow(hwnd, SW_HIDE);
+    #endif
     /*this->argc = argc;
     this->argv = argv;*/
     atragantador();
@@ -170,13 +172,14 @@ int Visualizador::vrtPopular() {
 }
 
 void Visualizador::estadoVrt(int vrt) {
-    if (grafo.obtEst(vrt) == Grafo::S) {
+    NdoVrt nodo = grafo[vrt];
+    if (nodo.obtEst() == NdoVrt::S) {
         glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }
-    if (grafo.obtEst(vrt) == Grafo::I) {
+    if (nodo.obtEst() == NdoVrt::I) {
         glColor3f(1.0, 0.0, 0.0); //Color rojo -> vertice infectado
     }
-    if (grafo.obtEst(vrt) == Grafo::R) {
+    if (nodo.obtEst() == NdoVrt::R) {
         glColor3f(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
     }
 }
@@ -189,8 +192,8 @@ void Visualizador::keyboard(unsigned char key, int x, int y)
         if (key == 13)
         {
             ptr->info.ios = 0;
-            ptr->info.vcf--;
-            if (ptr->info.vcf < 0) ptr->info.vcf = ptr->info.vcfmax;
+            //ptr->info.vcf--;
+            //if (ptr->info.vcf < 0) ptr->info.vcf = ptr->info.vcfmax;
             ptr->simular();
         }
     }

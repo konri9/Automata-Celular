@@ -71,6 +71,9 @@ public:
     //      adyacentes al vértice indicado por vrt.
     void obtAdy(int vrt, vector<int>& vec)const;
 
+    // REQ: que exista en *this un vértice con índice vrt.
+    // EFE: retorna la cantidad de adyacencias del vértice vrt.
+    int obtCntAdy(int vrt) const;
 
     // EFE: retorna el total de vértices en *this.
     int obtTotVrt() const;
@@ -236,6 +239,15 @@ private:
             {
                 vec.push_back(arrVrt[vrt].lstAdy[i]);
             }
+        }
+    }
+
+    template < typename V >
+    int GrafoGnr<V>::obtCntAdy(int vrt) const
+    {
+        if (xstVrt(vrt))
+        {
+            return arrVrt[vrt].lstAdy.size();
         }
     }
 

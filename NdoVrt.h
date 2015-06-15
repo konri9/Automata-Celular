@@ -7,6 +7,8 @@
 
 #include "GrafoGnr.h"
 
+bool prob(double probability);
+
 using namespace std;
 
 class NdoVrt
@@ -54,7 +56,7 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: actualiza el valor del contador de chequeo de virus para la siguiente iteración.
-    void actCntChqVrs(int vrt);
+    void actCntChqVrs();
 
     // REQ: ios << this->obtTotVrt().
     // MOD: *this.
