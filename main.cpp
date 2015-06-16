@@ -41,7 +41,6 @@ using namespace line_parse;
  #endif
  {
     GrafoGnr<NdoVrt> *grafo = NULL;
-    //NdoVrt *grafo = NULL;
     Simulador sv(grafo);
     cout << "Automata Celular\n";
     while (true)
@@ -59,7 +58,6 @@ using namespace line_parse;
                 {
                     cout << "Cargando grafo...\n";
                     string param = remover_comillas(parametro(linea, 1, ' '));
-                    //cout << param;
                     try {
                         if (grafo != NULL) delete grafo;
                         grafo = new GrafoGnr<NdoVrt>(param.c_str());

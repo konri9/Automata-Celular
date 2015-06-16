@@ -25,35 +25,20 @@ Simulador::~Simulador() {
 void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
     if (grafo == NULL) return;
     srand(time(NULL));
-    int checkeo;
-//    grafo.azarizarTmpChqVrs(vcf);
+    int checkeo,cont = 0;
     vector<NdoVrt::E> estados;
     estados.resize(grafo->obtTotVrt());
-    for (int i = 0; i < ios; i++) // asigna aleatoreamente ios cantidad de vertices infectados al azar
-    {
-        int id = rand() % grafo->obtTotVrt();
-        if (grafo->xstVrt(id))
-        {
-            if (grafo->obtTotVrt() < ios)
-            {
-                for (int i = 0; i < grafo->obtTotVrt(); i++)
-                {
-                    NdoVrt ndo = (*grafo)[i];//.modEst(i, GrafoGnr::I);
-                    ndo.modEst(NdoVrt::I);
-                }
+    int id = rand() % grafo->obtTotVrt();
+    NdoVrt ndo = (*grafo)[id];
+    while (cont<ios){
+        if (grafo->xstVrt(id)&& ndo.obtEst() != NdoVrt::I) {
+        ndo.modEst(NdoVrt::I);
+        cont++;
             }
-            else
-            {
-                NdoVrt ndo = (*grafo)[id];//.modEst(i, GrafoGnr::I);
-                while (ndo.obtEst() == NdoVrt::I) // si el que encontro ya esta infectado, pide e infecta otro...
-                {
-                    id = rand() % grafo->obtTotVrt();
-                }
-                   NdoVrt ndo2 = (*grafo)[i];//.modEst(i, GrafoGnr::I);
-                  ndo2.modEst(NdoVrt::I);
-            }
+        else {
+             id = rand() % grafo->obtTotVrt();
+             }
         }
-    }
 
  //Aca son las iteraciones
     for (int i = 0; i < cntItr; i++)
@@ -61,11 +46,14 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
             NdoVrt nodo = (*grafo)[j];
+            nodo.azarizarTmpChqVrs();
+            cout<< "el temp es"<<nodo.obtTmpChqVrs()<<endl;
+            vector<int>ady;
+            grafo->obtAdy(j,ady);
+            nodo.calcEst(ady);
             if (nodo.obtEst() == NdoVrt::I)// si el vertice esta infectado
             {
                 checkeo = nodo.obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
-                vector<int>ady;
-                grafo->obtAdy(j,ady);
                 for (int k = 0; k < ady.size(); k++)
                 {
                     NdoVrt nodo2 = (*grafo)[ady[k]];
@@ -74,7 +62,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
                         nodo2.modEst(NdoVrt::I);//infecta los demas vertices
                     }
                 }
-                if (checkeo <= 0)// revisar como estaba en el anterior
+                if (checkeo <= 0)
                 {
                     if (prob(rc))
                     {
@@ -88,6 +76,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
                 nodo.actCntChqVrs();
             }
         }
+
         for (int i = 0; i < estados.size(); i++)
         {
             NdoVrt nodo = (*grafo)[i];

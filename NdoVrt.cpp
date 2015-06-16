@@ -1,6 +1,6 @@
 #include "NdoVrt.h"
-#include"GrafoGnr.h"
-#include<iostream>
+#include "GrafoGnr.h"
+#include <iostream>
 #include <chrono>
 #include <memory>
 #include <string>
@@ -70,52 +70,22 @@ void NdoVrt::actCntChqVrs()
         cntChqVrs++;
     }
 }
-/*
-// cambiar por infectar un vertice
-void NdoVrt::infectar(int ios)
-{
-    if (ios < grafo.obtTotVrt())
-    {
-        vector<int>infectemos;
-        int randy;
-        bool esta = true;
-        for (int i = 0; i < ios; i++)
-        {
-            while (esta)
-            {
-                randy = rand() % grafo.obtTotVrt();
-                esta = false;
-                for (int j = 0; j < infectemos.size(); j++)
-                {
-                    if(infectemos[j] == randy) esta = true;
-                }
-            }
-            infectemos.push_back(randy);
-            esta = true;
-        }
-        for (int i=0; i<infectemos.size(); i++)
-        {
-            arrVrt[infectemos[i]].e = I;
-        }
-    }
-}
 
-*/
-void NdoVrt::azarizarTmpChqVrs(int vcf)
+void NdoVrt::azarizarTmpChqVrs()
 {
-    int randy = rand() % vcf + 1;
+    int randy = rand() % 5 + 1;
         tmpChqVrs = randy;
 }
 
-/*
-void NdoVrt::calcEst(int vrt)
+
+void NdoVrt::calcEst(vector<int> adyac)
 {
-    for(int i=0; i<arrVrt[vrt].lstAdy.size(); i++)
+    for(int i=0; i<adyac.size(); i++)
     {
-    if (obtEst(vrt) != GrafoGnr::S) return;
-    int cont = 0;
-        if(arrVrt[vrt].lstAdy[i].obtEst() == GrafoGnr::I) cont++;
-        if (cont == arrVrt[vrt].lstAdy.size()) modEst(vrt, I);
+        if (obtEst() != NdoVrt::S) return;
+        int cont = 0;
+        if(obtEst() == NdoVrt::I) cont++;
+        if (cont == adyac.size()) modEst(NdoVrt::I);
     }
 }
-*/
+
