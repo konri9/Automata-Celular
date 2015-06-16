@@ -25,14 +25,15 @@ Simulador::~Simulador() {
 void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
     if (grafo == NULL) return;
     srand(time(NULL));
-    int checkeo,cont = 0;
+    int tempor ,cont = 0, contemp;
     vector<NdoVrt::E> estados;
     estados.resize(grafo->obtTotVrt());
     int id = rand() % grafo->obtTotVrt();
     NdoVrt ndo = (*grafo)[id];
     while (cont<ios){
-        if (grafo->xstVrt(id)&& ndo.obtEst() != NdoVrt::I) {
+        if (grafo->xstVrt(id)&& ndo.obtEst() == NdoVrt::S) {
         ndo.modEst(NdoVrt::I);
+        estados[id] = NdoVrt::I;
         cont++;
             }
         else {
@@ -47,22 +48,22 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
         {
             NdoVrt nodo = (*grafo)[j];
             nodo.azarizarTmpChqVrs();
-            cout<< "el temp es"<<nodo.obtTmpChqVrs()<<endl;
             vector<int>ady;
             grafo->obtAdy(j,ady);
             nodo.calcEst(ady);
             if (nodo.obtEst() == NdoVrt::I)// si el vertice esta infectado
             {
-                checkeo = nodo.obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
+                tempor = nodo.obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
+                contemp = nodo.obtCntChVrs(); //obtiene el contador de chequeo de virus
                 for (int k = 0; k < ady.size(); k++)
                 {
-                    NdoVrt nodo2 = (*grafo)[ady[k]];
+                        NdoVrt nodo2 = (*grafo)[ady[k]];
                     if (nodo2.obtEst() != NdoVrt::R && prob(vsc))// y el adyacente no es resistente
                     {
                         nodo2.modEst(NdoVrt::I);//infecta los demas vertices
                     }
                 }
-                if (checkeo <= 0)
+                if (tempor == contemp)// si el temporizador es igual que el contador
                 {
                     if (prob(rc))
                     {

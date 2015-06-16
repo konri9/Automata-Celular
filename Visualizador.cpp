@@ -74,8 +74,6 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
     info.grc = grc;
     info.ios = ios;
     info.rc = rc;
-    //info.vcf = vcf;
-    //info.vcfmax = vcf;
     info.vsc = vsc;
     string line = "";
     cout << "Digite cualquier caracter y presione enter para realizar una iteracion\nO bien, presione enter en la ventana del grafo para realizar una iteracion\nEscriba \"salir\" para terminar la simulacion\n";
@@ -92,7 +90,7 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
 
 void Visualizador::simular()
 {
-    simulador.simular(info.cItr, info.ios, info.vsc, info.rc, info.grc);
+    simulador.simular(info.cItr, 0, info.vsc, info.rc, info.grc);
     glutPostRedisplay();
 }
 
@@ -193,7 +191,7 @@ void Visualizador::keyboard(unsigned char key, int x, int y)
     {
         if (key == 13)
         {
-            ptr->info.ios = 0;
+            //ptr->info.ios = 0;
             //ptr->info.vcf--;
             //if (ptr->info.vcf < 0) ptr->info.vcf = ptr->info.vcfmax;
             ptr->simular();
@@ -206,8 +204,8 @@ void Visualizador::display(void) {
     if (ptr != NULL)
     {
         ptr->recurCircles();
-        glutSwapBuffers();
         dibujando = false;
+        glutSwapBuffers();
         return;
         //if (!ptr->sim) ptr = NULL;
     }

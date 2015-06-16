@@ -54,6 +54,7 @@ public:
     void visualizar(int cItr, int ios, double vsc, double rc, double grc);
 
 private:
+
     GrafoGnr<NdoVrt> grafo;
 
     void simular();
@@ -95,15 +96,10 @@ private:
     int cntVrt = 0;
     vector <int> arrAdy;
     vector<double>posX, posY;
-
-   // double *posX = NULL;// vector con las posiciones en X
-    //double *posY = NULL;// vector con las posiciones en Y
-    //int numVrt = grafo.obtTotVrt();
-    //int *arrAdy = NULL;
     Simulador simulador;
 
     struct infosim{
-        int cItr, ios, vcfmax;
+        int cItr, ios;
         double vsc, rc, grc;
     };
 

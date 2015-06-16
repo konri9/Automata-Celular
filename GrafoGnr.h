@@ -114,7 +114,6 @@ private:
     };
 
     int cntVrt; // representa la cantidad total de vértices
-    double prmAdy;
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
 };
 
@@ -175,7 +174,6 @@ private:
             file.getline(line, 256); //primera linea
             string inits = line;
             cntVrt = totalDeVertices(inits);
-            prmAdy = promedioAdy(inits);
             if (cntVrt < 0) return; // error
             arrVrt.resize(cntVrt);
             int count = 0;

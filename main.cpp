@@ -128,7 +128,7 @@ using namespace line_parse;
                         Visualizador v(*grafo);
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-                        //sv.simular(it, ios, vsc, vcf, rc, grc);
+                     //   sv.simular(it, ios, vsc, rc, grc);
                         v.visualizar(it, ios, vsc, rc, grc);
                         while (dibujando) {}
                     }
