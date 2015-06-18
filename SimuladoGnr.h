@@ -20,6 +20,10 @@ using namespace std;
 using namespace line_parse;
 
 
+
+/*go Y SETUP*/
+
+
 // Smldr es el tipo de vértice.
 template < typename Sm>
 

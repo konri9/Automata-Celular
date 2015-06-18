@@ -141,7 +141,54 @@ private:
             }
            return;
         }
-    }
+
+    // Se define y crea el generador de n�mero aleatorios basado en el reloj del sistema.
+  /*  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generador(seed);
+    enum Bit { U, C, }; // U indica que s� hay adyacencia, C indica que no.
+
+    Bit* matBits = new Bit[cntVrt*cntVrt]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
+
+    // Se inicia la matriz en C.
+    for(int i = 0; i < cntVrt; i++)
+        for(int j = 0; j < cntVrt; j++) matBits[i*cntVrt + j] = C; // Fila i, columna j.
+
+    for (int i = 0; i < cntVrt; i++) {
+        // Esta distribuci�n servir� para generar la cantidad de adyacencias por v�rtice.
+        //std::normal_distribution<double> dst_normal(prmAdy, dsvEst);
+
+        for (int j = i; j < cntVrt; j++) { // OJO: desde j = i empieza
+            //std::default_random_engine generatorUniforme;
+            std::uniform_int_distribution<int> dst_uniforme(0, 100);
+            int xstAdyI = dst_uniforme(generador); // se genera un valor al azar entre 0 y 100.
+            double xstAdyD = xstAdyI / 100.0; // se genera un valor al azar entre 0 y 1.
+            if ( xstAdyD <= prbAdy) { // determinamos si "nace" o no la adyacencia
+                    matBits[i*cntVrt + j] = U;
+                    matBits[j*cntVrt + i] = U; // agregamos la adyacencia "espejo"
+            }
+        }
+
+		int cntAdy = 0;	// Vamos a contar las adyacencias para asegurarnos que al menos hay una por cada v�rtice.
+		for (int j = 0; j < cntVrt; j++)
+			if ( matBits[i*cntVrt + j] == U )
+			    cntAdy++;
+
+		if ( cntAdy == 0 ) { // no queremos v�rtices aislados
+			std::uniform_int_distribution<int> dst_uniforme(0, cntVrt-1);
+			int indAdy = dst_uniforme(generador); // se genera un valor al azar entre 0 y n-1
+			matBits[i*cntVrt + indAdy] = U; // agregamos la adyacencia para tener al menos una
+            matBits[indAdy*cntVrt + i] = U; // agregamos la adyacencia "espejo"
+		}
+
+		//Imprime la matriz
+		for(int i=0;i<cntVrt;i++){
+            for(int j=0;j<cntVrt;j++){
+                    cout<< matBits[i][j]<< "\t";
+            }
+            cout << endl;
+        }
+    }*/
+}
 
 
     template < typename V >
