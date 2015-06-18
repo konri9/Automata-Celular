@@ -24,7 +24,8 @@ bool prob(double probability) // probability < 1
     return false;
 }
 
-NdoVrt::NdoVrt(){
+NdoVrt::NdoVrt()
+{
     e = S;
     azarizarTmpChqVrs();
 }
@@ -37,7 +38,7 @@ NdoVrt::~NdoVrt()
 
 NdoVrt::E NdoVrt::obtEst() const
 {
-        return e;
+    return e;
 }
 
 int NdoVrt::obtTmpChqVrs() const
@@ -52,7 +53,7 @@ int NdoVrt::obtCntChVrs()const
 
 void NdoVrt::modEst(E ne)
 {
-        e = ne;
+    e = ne;
 }
 
 void NdoVrt::modTmpChqVrs(int nt)
@@ -74,7 +75,7 @@ void NdoVrt::actCntChqVrs()
 void NdoVrt::azarizarTmpChqVrs()
 {
     int randy = rand() % 5 + 1;
-        tmpChqVrs = randy;
+    tmpChqVrs = randy;
 }
 
 

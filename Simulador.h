@@ -13,7 +13,8 @@ using namespace std;
 
 #include "GrafoGnr.h"
 
-class Simulador {
+class Simulador
+{
     // Representa el proceso de simulación de la infección en la red de computadoras.
 
 public:

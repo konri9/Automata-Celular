@@ -27,7 +27,8 @@ using namespace line_parse;
 // Smldr es el tipo de vértice.
 template < typename Sm>
 
-class SimuladorGnr {
+class SimuladorGnr
+{
 
     // EFE: Construye un simulador que transformará al grafo g.
     Simulador(Grafo* g);
@@ -75,11 +76,13 @@ bool prob(double probability) // probability < 1
     return false;
 }
 template < typename Sm>
-Simulador::Simulador(Grafo *g):grafo(g) {
+Simulador::Simulador(Grafo *g):grafo(g)
+{
 }
 
 template < typename Sm>
-Simulador::~Simulador() {
+Simulador::~Simulador()
+{
 }
 
 //ios: cantidad de vertices infectados
@@ -89,7 +92,8 @@ Simulador::~Simulador() {
 //grc: probabilidad de obtener resistencia
 
 template < typename Sm>
-void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
+void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc)
+{
     if (grafo == NULL) return;
     srand(time(NULL));
     int checkeo;
@@ -118,7 +122,7 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
         }
     }
 
- //Aca son las iteraciones
+//Aca son las iteraciones
     for (int i = 0; i < cntItr; i++)
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)

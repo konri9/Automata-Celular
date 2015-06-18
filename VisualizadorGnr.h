@@ -31,7 +31,8 @@ using namespace std;
 
 // Vslzdr es el tipo de vértice.
 template < typename Vsz >
-class VisualizadorGnr {
+class VisualizadorGnr
+{
     // Representa la red compleja sobre la cual se desarrollará la simulación.
 
 public:
@@ -113,7 +114,7 @@ private:
     void estadoVrt(int vrt);
 
     /*Tipo de main para las figuras*/
-    public:
+public:
     static void display(void);
     static void idle(void);
     static void keyboard(unsigned char key, int x, int y);
@@ -130,7 +131,8 @@ private:
     int *arrAdy = NULL;
     Simulador simulador;
 
-    struct infosim{
+    struct infosim
+    {
         int cItr, ios, vcfmax;
         double vsc, rc, grc;
     };
@@ -150,7 +152,8 @@ template < typename Vsz >
 VisualizadorGnr< V >::VisualizadorGnr
 
 template < typename Vsz >
-VisualizadorGnr::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
+VisualizadorGnr::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo)
+{
     cntVrt = grafo.obtTotVrt();
     arrAdy.resize(cntVrt);
     posX.resize(cntVrt);
@@ -164,12 +167,14 @@ VisualizadorGnr::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
 }
 
 template < typename Vsz >
-VisualizadorGnr::~Visualizador() {
+VisualizadorGnr::~Visualizador()
+{
     ptr = NULL;
 }
 
 template < typename Vsz >
-void VisualizadorGnr::visualizar() const {
+void VisualizadorGnr::visualizar() const
+{
     //glutCreateWindow("Automata-Celular @tete94 @konri9");
     /*glutInit(argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -202,13 +207,15 @@ void VisualizadorGnr::visualizar(int cItr, int ios, double vsc, double rc, doubl
     info.vsc = vsc;
     string line = "";
     cout << "Digite cualquier caracter y presione enter para realizar una iteracion\nO bien, presione enter en la ventana del grafo para realizar una iteracion\nEscriba \"salir\" para terminar la simulacion\n";
-    do {
+    do
+    {
         visualizar();
         cin >> line;
         simular();
         SetForegroundWindow(hwnd);
         SetFocus(hwnd);
-    } while (line != "salir");
+    }
+    while (line != "salir");
 }
 
 template < typename Vsz >
@@ -219,34 +226,40 @@ void VisualizadorGnr::simular()
 }
 
 template < typename Vsz >
-double VisualizadorGnr::generaPos() {
+double VisualizadorGnr::generaPos()
+{
     double rando = (double) rand() / (double) RAND_MAX;
     double rando2 = (double) rand() / (double) RAND_MAX;
-    if (rando2 < 0.5) {
+    if (rando2 < 0.5)
+    {
         rando = rando *-1;
     }
     return rando;
 }
 
 template < typename Vsz >
-void VisualizadorGnr::atragantador() {
+void VisualizadorGnr::atragantador()
+{
     double generadorX, generadorY;
-    for (int i = 0; i < grafo.obtTotVrt(); i++) {
+    for (int i = 0; i < grafo.obtTotVrt(); i++)
+    {
         generadorX = generaPos();//0.2
         generadorY = generaPos();//-0.3
         posX[i] = generadorX;
         posY[i] = generadorY;
     }
 
-    for (int i = 0; i < cntVrt; i++) {
-       int cant = grafo.obtCntAdy(i);
+    for (int i = 0; i < cntVrt; i++)
+    {
+        int cant = grafo.obtCntAdy(i);
         arrAdy[i] = cant;
     }
 
 }
 
 template < typename Vsz >
-void VisualizadorGnr::dibujar_circulo(double radio, double x, double y) {
+void VisualizadorGnr::dibujar_circulo(double radio, double x, double y)
+{
     glBegin(GL_POLYGON);
     for (double i = 0; i < 2 * 3.1415; i += (3.1415 / 24))
         glVertex2f(x + cos(i) * radio, y + sin(i) * radio);
@@ -254,8 +267,10 @@ void VisualizadorGnr::dibujar_circulo(double radio, double x, double y) {
 }
 
 template < typename Vsz >
-void VisualizadorGnr::linker(int lineas, vector<int>& arrV, int vrt) {
-    for (int i = 0; i < lineas; i++) {
+void VisualizadorGnr::linker(int lineas, vector<int>& arrV, int vrt)
+{
+    for (int i = 0; i < lineas; i++)
+    {
         glLineWidth(2.0);
         glColor3f(1.0, 1.0, 1.0); //BLANCO
         glBegin(GL_LINES);
@@ -266,28 +281,35 @@ void VisualizadorGnr::linker(int lineas, vector<int>& arrV, int vrt) {
 }
 
 template < typename Vsz >
-void VisualizadorGnr::recurCircles() {
+void VisualizadorGnr::recurCircles()
+{
     int cntAdy;
     cntVrt = grafo.obtTotVrt();
-    for (int i = 0; i < cntVrt; i++) {
+    for (int i = 0; i < cntVrt; i++)
+    {
         //int vrt = vrtPopular();
         vector<int> arr;
         grafo.obtAdy(i, arr);
         cntAdy = grafo.obtCntAdy(i);
         linker(cntAdy, arr, i);
     }
-    for (int i = 0; i < cntVrt; i++) {
+    for (int i = 0; i < cntVrt; i++)
+    {
         estadoVrt(i);
         dibujar_circulo(0.02, posX[i], posY[i]);
     }
 }
 
 template < typename Vsz >
-int VisualizadorGnr::vrtPopular() {
+int VisualizadorGnr::vrtPopular()
+{
     int vrtPop, cont = 0;
-    while (cont < cntVrt) {
-        for (int i = 0; i < cntVrt - 1; i++) {
-            if (arrAdy[i] > arrAdy[i + 1]) {
+    while (cont < cntVrt)
+    {
+        for (int i = 0; i < cntVrt - 1; i++)
+        {
+            if (arrAdy[i] > arrAdy[i + 1])
+            {
                 vrtPop = i;
             }
             else
@@ -302,14 +324,18 @@ int VisualizadorGnr::vrtPopular() {
 }
 
 template < typename Vsz >
-void VisualizadorGnr::estadoVrt(int vrt) {
-    if (grafo.obtEst(vrt) == Grafo::S) {
+void VisualizadorGnr::estadoVrt(int vrt)
+{
+    if (grafo.obtEst(vrt) == Grafo::S)
+    {
         glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }
-    if (grafo.obtEst(vrt) == Grafo::I) {
+    if (grafo.obtEst(vrt) == Grafo::I)
+    {
         glColor3f(1.0, 0.0, 0.0); //Color rojo -> vertice infectado
     }
-    if (grafo.obtEst(vrt) == Grafo::R) {
+    if (grafo.obtEst(vrt) == Grafo::R)
+    {
         glColor3f(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
     }
 }
@@ -331,7 +357,8 @@ void VisualizadorGnr::keyboard(unsigned char key, int x, int y)
 }
 
 template < typename Vsz >
-void VisualizadorGnr::display(void) {
+void VisualizadorGnr::display(void)
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (ptr != NULL)
     {
@@ -362,7 +389,8 @@ void VisualizadorGnr::display(void) {
 }
 
 template < typename Vsz >
-void VisualizadorGnr::idle(void) {
+void VisualizadorGnr::idle(void)
+{
     if (ptr != NULL)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

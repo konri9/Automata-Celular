@@ -11,10 +11,12 @@
 #include "NdoVrt.h"
 
 
-Simulador::Simulador(GrafoGnr<NdoVrt> *grf):grafo(grf) {
+Simulador::Simulador(GrafoGnr<NdoVrt> *grf):grafo(grf)
+{
 } //ctor
 
-Simulador::~Simulador() {
+Simulador::~Simulador()
+{
 }
 
 //ios: cantidad de vertices infectados
@@ -22,7 +24,8 @@ Simulador::~Simulador() {
 //vcf: checkeo de virus----> Ya no se ocupa entonces
 //rc: probabilidad de recuperacion
 //grc: probabilidad de obtener resistencia
-void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
+void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc)
+{
     if (grafo == NULL) return;
     srand(time(NULL));
     int tempor ,cont = 0, contemp;
@@ -34,24 +37,27 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
         NdoVrt *nodo = &(*grafo)[i];
         estados[i] = nodo->obtEst();
     }
-    while (cont<ios){
+    while (cont<ios)
+    {
         NdoVrt *ndo = &(*grafo)[id];
-        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S) {
-        ndo->modEst(NdoVrt::I);
-        estados[id] = NdoVrt::I;
-        /*for (int i = 0; i < grafo->obtTotVrt(); i++)
+        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S)
         {
-            NdoVrt nodo2 = (*grafo)[i];
-            cout << "Nodo " << i << ": " << nodo2.obtEst() << endl;
-        }*/
-        cont++;
-            }
-        else {
-             id = rand() % grafo->obtTotVrt();
-             }
+            ndo->modEst(NdoVrt::I);
+            estados[id] = NdoVrt::I;
+            /*for (int i = 0; i < grafo->obtTotVrt(); i++)
+            {
+                NdoVrt nodo2 = (*grafo)[i];
+                cout << "Nodo " << i << ": " << nodo2.obtEst() << endl;
+            }*/
+            cont++;
         }
-    
- //Aca son las iteraciones
+        else
+        {
+            id = rand() % grafo->obtTotVrt();
+        }
+    }
+
+//Aca son las iteraciones
     for (int i = 0; i < cntItr; i++)
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)

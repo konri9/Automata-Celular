@@ -1,17 +1,30 @@
-#ifndef NDOVRT_H
-#define NDOVRT_H
+#ifndef VrtGnr_H
+#define VrtGnr_H
 
-#include <memory>
-#include <vector>
-#include <string>
 
+#include "VrtGnr.h"
 #include "GrafoGnr.h"
+
+#include <iostream>
+#include <chrono>
+#include <memory>
+#include <string>
+#include <fstream>
+#include <cstring>
+#include <stdlib.h>
+#include <vector>
+#include <random>
+#include <iostream>
+#include <ctime>
+#include <limits> // std::numeric_limits
+
 
 bool prob(double probability);
 
 using namespace std;
 
-class NdoVrt
+template < typename VG >
+class VrtGnr
 {
 
 public:
@@ -24,9 +37,9 @@ public:
     };
 
 
-    NdoVrt();
+    VrtGnr();
     // NdoVrt(string str);
-    virtual ~NdoVrt();
+    virtual ~VrtGnr();
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el estado del vértice con índice vrt.
@@ -76,5 +89,98 @@ private:
     int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
     // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
+template < typename VG >
+bool prob(double probability) // probability < 1
+{
+    double result = (double)rand() / (double)RAND_MAX;
+    if(result < probability)
+        return true;
+    return false;
+}
+template < typename VG >
+VrtGnr::VrtGnr()
+{
+    e = S;
+    azarizarTmpChqVrs();
+}
+template < typename VG >
+VrtGnr::~VrtGnr()
+{
+    //dtor
+}
 
-#endif // NDOVRT_H
+template < typename VG >
+VrtGnr::E VrtGnr::obtEst() const
+{
+    return e;
+}
+
+int VrtGnr::obtTmpChqVrs() const
+{
+    return tmpChqVrs;
+}
+
+int VrtGnr::obtCntChVrs()const
+{
+    return cntChqVrs;
+}
+
+void VrtGnr::modEst(E ne)
+{
+    e = ne;
+}
+
+void VrtGnr::modTmpChqVrs(int nt)
+{
+    tmpChqVrs = nt;
+}
+
+
+void VrtGnr::actCntChqVrs()
+{
+    if(cntChqVrs == tmpChqVrs)
+        cntChqVrs = 0;
+    else
+    {
+        cntChqVrs++;
+    }
+}
+
+void VrtGnr::azarizarTmpChqVrs()
+{
+    int randy = rand() % 5 + 1;
+    tmpChqVrs = randy;
+}
+
+
+void VrtGnr::calcEst(vector<int> adyac)
+{
+    for(int i=0; i<adyac.size(); i++)
+    {
+        if (obtEst() != VrtGnr::S) return;
+        int cont = 0;
+        if(obtEst() == VrtGnr::I) cont++;
+        if (cont == adyac.size()) modEst(VrtGnr::I);
+    }
+}
+
+
+void VrtGnr::calcEst(vector<int> adyac)
+{
+    for(int i=0; i<adyac.size(); i++)
+    {
+        if (obtEst() != VrtGnr::S) return;
+        int cont = 0;
+        if(obtEst() == VrtGnr::I) cont++;
+        if (cont == adyac.size()) modEst(VrtGnr::I);
+    }
+}
+
+
+
+
+
+
+
+
+#endif // VrtGnr_H

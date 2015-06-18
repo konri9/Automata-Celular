@@ -19,7 +19,8 @@ using namespace std;
 #include "Simulador.h"
 #include"NdoVrt.h"
 
-class Visualizador {
+class Visualizador
+{
     // Permite la visualizaci�n gr�fica de una instancia de Grafo.
 
 public:
@@ -83,7 +84,7 @@ private:
     void estadoVrt(int vrt);
 
     /*Tipo de main para las figuras*/
-    public:
+public:
     static void display(void);
     static void idle(void);
     static void keyboard(unsigned char key, int x, int y);
@@ -98,14 +99,15 @@ private:
     vector<double>posX, posY;
     Simulador simulador;
 
-    struct infosim{
+    struct infosim
+    {
         int cItr, ios;
         double vsc, rc, grc;
     };
 
-    #ifdef _WIN32 || WIN32
+#ifdef _WIN32 || WIN32
     HWND hwnd;
-    #endif
+#endif
 
     bool sim = false;
     infosim info;

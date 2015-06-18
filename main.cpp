@@ -30,16 +30,16 @@ using namespace line_parse;
  */
 
 
- extern bool dibujando;
- int *gargc;
- char **gargv;
+extern bool dibujando;
+int *gargc;
+char **gargv;
 
 #ifdef _WIN32 || WIN32
- void loop(void *arg)
- #else
- void *loop(void *arg)
- #endif
- {
+void loop(void *arg)
+#else
+void *loop(void *arg)
+#endif
+{
     GrafoGnr<NdoVrt> *grafo = NULL;
     Simulador sv(grafo);
     cout << "Automata Celular\n";
@@ -58,7 +58,8 @@ using namespace line_parse;
                 {
                     cout << "Cargando grafo...\n";
                     string param = remover_comillas(parametro(linea, 1, ' '));
-                    try {
+                    try
+                    {
                         if (grafo != NULL) delete grafo;
                         grafo = new GrafoGnr<NdoVrt>(param.c_str());
                         cout << "Grafo cargado\n";
@@ -128,7 +129,7 @@ using namespace line_parse;
                         Visualizador v(*grafo);
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-                     //   sv.simular(it, ios, vsc, rc, grc);
+                        //   sv.simular(it, ios, vsc, rc, grc);
 
                         v.visualizar(it, ios, vsc, rc, grc);
                         while (dibujando) {}
@@ -210,14 +211,14 @@ using namespace line_parse;
                 if (cant_elementos == 1)
                 {
                     cout << "cargar\t-carga el grafo a partir del parametro %nArch" << endl <<
-                        "crear\t-crea el grafo a partir de dos parametros" << endl <<
-                        "simular\t " << endl <<
-                        "simular-visualizar\t-fjasklf" << endl <<
-                        "visualizar\t" << endl <<
-                        "calcular-promedio-longitud-caminos-cortos\t" << endl <<
-                        "calcular-centralidad-intermedial\t" << endl <<
-                        "calcular-coeficiente-agrupamiento\t" << endl <<
-                        "salir" << endl;
+                         "crear\t-crea el grafo a partir de dos parametros" << endl <<
+                         "simular\t " << endl <<
+                         "simular-visualizar\t-fjasklf" << endl <<
+                         "visualizar\t" << endl <<
+                         "calcular-promedio-longitud-caminos-cortos\t" << endl <<
+                         "calcular-centralidad-intermedial\t" << endl <<
+                         "calcular-coeficiente-agrupamiento\t" << endl <<
+                         "salir" << endl;
                 }
                 else
                 {
@@ -226,14 +227,14 @@ using namespace line_parse;
             }
             else if (prim == "salir")
             {
-                #ifdef _WIN32 || WIN32
+#ifdef _WIN32 || WIN32
                 HWND hwnd = FindWindow(NULL, "Automata-Celular");
                 ShowWindow(hwnd, SW_HIDE);
                 CloseHandle(hwnd);
                 return;
-                #else
+#else
                 return 0;
-                #endif
+#endif
             }
             else
             {
@@ -241,9 +242,10 @@ using namespace line_parse;
             }
         }
     }
- }
+}
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(750, 500);
@@ -254,13 +256,13 @@ int main(int argc, char** argv) {
     glutDisplayFunc(Visualizador::display);
     //glutIdleFunc(Visualizador::idle);
     glutKeyboardFunc(Visualizador::keyboard);
-    #ifdef _WIN32 || WIN32
+#ifdef _WIN32 || WIN32
     _beginthread(loop, 0, (void*)0 );
-    #else // _WIN32
+#else // _WIN32
     int banano = 0;
     pthread_t thread;
     pthread_create(&thread, NULL, loop, &banano);
-    #endif
+#endif
     glutMainLoop();
     return 0;
 }
