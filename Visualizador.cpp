@@ -33,7 +33,7 @@ Visualizador::Visualizador(const GrafoGnr<NdoVrt>& g) : grafo(g), simulador(&gra
     posY.resize(cntVrt);
     #ifdef _WIN32 || WIN32
     hwnd = FindWindow(NULL, "Automata-Celular");
-    ShowWindow(hwnd, SW_HIDE);
+    //ShowWindow(hwnd, SW_HIDE);
     #endif
     /*this->argc = argc;
     this->argv = argv;*/
@@ -90,7 +90,7 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
 
 void Visualizador::simular()
 {
-    simulador.simular(info.cItr, info.ios, info.vsc, info.rc, info.grc);
+    simulador.simular(1, info.ios, info.vsc, info.rc, info.grc);
     glutPostRedisplay();
 }
 

@@ -140,7 +140,6 @@ private:
                 }
             }
            return;
-           throw 1;
         }
     }
 
@@ -158,7 +157,6 @@ private:
                     arrVrt[i].lstAdy.push_back(orig.arrVrt[i].lstAdy[j]);
             }
             return;
-            throw 1;
         }
     }
 
@@ -169,18 +167,18 @@ private:
         file.open(nArch.c_str(), ios::in);
         if (file.is_open() && file.good())
         {
-            char line[256];
-            memset(&line, 0, 256);//poner memoria en 0
-            file.getline(line, 256); //primera linea
+            char line[1024];
+            memset(&line, 0, 1024);//poner memoria en 0
+            file.getline(line, 1024); //primera linea
             string inits = line;
             cntVrt = totalDeVertices(inits);
-            if (cntVrt < 0) return; // error
+            if (cntVrt <= 0) return; // error
             arrVrt.resize(cntVrt);
             int count = 0;
             while (!file.eof() && count < cntVrt)
             {
-                memset(&line, 0, 256); //volver a poner en 0 el char
-                file.getline(line, 256);
+                memset(&line, 0, 1024); //volver a poner en 0 el char
+                file.getline(line, 1024);
                 string linea = line;
                 size_t cant = cantidad_elementos(linea);
                 if (cant > 0)
@@ -189,13 +187,12 @@ private:
                     {
                         arrVrt[count].lstAdy.push_back(elemento(linea, j));
                     }
-                    count++;
                 }
+                count++;
             }
             return;
-            throw 1;
         }
-
+        throw 1;
     }
 
     template < typename V >
