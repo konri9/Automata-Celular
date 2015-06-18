@@ -44,10 +44,12 @@
 		<Unit filename="NdoVrt.h" />
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
+		<Unit filename="SimuladoGnr.h" />
 		<Unit filename="Simulador.cpp" />
 		<Unit filename="Simulador.h" />
 		<Unit filename="Visualizador.cpp" />
 		<Unit filename="Visualizador.h" />
+		<Unit filename="VisualizadorGnr.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

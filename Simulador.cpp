@@ -29,11 +29,16 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     vector<NdoVrt::E> estados;
     estados.resize(grafo->obtTotVrt());
     int id = rand() % grafo->obtTotVrt();
-    NdoVrt ndo = (*grafo)[id];
     while (cont<ios){
-        if (grafo->xstVrt(id)&& ndo.obtEst() == NdoVrt::S) {
-        ndo.modEst(NdoVrt::I);
+        NdoVrt *ndo = &(*grafo)[id];
+        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S) {
+        ndo->modEst(NdoVrt::I);
         estados[id] = NdoVrt::I;
+        for (int i = 0; i < grafo->obtTotVrt(); i++)
+        {
+            NdoVrt nodo2 = (*grafo)[i];
+            cout << "Nodo " << i << ": " << nodo2.obtEst() << endl;
+        }
         cont++;
             }
         else {
@@ -46,42 +51,40 @@ void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) 
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
-            NdoVrt nodo = (*grafo)[j];
-            nodo.azarizarTmpChqVrs();
+            NdoVrt *nodo = &(*grafo)[j];
             vector<int>ady;
             grafo->obtAdy(j,ady);
-            nodo.calcEst(ady);
-            if (nodo.obtEst() == NdoVrt::I)// si el vertice esta infectado
+            if (nodo->obtEst() == NdoVrt::I)// si el vertice esta infectado
             {
-                tempor = nodo.obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
-                contemp = nodo.obtCntChVrs(); //obtiene el contador de chequeo de virus
+                tempor = nodo->obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
+                contemp = nodo->obtCntChVrs(); //obtiene el contador de chequeo de virus
                 for (int k = 0; k < ady.size(); k++)
                 {
-                        NdoVrt nodo2 = (*grafo)[ady[k]];
-                    if (nodo2.obtEst() != NdoVrt::R && prob(vsc))// y el adyacente no es resistente
+                    NdoVrt *nodo2 = &(*grafo)[ady[k]];
+                    if (nodo2->obtEst() != NdoVrt::R && prob(vsc))// y el adyacente no es resistente
                     {
-                        nodo2.modEst(NdoVrt::I);//infecta los demas vertices
+                        nodo2->modEst(NdoVrt::I);//infecta los demas vertices
                     }
                 }
                 if (tempor == contemp)// si el temporizador es igual que el contador
                 {
                     if (prob(rc))
                     {
-                        nodo.modEst(NdoVrt::S);
+                        nodo->modEst(NdoVrt::S);
                         if (prob(grc))
                         {
-                            nodo.modEst(NdoVrt::R);
+                            nodo->modEst(NdoVrt::R);
                         }
                     }
                 }
-                nodo.actCntChqVrs();
+                nodo->actCntChqVrs();
             }
         }
 
         for (int i = 0; i < estados.size(); i++)
         {
-            NdoVrt nodo = (*grafo)[i];
-            nodo.modEst(estados[i]);
+            NdoVrt *nodo = &(*grafo)[i];
+            nodo->modEst(estados[i]);
         }
     }
 }

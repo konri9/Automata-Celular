@@ -129,6 +129,7 @@ using namespace line_parse;
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
                      //   sv.simular(it, ios, vsc, rc, grc);
+
                         v.visualizar(it, ios, vsc, rc, grc);
                         while (dibujando) {}
                     }

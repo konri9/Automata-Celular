@@ -81,7 +81,7 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
         visualizar();
         cin >> line;
         simular();
-    #ifdef _WIN32 || WIN32
+        #ifdef _WIN32 || WIN32
         SetForegroundWindow(hwnd);
         SetFocus(hwnd);
         #endif // _WIN32
@@ -90,7 +90,7 @@ void Visualizador::visualizar(int cItr, int ios, double vsc, double rc, double g
 
 void Visualizador::simular()
 {
-    simulador.simular(info.cItr, 0, info.vsc, info.rc, info.grc);
+    simulador.simular(info.cItr, info.ios, info.vsc, info.rc, info.grc);
     glutPostRedisplay();
 }
 
@@ -191,7 +191,7 @@ void Visualizador::keyboard(unsigned char key, int x, int y)
     {
         if (key == 13)
         {
-            //ptr->info.ios = 0;
+            ptr->info.ios = 0;
             //ptr->info.vcf--;
             //if (ptr->info.vcf < 0) ptr->info.vcf = ptr->info.vcfmax;
             ptr->simular();

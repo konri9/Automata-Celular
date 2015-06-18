@@ -21,7 +21,7 @@ using namespace line_parse;
 
 
 // Smldr es el tipo de vértice.
-template < typename Smldr >
+template < typename Sm>
 
 class SimuladorGnr {
 
@@ -62,7 +62,7 @@ private:
 
 };
 
-template < typename Smldr >
+template < typename Sm>
 bool prob(double probability) // probability < 1
 {
     double result = (double)rand() / (double)RAND_MAX;
@@ -70,12 +70,11 @@ bool prob(double probability) // probability < 1
         return true;
     return false;
 }
-
-template < typename Smldr >
+template < typename Sm>
 Simulador::Simulador(Grafo *g):grafo(g) {
 }
 
-template < typename Smldr >
+template < typename Sm>
 Simulador::~Simulador() {
 }
 
@@ -85,7 +84,7 @@ Simulador::~Simulador() {
 //rc: probabilidad de recuperacion
 //grc: probabilidad de obtener resistencia
 
-template < typename Smldr >
+template < typename Sm>
 void Simulador::simular(int cntItr, int ios, double vsc, double rc, double grc) {
     if (grafo == NULL) return;
     srand(time(NULL));

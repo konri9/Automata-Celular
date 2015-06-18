@@ -30,7 +30,7 @@ using namespace std;
 
 
 // Vslzdr es el tipo de vértice.
-template < typename Vslzdr >
+template < typename Vsz >
 class VisualizadorGnr {
     // Representa la red compleja sobre la cual se desarrollará la simulación.
 
@@ -73,22 +73,41 @@ private:
     /*Estos son mis metodos*/
 
     /*Genera una posicion aleatoria para las coordenadas)*/
+
+    //EFE:
+    //REQ:
     double generaPos();
 
     /* Rellena los vectores con valores generados al azar*/
+
+    //EFE:
+    //REQ:
     void atragantador();
 
     /*Dibuja un circulo a partir del radio y las coordenadas*/
+
+    //EFE:
+    //REQ:
     void dibujar_circulo(double radio, double x, double y);
 
     /*Genera las lineas entre vertices*/
+
+    //EFE:
+    //REQ:
     void linker(int lineas, vector<int>& arrV, int vrt);
 
     /*Dibuja los circulos, basandose en las posiciones ya generadas */
+
+    //EFE:
+    //REQ:
     void recurCircles ();
 
     /*Revisa toda la lista de adyacencia y devuelve el indice del vertice con mas adyacencias*/
     int vrtPopular();
+
+    //EFE:
+    //REQ:
+    void asignaColor();
 
     /*Asigna el color al circulo, dependiendo de su estado*/
     void estadoVrt(int vrt);
@@ -127,9 +146,10 @@ VisualizadorGnr *Visualizador::ptr;
 bool dibujando = false;
 char grafostr[] = "No hay grafo cargado! por favor cree o cargue un grafo para visualizar";
 
-template < typename Vslzdr >
+template < typename Vsz >
 VisualizadorGnr< V >::VisualizadorGnr
 
+template < typename Vsz >
 VisualizadorGnr::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
     cntVrt = grafo.obtTotVrt();
     arrAdy.resize(cntVrt);
@@ -143,10 +163,12 @@ VisualizadorGnr::Visualizador(const Grafo& g) : grafo(g), simulador(&grafo) {
     ptr = this;
 }
 
+template < typename Vsz >
 VisualizadorGnr::~Visualizador() {
     ptr = NULL;
 }
 
+template < typename Vsz >
 void VisualizadorGnr::visualizar() const {
     //glutCreateWindow("Automata-Celular @tete94 @konri9");
     /*glutInit(argc, argv);
@@ -166,6 +188,7 @@ void VisualizadorGnr::visualizar() const {
     SetFocus(hwnd);
 }
 
+template < typename Vsz >
 void VisualizadorGnr::visualizar(int cItr, int ios, double vsc, double rc, double grc)
 {
     simulador.simular(cItr, ios, vsc, rc, grc);
@@ -188,12 +211,14 @@ void VisualizadorGnr::visualizar(int cItr, int ios, double vsc, double rc, doubl
     } while (line != "salir");
 }
 
+template < typename Vsz >
 void VisualizadorGnr::simular()
 {
     simulador.simular(info.cItr, info.ios, info.vsc, info.rc, info.grc);
     glutPostRedisplay();
 }
 
+template < typename Vsz >
 double VisualizadorGnr::generaPos() {
     double rando = (double) rand() / (double) RAND_MAX;
     double rando2 = (double) rand() / (double) RAND_MAX;
@@ -203,6 +228,7 @@ double VisualizadorGnr::generaPos() {
     return rando;
 }
 
+template < typename Vsz >
 void VisualizadorGnr::atragantador() {
     double generadorX, generadorY;
     for (int i = 0; i < grafo.obtTotVrt(); i++) {
@@ -219,6 +245,7 @@ void VisualizadorGnr::atragantador() {
 
 }
 
+template < typename Vsz >
 void VisualizadorGnr::dibujar_circulo(double radio, double x, double y) {
     glBegin(GL_POLYGON);
     for (double i = 0; i < 2 * 3.1415; i += (3.1415 / 24))
@@ -226,6 +253,7 @@ void VisualizadorGnr::dibujar_circulo(double radio, double x, double y) {
     glEnd();
 }
 
+template < typename Vsz >
 void VisualizadorGnr::linker(int lineas, vector<int>& arrV, int vrt) {
     for (int i = 0; i < lineas; i++) {
         glLineWidth(2.0);
@@ -237,6 +265,7 @@ void VisualizadorGnr::linker(int lineas, vector<int>& arrV, int vrt) {
     }
 }
 
+template < typename Vsz >
 void VisualizadorGnr::recurCircles() {
     int cntAdy;
     cntVrt = grafo.obtTotVrt();
@@ -253,6 +282,7 @@ void VisualizadorGnr::recurCircles() {
     }
 }
 
+template < typename Vsz >
 int VisualizadorGnr::vrtPopular() {
     int vrtPop, cont = 0;
     while (cont < cntVrt) {
@@ -271,6 +301,7 @@ int VisualizadorGnr::vrtPopular() {
     return vrtPop;
 }
 
+template < typename Vsz >
 void VisualizadorGnr::estadoVrt(int vrt) {
     if (grafo.obtEst(vrt) == Grafo::S) {
         glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
@@ -283,6 +314,7 @@ void VisualizadorGnr::estadoVrt(int vrt) {
     }
 }
 
+template < typename Vsz >
 void VisualizadorGnr::keyboard(unsigned char key, int x, int y)
 {
     if (ptr == NULL) return;
@@ -298,6 +330,7 @@ void VisualizadorGnr::keyboard(unsigned char key, int x, int y)
     }
 }
 
+template < typename Vsz >
 void VisualizadorGnr::display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (ptr != NULL)
@@ -328,6 +361,7 @@ void VisualizadorGnr::display(void) {
     glutSwapBuffers();
 }
 
+template < typename Vsz >
 void VisualizadorGnr::idle(void) {
     if (ptr != NULL)
     {
