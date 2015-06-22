@@ -163,21 +163,17 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
                 matBits[i*n + indAdy] = U; // agregamos la adyacencia para tener al menos una
                 matBits[indAdy*n + i] = U; // agregamos la adyacencia "espejo"
             }
-
         }
 
         //Una vez tiene la matriz creada voy a anadir las adyacencias al grafo
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) // vertices
         {
             for(int j = 0; j < n; j++)
             {
-                for(int k = 0; k < n; k++)
+                if (matBits[i*n + j] == U); // Fila i, columna j.
                 {
-                    if (matBits[j*n + k] == U); // Fila i, columna j.
-                    {
-                        arrVrt[i].lstAdy.push_back(matBits[j*n + k]);
-                        arrVrt[j*n + k].lstAdy.push_back(i);
-                    }
+                    arrVrt[i].lstAdy.push_back(j);
+                    arrVrt[j].lstAdy.push_back(i);
                 }
             }
         }
