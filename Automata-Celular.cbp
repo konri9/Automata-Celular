@@ -16,10 +16,9 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-lGL" />
-					<Add option="-lGLU" />
-					<Add option="-lglut" />
-					<Add option="-lpthread" />
+					<Add option="-lopengl32" />
+					<Add option="-lglu32" />
+					<Add option="-lglut32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,16 +43,13 @@
 		<Unit filename="NdoVrt.h" />
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
-		<Unit filename="SimuladoGnr.h" />
-		<Unit filename="Simulador.cpp" />
-		<Unit filename="Simulador.h" />
-		<Unit filename="Visualizador.cpp" />
-		<Unit filename="Visualizador.h" />
+		<Unit filename="SimuladorGnr.h" />
 		<Unit filename="VisualizadorGnr.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
