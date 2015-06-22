@@ -29,8 +29,8 @@ using namespace line_parse;
  *
  */
 
-template <typename banano>
-class NuevoSimulador : public SimuladorGnr<banano>
+template <typename V>
+class NuevoSimulador : public SimuladorGnr<V>
 {
 public:
     NuevoSimulador()
