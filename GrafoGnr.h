@@ -41,7 +41,7 @@ public:
     /* CONSTRUCTORES */
     // REQ: ( cntVrt >= 10 ) && ( 0 <= prbAdy < 1  )
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
-    GrafoGnr(int cntVrt, double prbAdy);
+    GrafoGnr(int n, double prbAdy);
 
     // Construye una copia idéntica a orig.
     GrafoGnr(const GrafoGnr< V >& orig);
@@ -118,207 +118,250 @@ private:
 };
 
 
-    template < typename V >
-    GrafoGnr< V >::GrafoGnr(int cntVrt, double prbAdy)
+template < typename V >
+GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
+{
+    if (n >= 10)
     {
-        if (cntVrt >= 10)// && (0 < prbAdy < 1))
+        cntVrt = n;
+        arrVrt.resize(cntVrt);
+
+        // Se define y crea el generador de n�mero aleatorios basado en el reloj del sistema.
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generador(seed);
+        enum Bit { U, C, }; // U indica que s� hay adyacencia, C indica que no.
+
+        Bit* matBits = new Bit[n*n]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
+
+        // Se inicia la matriz en C.
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < n; j++) matBits[i*n + j] = C; // Fila i, columna j.
+
+        for (int i = 0; i < n; i++)
         {
+            std::uniform_int_distribution<int> dst_uniforme(0, 100);
+            for (int j = i; j < n; j++)   // OJO: desde j = i empieza
             {
-                this->cntVrt = cntVrt;
-                arrVrt.resize(cntVrt);
-                srand(time(NULL));
-                default_random_engine generador(rand());
-                normal_distribution<double> distribucion(prbAdy, 2.0);
-                for (int i = 0; i < this->cntVrt; i++)
+                int xstAdyI = dst_uniforme(generador); // se genera un valor al azar entre 0 y 100.
+                double xstAdyD = xstAdyI / 100.0; // se genera un valor al azar entre 0 y 1.
+                if ( xstAdyD <= prbAdy)   // determinamos si "nace" o no la adyacencia
                 {
-                    int rnum = distribucion(generador);
-                    if (!xstAdy(i, rnum) && xstVrt(rnum))
+                    matBits[i*n + j] = U;
+                    matBits[j*n + i] = U; // agregamos la adyacencia "espejo"
+                }
+            }
+
+            int cntAdy = 0;	// Vamos a contar las adyacencias para asegurarnos que al menos hay una por cada v�rtice.
+            for (int j = 0; j < n; j++)
+                if ( matBits[i*n + j] == U )
+                    cntAdy++;
+
+            if ( cntAdy == 0 )   // no queremos v�rtices aislados
+            {
+                std::uniform_int_distribution<int> dst_uniforme(0, n-1);
+                int indAdy = dst_uniforme(generador); // se genera un valor al azar entre 0 y n-1
+                matBits[i*n + indAdy] = U; // agregamos la adyacencia para tener al menos una
+                matBits[indAdy*n + i] = U; // agregamos la adyacencia "espejo"
+            }
+
+        }
+
+        //Una vez tiene la matriz creada voy a anadir las adyacencias al grafo
+        for (int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                for(int k = 0; k < n; k++)
+                {
+                    if (matBits[j*n + k] == U); // Fila i, columna j.
                     {
-                        arrVrt[i].lstAdy.push_back(rnum);
-                        arrVrt[rnum].lstAdy.push_back(i);
+                        arrVrt[i].lstAdy.push_back(matBits[j*n + k]);
+                        arrVrt[j*n + k].lstAdy.push_back(i);
                     }
                 }
             }
-           return;
         }
+        return;
+        //}
     }
+}
 
 
-    template < typename V >
-    GrafoGnr< V >::GrafoGnr(const GrafoGnr< V >& orig)
+template < typename V >
+GrafoGnr< V >::GrafoGnr(const GrafoGnr< V >& orig)
+{
+    if (orig.cntVrt > 0)
     {
-        if (orig.cntVrt > 0)
-        {
-            this->cntVrt = orig.cntVrt;
-            arrVrt.resize(this->cntVrt);
-            for (int i = 0; i < this->cntVrt; i++)
-            {
-                for (int j = 0; j < orig.arrVrt[i].lstAdy.size(); j++)
-                    arrVrt[i].lstAdy.push_back(orig.arrVrt[i].lstAdy[j]);
-            }
-            return;
-        }
-    }
-
-    template < typename V >
-    GrafoGnr< V >::GrafoGnr(string nArch)
-    {
-        ifstream file;
-        file.open(nArch.c_str(), ios::in);
-        if (file.is_open() && file.good())
-        {
-            char line[1024];
-            memset(&line, 0, 1024);//poner memoria en 0
-            file.getline(line, 1024); //primera linea
-            string inits = line;
-            cntVrt = totalDeVertices(inits);
-            if (cntVrt <= 0) return; // error
-            arrVrt.resize(cntVrt);
-            int count = 0;
-            while (!file.eof() && count < cntVrt)
-            {
-                memset(&line, 0, 1024); //volver a poner en 0 el char
-                file.getline(line, 1024);
-                string linea = line;
-                size_t cant = cantidad_elementos(linea);
-                if (cant > 0)
-                {
-                    for (int j = 0; j < cant; j++)
-                    {
-                        arrVrt[count].lstAdy.push_back(elemento(linea, j));
-                    }
-                }
-                count++;
-            }
-            return;
-        }
-        throw 1;
-    }
-
-    template < typename V >
-    GrafoGnr< V >::~GrafoGnr()
-    {
-
-    }
-
-    template < typename V >
-    bool GrafoGnr< V >::xstVrt(int vrt) const
-    {
-        return (vrt < cntVrt && vrt >= 0); // Devuelve true si vrt esta entre 0 y cntVrt
-    }
-
-    template < typename V >
-    bool GrafoGnr< V >::xstAdy(int vrtO, int vrtD) const
-    {
-        if (xstVrt(vrtO) && xstVrt(vrtD)) // Comprueba que el indice del vertice existe
-        {
-            int cantidad_adyacencias = arrVrt[vrtO].lstAdy.size();
-            if (cantidad_adyacencias == 0) return false; // No hay adyacencias, por lo tanto la adyacencia no existe
-            for (int i = 0; i < arrVrt[vrtO].lstAdy.size(); i++)
-            {
-                if (arrVrt[vrtO].lstAdy[i] == vrtD) return true;
-            }
-            return false;
-        }
-        return false; // No se encontro adyacencia o el vertice no existe
-    }
-
-
-    template < typename V >
-    void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
-    {
-        if (xstVrt(vrt))
-        {
-            vec.clear();
-            for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
-            {
-                vec.push_back(arrVrt[vrt].lstAdy[i]);
-            }
-        }
-    }
-
-    template < typename V >
-    int GrafoGnr<V>::obtCntAdy(int vrt) const
-    {
-        if (xstVrt(vrt))
-        {
-            return arrVrt[vrt].lstAdy.size();
-        }
-    }
-
-
-    template < typename V >
-    int GrafoGnr< V >::obtTotVrt() const
-    {
-        return cntVrt;
-    }
-
-
-    template < typename V >
-    int GrafoGnr< V >::obtTotAdy() const
-    {
-        int cant = 0;
-        for (int i = 0; i < cntVrt; i++)
-        {
-            cant += arrVrt[i].lstAdy.size();
-        }
-        return cant;
-    }
-
-
-    template < typename V >
-    V& GrafoGnr< V >::operator[](int vrt)
-    {
-        if (xstVrt(vrt)) return arrVrt[vrt].vrt;
-    }
-
-    template < typename V >
-    bool GrafoGnr< V >::operator==(const GrafoGnr& grf) const
-    {
-        if (this->cntVrt != grf.cntVrt) return false;
+        this->cntVrt = orig.cntVrt;
+        arrVrt.resize(this->cntVrt);
         for (int i = 0; i < this->cntVrt; i++)
         {
-            if (arrVrt[i].lstAdy.size() != grf.arrVrt[i].lstAdy.size()) return false;
-            vector<int>ady, adygrf;
-            obtAdy(i, ady);
-            grf.obtAdy(i, adygrf);
-            for (int j = 0; j < arrVrt[i].lstAdy.size(); j++)
+            for (int j = 0; j < orig.arrVrt[i].lstAdy.size(); j++)
+                arrVrt[i].lstAdy.push_back(orig.arrVrt[i].lstAdy[j]);
+        }
+        return;
+    }
+}
+
+template < typename V >
+GrafoGnr< V >::GrafoGnr(string nArch)
+{
+    ifstream file;
+    file.open(nArch.c_str(), ios::in);
+    if (file.is_open() && file.good())
+    {
+        char line[1024];
+        memset(&line, 0, 1024);//poner memoria en 0
+        file.getline(line, 1024); //primera linea
+        string inits = line;
+        cntVrt = totalDeVertices(inits);
+        if (cntVrt <= 0) return; // error
+        arrVrt.resize(cntVrt);
+        int count = 0;
+        while (!file.eof() && count < cntVrt)
+        {
+            memset(&line, 0, 1024); //volver a poner en 0 el char
+            file.getline(line, 1024);
+            string linea = line;
+            size_t cant = cantidad_elementos(linea);
+            if (cant > 0)
             {
-                if (ady[j] != adygrf[j])
+                for (int j = 0; j < cant; j++)
                 {
-                    return false;
+                    arrVrt[count].lstAdy.push_back(elemento(linea, j));
                 }
             }
+            count++;
         }
-        return true;
+        return;
     }
+    throw 1;
+}
 
+template < typename V >
+GrafoGnr< V >::~GrafoGnr()
+{
 
+}
 
-    template < typename V >
-    double GrafoGnr< V >::promLongCmnsCrts() const
+template < typename V >
+bool GrafoGnr< V >::xstVrt(int vrt) const
+{
+    return (vrt < cntVrt && vrt >= 0); // Devuelve true si vrt esta entre 0 y cntVrt
+}
+
+template < typename V >
+bool GrafoGnr< V >::xstAdy(int vrtO, int vrtD) const
+{
+    if (xstVrt(vrtO) && xstVrt(vrtD)) // Comprueba que el indice del vertice existe
     {
-        int sum = 0, total = cntVrt * (cntVrt - 1) / 2;
-        int **matriz = Floyd_Warshall();
-        for (int i = 0; i < cntVrt; i++)
+        int cantidad_adyacencias = arrVrt[vrtO].lstAdy.size();
+        if (cantidad_adyacencias == 0) return false; // No hay adyacencias, por lo tanto la adyacencia no existe
+        for (int i = 0; i < arrVrt[vrtO].lstAdy.size(); i++)
         {
-            for (int j = i; j < cntVrt; j++)
+            if (arrVrt[vrtO].lstAdy[i] == vrtD) return true;
+        }
+        return false;
+    }
+    return false; // No se encontro adyacencia o el vertice no existe
+}
+
+
+template < typename V >
+void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
+{
+    if (xstVrt(vrt))
+    {
+        vec.clear();
+        for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
+        {
+            vec.push_back(arrVrt[vrt].lstAdy[i]);
+        }
+    }
+}
+
+template < typename V >
+int GrafoGnr<V>::obtCntAdy(int vrt) const
+{
+    if (xstVrt(vrt))
+    {
+        return arrVrt[vrt].lstAdy.size();
+    }
+}
+
+
+template < typename V >
+int GrafoGnr< V >::obtTotVrt() const
+{
+    return cntVrt;
+}
+
+
+template < typename V >
+int GrafoGnr< V >::obtTotAdy() const
+{
+    int cant = 0;
+    for (int i = 0; i < cntVrt; i++)
+    {
+        cant += arrVrt[i].lstAdy.size();
+    }
+    return cant;
+}
+
+
+template < typename V >
+V& GrafoGnr< V >::operator[](int vrt)
+{
+    if (xstVrt(vrt)) return arrVrt[vrt].vrt;
+}
+
+template < typename V >
+bool GrafoGnr< V >::operator==(const GrafoGnr& grf) const
+{
+    if (this->cntVrt != grf.cntVrt) return false;
+    for (int i = 0; i < this->cntVrt; i++)
+    {
+        if (arrVrt[i].lstAdy.size() != grf.arrVrt[i].lstAdy.size()) return false;
+        vector<int>ady, adygrf;
+        obtAdy(i, ady);
+        grf.obtAdy(i, adygrf);
+        for (int j = 0; j < arrVrt[i].lstAdy.size(); j++)
+        {
+            if (ady[j] != adygrf[j])
             {
-                if (xstAdy(i, j))
-                    sum += matriz[i][j];
+                return false;
             }
         }
-        for (int i = 0; i < cntVrt; i++)
-        {
-            delete[] matriz[i];
-        }
-        delete[] matriz;
-        return ((double) sum / (double) total);
     }
+    return true;
+}
 
-    template <typename V>
-    int **GrafoGnr<V>::Floyd_Warshall() const
+
+
+template < typename V >
+double GrafoGnr< V >::promLongCmnsCrts() const
+{
+    int sum = 0, total = cntVrt * (cntVrt - 1) / 2;
+    int **matriz = Floyd_Warshall();
+    for (int i = 0; i < cntVrt; i++)
     {
+        for (int j = i; j < cntVrt; j++)
+        {
+            if (xstAdy(i, j))
+                sum += matriz[i][j];
+        }
+    }
+    for (int i = 0; i < cntVrt; i++)
+    {
+        delete[] matriz[i];
+    }
+    delete[] matriz;
+    return ((double) sum / (double) total);
+}
+
+template <typename V>
+int **GrafoGnr<V>::Floyd_Warshall() const
+{
     int** path;
     path = new int*[cntVrt];
     for (int i = 0; i < cntVrt; i++)
@@ -351,32 +394,32 @@ private:
             }
 
     return path;
-    }
+}
 
-    template < typename V >
-    double GrafoGnr< V >::coeficienteAgrupamiento(int vrt) const
+template < typename V >
+double GrafoGnr< V >::coeficienteAgrupamiento(int vrt) const
+{
+    if (xstVrt(vrt))
     {
-        if (xstVrt(vrt))
+        double cant = (double) arrVrt[vrt].lstAdy.size(), triangles = 0.0;
+        if (cant == 0 || cant == 1) return 0;
+        double t_g = (cant * (cant - 1)) / 2;
+        vector<int>ady;
+        obtAdy(vrt, ady);
+        for (int i = 0; i < cant; i++)
         {
-            double cant = (double) arrVrt[vrt].lstAdy.size(), triangles = 0.0;
-            if (cant == 0 || cant == 1) return 0;
-            double t_g = (cant * (cant - 1)) / 2;
-            vector<int>ady;
-            obtAdy(vrt, ady);
-            for (int i = 0; i < cant; i++)
+            for (int j = i + 1; j < cant; j++)
             {
-                for (int j = i + 1; j < cant; j++)
+                if (xstAdy(ady[i], ady[j]))
                 {
-                    if (xstAdy(ady[i], ady[j]))
-                    {
-                        triangles++;
-                    }
+                    triangles++;
                 }
             }
-            return (triangles / t_g);
         }
-        return 0;
+        return (triangles / t_g);
     }
+    return 0;
+}
 
 #endif	/* GRAFOGNR_H */
 

@@ -80,8 +80,9 @@ using namespace line_parse;
             {
                 if (cant_elementos == 3)
                 {
-                    int p1 = elemento(linea, 1, ' '), p2 = elemento(linea, 2, ' ');
-                    if (p1 >= 10 && p2 >= 1)
+                    int p1 = elemento(linea, 1, ' ');
+                    double p2 = elemento(linea, 2, ' ');
+                    if (p1 >= 10 && p2 <1 )// 0 <= prbAdy < 1
                     {
                         if (grafo != NULL) delete grafo;
                         grafo = new GrafoGnr<NdoVrt>(p1, p2);
