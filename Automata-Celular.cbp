@@ -14,11 +14,14 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="../Automata-Celular" />
 				</Compiler>
 				<Linker>
-					<Add option="-lopengl32" />
-					<Add option="-lglu32" />
-					<Add option="-lglut32" />
+					<Add option="-lGL" />
+					<Add option="-lGLU" />
+					<Add option="-lglut" />
+					<Add option="-lpthread" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -28,6 +31,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="../Automata-Celular" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -44,6 +49,7 @@
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
 		<Unit filename="SimuladorGnr.h" />
+		<Unit filename="SimuladorVrs.h" />
 		<Unit filename="VisualizadorGnr.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
