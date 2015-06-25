@@ -1,33 +1,34 @@
-#ifndef NDOVRT_H
-#define NDOVRT_H
+#ifndef NDOAVES_H
+#define NDOAVES_H
 
 #include <memory>
 #include <vector>
 #include <string>
 
-#include "VerticeGnr"
 #include "GrafoGnr.h"
 
 bool prob(double probability);
 
 using namespace std;
 
-class NdoVrt : public VerticeGnr
+class NdoAves : public VerticeGnr
 {
 
 public:
 
-    enum E  // representa el tipo de estados de la red de infección
+// Nivel de estres de las aves!
+    enum E  // representa el nivel de estres de las aves
     {
-        S, // representa un vértice susceptible de infección
-        I, // representa un vértice infectado
+        R, // representa un vertice de ave relajada
+		S, // representa un vértice de ave estresada
+        I, // representa un vértice de ave
         R, // representa un vértice resistente
     };
 
 
-    NdoVrt();
-   // NdoVrt(string str);
-    virtual ~NdoVrt();
+    NdoAves();
+   // NdoAves(string str);
+    virtual ~NdoAves();
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el estado del vértice con índice vrt.

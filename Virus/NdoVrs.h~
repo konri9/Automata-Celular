@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-#include "VerticeGnr"
 #include "GrafoGnr.h"
 
 bool prob(double probability);

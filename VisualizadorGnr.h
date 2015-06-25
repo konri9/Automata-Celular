@@ -14,9 +14,10 @@
 
 #ifdef _WIN32 || WIN32
 #include <windows.h>
+#include <process.h>
 #endif
 
-#include <process.h>
+
 #include <GL/glut.h>
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
@@ -104,14 +105,14 @@ private:
 
     //EFE:
     //REQ:
-    void recurCircles ();
+    virtual void recurCircles();
 
     /*Revisa toda la lista de adyacencia y devuelve el indice del vertice con mas adyacencias*/
     int vrtPopular();
 
-    //EFE:
+    //EFE: Asigna colores dependiendo del estado del vertice del grafo
     //REQ:
-    void asignaColor();
+    void asignaColor()=0;
 
     /*Asigna el color al circulo, dependiendo de su estado*/
     void estadoVrt(int vrt);
@@ -131,7 +132,7 @@ public:
     vector <int> arrAdy;
     vector<double>posX, posY;
 
-    SimuladorGnr<Vsz> simulador;
+    SimuladorVrs<Vsz> simulador;
 
     struct infosim
     {
@@ -139,7 +140,9 @@ public:
         double vsc, rc, grc;
     };
 
+    #ifdef _WIN32 || WIN32
     HWND hwnd;
+    #endif
 
     bool sim = false;
     infosim info;

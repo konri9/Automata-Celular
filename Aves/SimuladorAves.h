@@ -1,39 +1,34 @@
 /*
- * File:   GrafoGnr.h
- * Author: alan.calderon
+ * File:   SimuladorAves.h
+ * Author: Alan
  *
- * Created on 4 de junio de 2015, 05:49 PM
+ * Created on 2 de abril de 2015, 06:46 PM
  */
 
-#ifndef SIMULADORGNR_H
-#define	SIMULADORGNR_H
+#ifndef SIMULADORAVES_H
+#define	SIMULADORAVES_H
+#include "NdoAves.h"
+#include <memory>
+using namespace std;
 
-#include <random>
-#include <ctime>
 #include "GrafoGnr.h"
 
-#ifndef NULL
-#define NULL 0
-#endif // NULL
-
-using namespace std;
-using namespace line_parse;
-
-
-// Smldr es el tipo de vértice.
-template < typename Sm>
-class SimuladorGnr
+template <typename Ave>
+class SimuladorAves:public SimuladorGnr<Ave> 
 {
+    // Representa el proceso de simulación de la anidacion.
+
 public:
+
     // EFE: Construye un simulador que transformará al grafo g.
-    SimuladorGnr(GrafoGnr<Sm>* g);
+    SimuladorAves(GrafoGnr<NdoVrt>* grf);
 
     // EFE: Construye un simulador que transformará al grafo g visualizando
     //      los cambios de estado por medio de v.
     //Simulador(Grafo* g);
 
     // Destruye a *this retornando toda la memoria asignada dinámicamente.
-    ~SimuladorGnr();
+    ~SimuladorAves();
 
     // REQ: el grafo asociado (el pasado al constructor) esté bien construido.
     // MOD: el grafo asociado.
@@ -53,51 +48,16 @@ public:
     //         puede recuperarse con probabilidad rc.
     //      3. sólo un vértice recuperado puede ganar resistencia con probabilidad grc.
     //      4. Sólo las transformaciones #2 y #3 pueden ser simultáneas.
+    void simular(int cItr, int ios, double vsc, double rc, double grc);
 
-    void asignarGrafo(GrafoGnr<Sm> *g);
+    void asignarGrafo(GrafoGnr<NdoVrt> *g);
 
-    //EFE: Inicializa los datos para la simulacion
-    virtual void setup()=0;
-
-    virtual void go() = 0;
-
+	//EFE: Realiza una matriz
+	void creaMatrix ();
+	
 private:
-    GrafoGnr<Sm> *grafo;
-
+    GrafoGnr<NdoVrt> *grafo;
 };
 
-template < typename Sm>
-bool prob(double probability) // probability < 1
-{
-    double result = (double)rand() / (double)RAND_MAX;
-    if(result < probability)
-        return true;
-    return false;
-}
-
-template < typename Sm>
-SimuladorGnr<Sm>::SimuladorGnr(GrafoGnr<Sm>* g) : grafo(g)
-{
-
-}
-
-template < typename Sm>
-SimuladorGnr<Sm>::~SimuladorGnr()
-{
-}
-
-//ios: cantidad de vertices infectados
-//vsc: probabilidad de infeccion
-//vcf: checkeo de virus----> Ya no se ocupa entonces
-//rc: probabilidad de recuperacion
-//grc: probabilidad de obtener resistencia
-
-template < typename Sm >
-void SimuladorGnr<Sm>::asignarGrafo(GrafoGnr<Sm>* g)
-{
-    grafo = g;
-}
-
-
-#endif	/* VISUALIZADORGNR_H */
+#endif	/* SIMULADOR_H */
 

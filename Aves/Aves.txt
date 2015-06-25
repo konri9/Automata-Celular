@@ -1,0 +1,10 @@
+Esta carpeta contiene los siguientes archivos:
+
+NdoAves.cpp
+NdoAves.h
+SimuladorAves.h
+SimuladorAves.cpp
+VisualizadorAves.h
+VisualizadorAves.cpp
+
+

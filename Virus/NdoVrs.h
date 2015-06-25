@@ -1,18 +1,17 @@
-#ifndef NDOVRT_H
-#define NDOVRT_H
+#ifndef NDOVRS_H
+#define NDOVRS_H
 
 #include <memory>
 #include <vector>
 #include <string>
 
-#include "VerticeGnr"
 #include "GrafoGnr.h"
 
 bool prob(double probability);
 
 using namespace std;
 
-class NdoVrt : public VerticeGnr
+class NdoVrs : public VerticeGnr
 {
 
 public:
@@ -25,9 +24,9 @@ public:
     };
 
 
-    NdoVrt();
-   // NdoVrt(string str);
-    virtual ~NdoVrt();
+    NdoVrs();
+   // NdoVrs(string str);
+    virtual ~NdoVrs();
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el estado del vértice con índice vrt.
@@ -78,4 +77,4 @@ private:
         // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 
-#endif // NDOVRT_H
+#endif // NDOVRS_H

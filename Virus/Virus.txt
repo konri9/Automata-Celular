@@ -1,0 +1,9 @@
+Esta Carpeta contiene los archivos para la simulacion con respecto a virus:
+
+*NdoVrs.h
+*NdoVrs.cpp
+*SimuladorVrs.cpp
+*SimuladorVrs.h
+*VisualizadorVrs.h
+*VisualizadorVrs.cpp
+
