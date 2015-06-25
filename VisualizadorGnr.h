@@ -70,6 +70,11 @@ public:
     //      colores los estados de los v�rtices.
     void visualizar(int cItr, int ios, double vsc, double rc, double grc);
 
+
+    //REQ:
+    //EFE:
+    void asignaColor () = 0;
+
 private:
     GrafoGnr<Vsz> grafo;
 
@@ -140,9 +145,9 @@ public:
         double vsc, rc, grc;
     };
 
-    #ifdef _WIN32 || WIN32
+#ifdef _WIN32 || WIN32
     HWND hwnd;
-    #endif
+#endif
 
     bool sim = false;
     infosim info;

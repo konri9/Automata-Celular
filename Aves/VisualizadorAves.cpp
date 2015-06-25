@@ -26,7 +26,7 @@ VisualizadorAves *VisualizadorAves::ptr;
 bool dibujando = false;
 char grafostr[] = "No hay grafo cargado! por favor cree o cargue un grafo para visualizar";
 
-VisualizadorAves::VisualizadorAves(const GrafoGnr<NdoVrt>& g) : grafo(g), simulador(&grafo) {
+VisualizadorAves::VisualizadorAves(const GrafoGnr<NdoAve>& g) : grafo(g), simulador(&grafo) {
     cntVrt = grafo.obtTotVrt();
     arrAdy.resize(cntVrt);
     posX.resize(cntVrt);
@@ -172,14 +172,14 @@ int VisualizadorAves::vrtPopular() {
 }
 
 void VisualizadorAves::estadoVrt(int vrt) {
-    NdoVrt nodo = grafo[vrt];
-    if (nodo.obtEst() == NdoVrt::S) {
+    NdoAve nodo = grafo[vrt];
+    if (nodo.obtEst() == NdoAve::S) {
         glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }
-    if (nodo.obtEst() == NdoVrt::I) {
+    if (nodo.obtEst() == NdoAve::I) {
         glColor3f(1.0, 0.0, 0.0); //Color rojo -> vertice infectado
     }
-    if (nodo.obtEst() == NdoVrt::R) {
+    if (nodo.obtEst() == NdoAve::R) {
         glColor3f(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
     }
 }

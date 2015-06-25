@@ -24,7 +24,7 @@ public:
      // EFE: retorna true si *this == o, false en caso contrario.
      //comparador
     // metodo virtual puro
-    bool operator==(const VerticeGnr& o) const = 0;
+    bool operator==(const VerticeGnr& vr) const =0;
 
     //asignador
     //metodo virtual puro

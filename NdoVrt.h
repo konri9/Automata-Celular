@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "VerticeGnr"
+#include "VerticeGnr.h"
 #include "GrafoGnr.h"
 
 bool prob(double probability);
@@ -26,7 +26,7 @@ public:
 
 
     NdoVrt();
-   // NdoVrt(string str);
+    // NdoVrt(string str);
     virtual ~NdoVrt();
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -72,10 +72,10 @@ public:
 protected:
 
 private:
-        E e; // representa el estado del vértice
-        int tmpChqVrs; // representa el temporizador de chequeo de virus
-        int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
-        // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
+    E e; // representa el estado del vértice
+    int tmpChqVrs; // representa el temporizador de chequeo de virus
+    int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
+    // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 
 #endif // NDOVRT_H

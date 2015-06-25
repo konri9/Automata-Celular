@@ -2,10 +2,9 @@
 #define SIMULADORVRS_H
 
 #include "SimuladorGnr.h"
-
+#include "NdoAves.h"
 
 template <typename Vrs>
-
 class SimuladorVrs : public SimuladorGnr<Vrs>
 {
 public:
@@ -42,17 +41,20 @@ void SimuladorVrs::setup()
         NdoVrt *nodo = &(*grafo)[i];
         estados[i] = nodo->obtEst();
     }
-    while (cont<ios){
+    while (cont<ios)
+    {
         NdoVrt *ndo = &(*grafo)[id];
-        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S) {
-        ndo->modEst(NdoVrt::I);
-        estados[id] = NdoVrt::I;
-        cont++;
-            }
-        else {
-             id = rand() % grafo->obtTotVrt();
-             }
+        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S)
+        {
+            ndo->modEst(NdoVrt::I);
+            estados[id] = NdoVrt::I;
+            cont++;
         }
+        else
+        {
+            id = rand() % grafo->obtTotVrt();
+        }
+    }
 }
 
 

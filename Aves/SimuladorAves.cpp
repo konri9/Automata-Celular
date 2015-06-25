@@ -1,86 +1,88 @@
-/*
- * File:   SimuladorAves.cpp
- * Author: Alan
- *
- * Created on 2 de abril de 2015, 06:46 PM
- */
-
 #include <random>
 #include <ctime>
 #include "SimuladorAves.h"
-#include "NdoAves.h"
+#include "NdoAve.h"
 
-SimuladorAves::SimuladorAves(GrafoGnr<NdoVrt> *grf):grafo(grf) {
-} //ctor
-
-SimuladorAves::~SimuladorAves() {
+template < typename Ave>
+SimuladorAves::SimuladorAves(GrafoGnr<NdoAves>* g): SimuladorGnr<Ave>(g)
+{
+    //ctor
 }
 
-//ios: cantidad de vertices infectados
-//vsc: probabilidad de infeccion
-//vcf: checkeo de virus----> Ya no se ocupa entonces
-//rc: probabilidad de recuperacion
-//grc: probabilidad de obtener resistencia
-void SimuladorAves::simular(int cntItr, int ios, double vsc, double rc, double grc) {
+
+//hacer un metodo virtual puro que asigne el color
+
+//SimuladorAves::~SimuladorAves() {
+//}
+
+
+void SimuladorVrs::setup()
+{
     if (grafo == NULL) return;
     srand(time(NULL));
     int tempor ,cont = 0, contemp;
-    vector<NdoVrt::E> estados;
+    vector<NdoAve::E> estados;
     estados.resize(grafo->obtTotVrt());
     int id = rand() % grafo->obtTotVrt();
     for (int i = 0; i < estados.size(); i++)
     {
-        NdoVrt *nodo = &(*grafo)[i];
+        NdoAve *nodo = &(*grafo)[i];
         estados[i] = nodo->obtEst();
     }
-    while (cont<ios){
-        NdoVrt *ndo = &(*grafo)[id];
-        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrt::S) {
-        ndo->modEst(NdoVrt::I);
-        estados[id] = NdoVrt::I;
-        /*for (int i = 0; i < grafo->obtTotVrt(); i++)
+    while (cont<ios)
+    {
+        NdoAve *ndo = &(*grafo)[id];
+        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoAve::S)
         {
-            NdoVrt nodo2 = (*grafo)[i];
-            cout << "Nodo " << i << ": " << nodo2.obtEst() << endl;
-        }*/
-        cont++;
-            }
-        else {
-             id = rand() % grafo->obtTotVrt();
-             }
+            ndo->modEst(NdoAve::I);
+            estados[id] = NdoAve::I;
+            cont++;
         }
-    
- //Aca son las iteraciones
+        else
+        {
+            id = rand() % grafo->obtTotVrt();
+        }
+    }
+}
+
+
+
+
+template < typename Vrs>
+void SimuladorVrs::go()
+{
     for (int i = 0; i < cntItr; i++)
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
-            NdoVrt *nodo = &(*grafo)[j];
+            go(j);//
+
+            NdoAve *nodo = &(*grafo)[j];
             vector<int>ady;
             grafo->obtAdy(j,ady);
-            if (nodo->obtEst() == NdoVrt::I)// si el vertice esta infectado
+            if (nodo->obtEst() == NdoAve::I)// si el vertice esta infectado
             {
                 tempor = nodo->obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
                 contemp = nodo->obtCntChVrs(); //obtiene el contador de chequeo de virus
                 for (int k = 0; k < ady.size(); k++)
                 {
-                    NdoVrt *nodo2 = &(*grafo)[ady[k]];
-                    if (nodo2->obtEst() != NdoVrt::R && nodo2->obtEst() != NdoVrt::I && prob(vsc))// y el adyacente no es resistente
+                    NdoAve *nodo2 = &(*grafo)[ady[k]];
+                    if (nodo2->obtEst() != NdoAve::R && nodo2->obtEst() != NdoAve::I && prob(vsc))// y el adyacente no es resistente
                     {
-                        nodo2->modEst(NdoVrt::I);//infecta los demas vertices
-                        estados[k] = NdoVrt::I;
+                        nodo2->modEst(NdoAve::I);//infecta los demas vertices
+                        estados[k] = NdoAve::I;
                     }
                 }
                 if (tempor == contemp)// si el temporizador es igual que el contador
                 {
                     if (prob(rc))
                     {
-                        nodo->modEst(NdoVrt::S);
-                        estados[j] = NdoVrt::S;
+                        nodo->modEst(NdoAve::S);
+                        estados[j] = NdoAve::S;
                         if (prob(grc))
                         {
-                            nodo->modEst(NdoVrt::R);
-                            estados[j] = NdoVrt::R;
+                            nodo->modEst(NdoAve::R);
+                            estados[j] = NdoAve::R;
                         }
                     }
                 }
@@ -90,13 +92,8 @@ void SimuladorAves::simular(int cntItr, int ios, double vsc, double rc, double g
 
         for (int i = 0; i < estados.size(); i++)
         {
-            NdoVrt *nodo = &(*grafo)[i];
+            NdoAve *nodo = &(*grafo)[i];
             nodo->modEst(estados[i]);
         }
     }
-}
-
-void SimuladorAves::asignarGrafo(GrafoGnr<NdoVrt>* g)
-{
-    grafo = g;
 }

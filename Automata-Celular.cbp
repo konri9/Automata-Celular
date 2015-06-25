@@ -43,13 +43,25 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Aves/NdoAve.cpp" />
+		<Unit filename="Aves/NdoAve.h" />
+		<Unit filename="Aves/SimuladorAves.cpp" />
+		<Unit filename="Aves/SimuladorAves.h" />
+		<Unit filename="Aves/VisualizadorAves.cpp" />
+		<Unit filename="Aves/VisualizadorAves.h" />
 		<Unit filename="GrafoGnr.h" />
 		<Unit filename="NdoVrt.cpp" />
 		<Unit filename="NdoVrt.h" />
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
 		<Unit filename="SimuladorGnr.h" />
-		<Unit filename="SimuladorVrs.h" />
+		<Unit filename="VerticeGnr.h" />
+		<Unit filename="Virus/NdoVrs.cpp" />
+		<Unit filename="Virus/NdoVrs.h" />
+		<Unit filename="Virus/SimuladorVrs.cpp" />
+		<Unit filename="Virus/SimuladorVrs.h" />
+		<Unit filename="Virus/VisualizadorVrs.cpp" />
+		<Unit filename="Virus/VisualizadorVrs.h" />
 		<Unit filename="VisualizadorGnr.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
