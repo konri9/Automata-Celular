@@ -3,7 +3,7 @@
 #include "SimuladorAves.h"
 #include "NdoAve.h"
 
-SimuladorAves::SimuladorAves(GrafoGnr<NdoAves>* g): SimuladorGnr<NdoAves>(g)
+SimuladorAves::SimuladorAves(GrafoGnr<NdoAve>* g): SimuladorGnr<NdoAve>(g)
 {
     //ctor
 }
@@ -15,7 +15,7 @@ SimuladorAves::SimuladorAves(GrafoGnr<NdoAves>* g): SimuladorGnr<NdoAves>(g)
 //}
 
 
-void SimuladorVrs::setup()
+void SimuladorAves::setup()
 {
     if (grafo == NULL) return;
     srand(time(NULL));
@@ -28,7 +28,7 @@ void SimuladorVrs::setup()
         NdoAve *nodo = &(*grafo)[i];
         estados[i] = nodo->obtEst();
     }
-    while (cont<ios)
+    /*while (cont<ios)
     {
         NdoAve *ndo = &(*grafo)[id];
         if (grafo->xstVrt(id)&& ndo->obtEst() == NdoAve::S)
@@ -41,16 +41,12 @@ void SimuladorVrs::setup()
         {
             id = rand() % grafo->obtTotVrt();
         }
-    }
+    }*/
 }
 
-
-
-
-template < typename Vrs>
-void SimuladorVrs::go()
+void SimuladorAves::go()
 {
-    for (int i = 0; i < cntItr; i++)
+    /*for (int i = 0; i < cntItr; i++)
     {
         for (int j = 0; j < grafo->obtTotVrt(); j++)
         {
@@ -94,5 +90,5 @@ void SimuladorVrs::go()
             NdoAve *nodo = &(*grafo)[i];
             nodo->modEst(estados[i]);
         }
-    }
+    }*/
 }

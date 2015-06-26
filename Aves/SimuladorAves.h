@@ -2,16 +2,16 @@
 #define SIMULADORAVES_H
 
 #include "NdoAve.h"
+#include "../SimuladorGnr.h"
 #include <memory>
 using namespace std;
 
 #include "GrafoGnr.h"
 
-template <typename Ave>
-class SimuladorAves : public SimuladorGnr<Ave>
+class SimuladorAves : public SimuladorGnr<NdoAve>
 {
 public:
-    SimuladorAves(GrafoGnr<Vrs>* g);
+    SimuladorAves(GrafoGnr<NdoAve>* g);
     //~SimuladorAves();
 
     //REQ: que el grafo este bien construido

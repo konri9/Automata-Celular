@@ -68,7 +68,7 @@ public:
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-    void calcEst(vector<int>adyac);
+    void calcEst(vector<VerticeGnr*>& ady);
 
 
 protected:

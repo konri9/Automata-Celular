@@ -25,6 +25,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm> //max element
+#include "VerticeGnr.h"
 
 
 #ifndef NULL
@@ -75,7 +76,7 @@ public:
 //si pero eso en visualizador
     //REQ:
     //EFE:
-    void asignaColor () = 0;
+    void asignaColor() = 0;
 
 private:
     GrafoGnr<Vsz> grafo;
@@ -119,7 +120,6 @@ private:
 
     //EFE: Asigna colores dependiendo del estado del vertice del grafo
     //REQ:
-    void asignaColor()=0;
 
     /*Asigna el color al circulo, dependiendo de su estado*/
     void estadoVrt(int vrt);
@@ -139,7 +139,7 @@ public:
     vector <int> arrAdy;
     vector<double>posX, posY;
 
-    SimuladorVrs<Vsz> simulador;
+    SimuladorGnr<Vsz> *simulador;
 
     struct infosim
     {

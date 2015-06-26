@@ -69,8 +69,10 @@ public:
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
 
-    void calcEst<NdoAve>(const GrafoGnr<NdoAve>& grafo);
+    void calcEst(vector<VerticeGnr*>& ady);
 
+    Vector3 obtColor();
+    bool operator==(const VerticeGnr& vr) const;
 
 protected:
 

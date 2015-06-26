@@ -92,7 +92,7 @@ void NdoVrs::azarizarTmpChqVrs()
 }
 
 
-void NdoVrs::calcEst(vector<int> adyac)
+void NdoVrs::calcEst(vector<VerticeGnr*>& ady)
 {
     for(int i=0; i<adyac.size(); i++)
     {

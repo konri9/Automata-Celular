@@ -34,8 +34,7 @@ public:
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     //Metodo virtual puro
-    template <typename Nodo>
-    void calcEst(const GrafoGnr<Nodo>& grafo) = 0;
+    virtual void calcEst(vector<VerticeGnr*>& ady) = 0;
 
     //EFE: Devuelve el color del vertice dependiendo de su estado
     virtual Vector3 obtColor() = 0;
@@ -47,10 +46,10 @@ public:
 
     //asignador
     //metodo virtual puro
-    virtual void asignador() = 0;
+    //virtual void asignador() = 0;
 
     //cambio de estado
-    virtual void modEst() = 0 ;
+    //virtual void modEst() = 0 ;
 };
 
 //Puntero de vertice generico
