@@ -3,8 +3,7 @@
 #include "SimuladorAves.h"
 #include "NdoAve.h"
 
-template < typename Ave>
-SimuladorAves::SimuladorAves(GrafoGnr<NdoAves>* g): SimuladorGnr<Ave>(g)
+SimuladorAves::SimuladorAves(GrafoGnr<NdoAves>* g): SimuladorGnr<NdoAves>(g)
 {
     //ctor
 }

@@ -71,6 +71,8 @@ public:
     void visualizar(int cItr, int ios, double vsc, double rc, double grc);
 
 
+//hacer un metodo virtual puro que asigne el color
+//si pero eso en visualizador
     //REQ:
     //EFE:
     void asignaColor () = 0;
@@ -324,6 +326,8 @@ int VisualizadorGnr<Vsz>::vrtPopular()
 template < typename Vsz >
 void VisualizadorGnr<Vsz>::estadoVrt(int vrt)
 {
+    Vector3 vec = grafo[vrt].obtColor();
+    glColor3f(vec.x, vec.y, vec.z);
     /*if (grafo.obtEst(vrt) == Grafo::S) {
         glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }

@@ -76,15 +76,14 @@ void NdoAve::azarizarTmpChqVrs()
         tmpChqVrs = randy;
 }
 
-
-void NdoAve::calcEst(vector<int> adyac)
+void NdoAve::calcEst(const GrafoGnr<VerticeGnr*>& grafo)
 {
-    for(int i=0; i<adyac.size(); i++)
+    int cont = 0;
+    for(int i=0; i<grafo.obtTotAdy(); i++)
     {
-        if (obtEst() != NdoAves::S) return;
-        int cont = 0;
-        if(obtEst() == NdoAves::I) cont++;
-        if (cont == adyac.size()) modEst(NdoAves::I);
+        if (grafo[i]->obtEst() != NdoAves::S) return;
+        if(grafo[i]->obtEst() == NdoAves::I) cont++;
+        if (cont == grafo.obtTotAdy()) modEst(NdoAves::I);
     }
 }
 

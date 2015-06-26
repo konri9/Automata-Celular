@@ -1,13 +1,10 @@
 #include "SimuladorGnr.h"
 #include "NdoVrs.h"
 
-template < typename Vrs>
-SimuladorVrs::SimuladorVrs(GrafoGnr<NdoVrs>* g): SimuladorGnr<Vrs>(g)
+SimuladorVrs::SimuladorVrs(GrafoGnr<NdoVrs>* g): SimuladorGnr<NdoVrs>(g)
 {
     //ctor
 }
-//hacer un metodo virtual puro que asigne el color
-
 //SimuladorVrs::~SimuladorVrs() {
 //}
 

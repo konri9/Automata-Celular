@@ -40,6 +40,20 @@ NdoVrs::E NdoVrs::obtEst() const
         return e;
 }
 
+Vector3 NdoVrs::obtColor()
+{
+    if (obtEst(vrt) == NdoVrs::S) {
+        return Vector3(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
+    }
+    if (obtEst(vrt) == NdoVrs::I) {
+        return Vector3(1.0, 0.0, 0.0);//Color rojo -> vertice infectado
+    }
+    if (obtEst(vrt) == NdoVrs::R) {
+        return Vector3(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
+    }
+    return Vector3 (1.0, 1.0, 1.0); //BLANCO
+}
+
 int NdoVrs::obtTmpChqVrs() const
 {
     return tmpChqVrs;

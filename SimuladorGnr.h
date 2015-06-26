@@ -56,6 +56,8 @@ public:
 
     void asignarGrafo(GrafoGnr<Sm> *g);
 
+    // EFE: Asigna las adyacencias del vertice vrt en el vector vec
+    void obtAdy(int vrt, vector<Sm>& vec);
     //EFE: Inicializa los datos para la simulacion
     virtual void setup()=0;
 
@@ -66,7 +68,6 @@ private:
 
 };
 
-template < typename Sm>
 bool prob(double probability) // probability < 1
 {
     double result = (double)rand() / (double)RAND_MAX;
@@ -96,6 +97,30 @@ template < typename Sm >
 void SimuladorGnr<Sm>::asignarGrafo(GrafoGnr<Sm>* g)
 {
     grafo = g;
+}
+
+template < typename Sm >
+void SimuladorGnr<Sm>::obtAdy(vector<Sm>& vec)
+{
+    vec.clear();
+    vector<int> ady;
+    grafo->obtAdy(vrt, ady);
+    for (int i = 0; i < grafo->obtCntAdy(vrt); i++)
+    {
+        vec.push_back(grafo[ady[i]]);
+    }
+}
+
+template < typename Sm >
+void SimuladorGnr<Sm>::obtEstadosTotales(vector<Sm>& vec)
+{
+    vec.clear();
+    vector<NdoVrt::e> estados;
+    grafo->obtAdy(vrt, ady);
+    for (int i = 0; i < grafo->obtTotVrt(); i++)
+    {
+        vec.push_back(grafo[ady[i]]);
+    }
 }
 
 

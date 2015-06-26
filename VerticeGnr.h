@@ -11,7 +11,22 @@ bool prob(double probability);
 
 using namespace std;
 
-class NdoVrt
+// Para definir el color del vertice
+struct Vector3
+{
+    double x, y, z;
+    Vector3()
+    {
+        x = 0; y = 0; z = 0;
+    };
+
+    Vector3(double nx, double ny, double nz)
+    {
+        x = nx; y = ny; z = nz;
+    };
+};
+
+class VerticeGnr
 {
 
 public:
@@ -19,39 +34,32 @@ public:
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     //Metodo virtual puro
-    void calcEst(vector<int>adyac) = 0;
+    template <typename Nodo>
+    void calcEst(const GrafoGnr<Nodo>& grafo) = 0;
+
+    //EFE: Devuelve el color del vertice dependiendo de su estado
+    virtual Vector3 obtColor() = 0;
 
      // EFE: retorna true si *this == o, false en caso contrario.
      //comparador
     // metodo virtual puro
-    bool operator==(const VerticeGnr& vr) const =0;
+    virtual bool operator==(const VerticeGnr& vr) const =0;
 
     //asignador
     //metodo virtual puro
-
-    void asignador() = 0;
+    virtual void asignador() = 0;
 
     //cambio de estado
-    void modEst() = 0 ;
+    virtual void modEst() = 0 ;
 };
 
 //Puntero de vertice generico
 //vector<VerticeGrn*>ne
 //ne[i]->metodo();
 
-VerticeGnr::void calcEst(vector<int>adyac)
-{
-    for(int i=0; i<adyac.size(); i++)
-    {
-        if (obtEst() != NdoVrt::S) return;
-        int cont = 0;
-        if(obtEst() == NdoVrt::I) cont++;
-        if (cont == adyac.size()) modEst(NdoVrt::I);
-    }
-}
 
 
-}
+
 
 
 

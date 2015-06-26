@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 
-#include "GrafoGnr.h"
+#include "../GrafoGnr.h"
+#include "../VerticeGnr.h"
 
 bool prob(double probability);
 
@@ -21,8 +22,8 @@ public:
     {
         R, // representa un vertice de ave relajada
 		S, // representa un vértice de ave estresada
-        I, // representa un vértice de ave
-        R, // representa un vértice resistente
+        SS, // representa un vértice de ave estresandose
+        SSS // representa un vÉrtice de ave essstresandose
     };
 
 
@@ -67,7 +68,8 @@ public:
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-    void calcEst(vector<int>adyac);
+
+    void calcEst<NdoAve>(const GrafoGnr<NdoAve>& grafo);
 
 
 protected:

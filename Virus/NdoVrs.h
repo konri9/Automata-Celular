@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 
-#include "GrafoGnr.h"
+#include "../GrafoGnr.h" //los .. es porque el GrafoGnr.h esta una carpeta mas arriba
+#include "../VerticeGnr.h"//ok
 
 bool prob(double probability);
 
@@ -39,6 +40,8 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
     int obtCntChVrs() const;
+
+    Vector3 obtColor();
 
 
     /* MÉTODOS MODIFICADORES */
