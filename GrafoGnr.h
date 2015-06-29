@@ -76,7 +76,7 @@ public:
 
     // Este metodo es para saber que no estoy reescribiendo una adyacencia
     //por aquello
-    bool yala (int element, vector<int>& vec) const;
+    bool nola (int element, vector<int>& vec) const;
 
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -258,26 +258,26 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
             for(int j = 0; j < columnas; j++)
             {
 
-                if (carton[i][j] != 1); // hay un ave
-                {
+               if (carton[i][j] != 0); // hay un ave entonces se fija en sus vecinos
+               {
                     //     arrVrt[cont].vrt = 1;
                     //Ndo *banano = &grafo[cont];
                     //banano = 1;
                     //Busco los vecinos inmediatos(difieren en un digito...
                     if (i>0) // se puede fijar en la fila de arriba de paso me voy a fijar en los diagonales
                     {
-                        if(carton[i-1][j] != 0)
+                        if(carton[i-1][j] != 0) //arriba
                         {
-                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
-                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if(nola(carton[i-1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j]);
+                            if(nola(carton[i-1][j],arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j]);
                         }
                         if (j>0) //arriba izquierda
                         {
-                            if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j+1]);
                         }
-                        if(j<columnas-1)
+                        if(j<columnas-1) //arriba derecha
                         {
-                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
                         }
                     }
                  }
@@ -286,42 +286,42 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                     {
                         if(carton[i+1][j] != 0)
                         {
-                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
-                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if (nola(carton[i+1][j]), arrVrt[cont].lstAdy) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
+                            if (nola(carton[i+1][j]), arrVrt[cont].lstAdy) arrVrt[cont].radioAdy.push_back(carton[i+1][j]);
+
                         }
 
-                         if (j>0) //arriba izquierda
+                         if (j>0) //abajo izquierda
                         {
-                            if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j+1]);
                         }
-                        if(j<columnas-1)
+                        if(j<columnas-1) //abajo derecha
                         {
-                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
                         }
                     }
 
-                    if (j>0)
+                    if (j>0) //Agrega a la izquierda
                     {
                         if(carton[i][j-1] != 0)
                         {
-                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
-                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].lstAdy.push_back(carton[i][j-1]);
+                        if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].radioAdy.push_back(carton[i][j-1]);
                         }
                     }
 
-                    if (j<columnas-1)
+                    if (j<columnas-1) //agrega a la derecha
                     {
-                        if(carton[i][j+1] != 0)
+                        if(carton[i][j+1] != 0 )
                         {
-                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
-                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
+                            if (nola(carton[i][j+1]), arrVrt[cont].lstAdy) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
+                            if (nola(carton[i][j+1]), arrVrt[cont].lstAdy) arrVrt[cont].radioAdy.push_back(carton[i][j+1]);
                         }
                     }
-                    // ahora los que completarian el radioAdy
                     // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
                 }
             }
-            cont++;
+                cont++;
         }
         //  delete [] carton; //evitar fugas de memoria
 }
@@ -422,18 +422,13 @@ void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
 }
 
 template < typename V >
-bool GrafoGnr< V >::yala (int element, vector<int>& vec) const
+bool GrafoGnr< V >::nola (int element, vector<int>& vec) const
 {
     for(int i=0; i<vec.size(); i++){
         if(vec[i] == element ) return false;
     }
     return true;
 }
-
-
-
-
-
 
 template < typename V >
 int GrafoGnr<V>::obtCntAdy(int vrt) const
