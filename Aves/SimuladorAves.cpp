@@ -67,14 +67,14 @@ void SimuladorAves::setup(int cntIter)
 void SimuladorAves::go(int cntItr)
 {
 	if (obtGrafo() == NULL) return;
-	int tempor ,contemp;
+	int tempor  ,contemp = 0 ;
     for (int i = 0; i < cntItr; i++)
     {
         for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
         {
             NdoAve *nodo = &(*obtGrafo())[j];
             vector<int>ady;
-            grafo->obtAdy(j,ady);
+            obtGrafo()->obtAdy(j,ady);
             if (nodo->obtEst() == NdoAve::S)// si el ave esta estresada
             {
                 tempor = nodo->obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus

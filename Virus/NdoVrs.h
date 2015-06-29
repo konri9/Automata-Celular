@@ -71,9 +71,9 @@ public:
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     void calcEst(vector<VerticeGnr*>& ady);
 
-    bool operator==(const VerticeGnr& vr);
-    
-    void operator=(const NdoVrs& vr);
+    //bool operator==(const VerticeGnr& vr);
+
+    void operator=(const VerticeGnr& vr) const;
 
 protected:
 

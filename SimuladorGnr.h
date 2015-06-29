@@ -65,7 +65,6 @@ public:
 
 private:
     GrafoGnr<Sm> *grafo;
-
 };
 
 template < typename Sm>

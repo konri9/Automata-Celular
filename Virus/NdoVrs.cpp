@@ -101,14 +101,15 @@ void NdoVrs::calcEst(vector<VerticeGnr*>& ady)
     }
 }
 
-bool NdoVrs::operator==(const VerticeGnr& vr)
+/*bool NdoVrs::operator==(const VerticeGnr& vr)
 {
-    
-}
 
-void NdoVrs::operator=(const NdoVrs& vr)
+}*/
+
+void NdoVrs::operator=(const VerticeGnr& vr)
 {
-    e = vr.e;
-    tmpChqVrs = vr.tmpChqVrs;
-    cntChqVrs = vr.cntChqVrs;
+    NdoVrs *vrs = (NdoVrs*)vr;
+    e = vrs.e;
+    tmpChqVrs = vrs.tmpChqVrs;
+    cntChqVrs = vrs.cntChqVrs;
 }

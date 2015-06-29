@@ -46,8 +46,8 @@ public:
     int obtCntChVrs() const;
 
 	Vector3 obtColor();
-	
-	
+
+
     /* MÉTODOS MODIFICADORES */
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -75,9 +75,9 @@ public:
 
     void calcEst(vector<VerticeGnr*>& ady);
 
-    bool operator==(const VerticeGnr& ave) const;
-	
-	void operator=(const NdoAve& ave);
+    //bool operator==(const VerticeGnr& vr) const;
+
+	void operator=(const VerticeGnr& vr) const;
 
 protected:
 
