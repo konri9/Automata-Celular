@@ -11,7 +11,7 @@
 
 #include "Parse.h"
 #include "GrafoGnr.h"
-#include "NdoVrt.h"
+//#include "NdoVrt.h"
 #include "Virus/SimuladorVrs.h"
 #include "Virus/VisualizadorVrs.h"
 #ifdef _WIN32 || WIN32
@@ -151,7 +151,7 @@ void *loop(void *arg)
                         VisualizadorVrs v(*grafo);
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-                        
+
                         v.asignarSimulador(&sv);
                         sv.asignarValores(ios, vsc, rc, grc);
                         sv.setup(ios);

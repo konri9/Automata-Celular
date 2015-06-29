@@ -15,18 +15,18 @@
 
 using namespace std;
 
-bool prob(double probability) // probability < 1
-{
-    double result = (double)rand() / (double)RAND_MAX;
-    if(result < probability)
-        return true;
-    return false;
-}
-
 NdoAve::NdoAve(){
     e = S;
     azarizarTmpChqVrs();
 }
+
+NdoAve::NdoAve(const NdoAve& ave){
+	e = ave.e;
+	tmpChqVrs = ave.tmpChqVrs;
+	cntChqVrs = ave.cntChqVrs;
+
+}
+
 
 NdoAve::~NdoAve()
 {
@@ -38,6 +38,21 @@ NdoAve::E NdoAve::obtEst() const
 {
         return e;
 }
+
+Vector3 NdoAve::obtColor()
+{
+	if (obtEst() == NdoAve::R) {
+        return Vector3(1.0, 1.0, 1.0); //Color blanco -> ave relajada
+    }
+    if (obtEst() == NdoAve::S) {
+        return Vector3(1.0, 0.0, 0.0); //Color rojo-> ave estresada
+    }
+    if (obtEst() == NdoAve::P) {
+        return Vector3(1.0, 0.5, 0.0); //Color naranja-> ave ya terminada
+    }
+    return Vector3 (1.0, 1.0, 1.0); //BLANCO
+}
+
 
 int NdoAve::obtTmpChqVrs() const
 {
@@ -81,10 +96,11 @@ void NdoAve::calcEst(vector<VerticeGnr*>& ady)
     int cont = 0;
     for(int i=0; i<ady.size(); i++)
     {
+
         NdoAve *ave = (NdoAve*)ady[i];
-        if (ave->obtEst() != NdoAve::S) return;
-        if(ave->obtEst() == NdoAve::SS) cont++;
-        if (cont == ady.size()) modEst(NdoAve::SSS);
+        if (ave->obtEst() != NdoAve::P) return;
+        if(ave->obtEst() == NdoAve::S) cont++;
+        if (cont == ady.size()) modEst(NdoAve::S);
     }
 }
 

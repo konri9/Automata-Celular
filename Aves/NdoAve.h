@@ -21,14 +21,16 @@ public:
     enum E  // representa el nivel de estres de las aves
     {
         R, // representa un vertice de ave relajada
-		S, // representa un vértice de ave estresada
-        SS, // representa un vértice de ave estresandose
-        SSS // representa un vÉrtice de ave essstresandose
+		S, // representa un vértice de ave con estresada
+        P, // representa un vértice de ave ya terminada
+     //   SSS // representa un vÉrtice de ave estresada
     };
 
 
     NdoAve();
-   // NdoAves(string str);
+	NdoAve(const NdoAve& vr);
+	//ctor de copias
+
     virtual ~NdoAve();
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -43,7 +45,9 @@ public:
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
     int obtCntChVrs() const;
 
-
+	Vector3 obtColor();
+	
+	
     /* MÉTODOS MODIFICADORES */
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -71,8 +75,9 @@ public:
 
     void calcEst(vector<VerticeGnr*>& ady);
 
-    Vector3 obtColor();
-    bool operator==(const VerticeGnr& vr) const;
+    bool operator==(const VerticeGnr& ave) const;
+	
+	void operator=(const NdoAve& ave);
 
 protected:
 

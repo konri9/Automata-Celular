@@ -1,17 +1,18 @@
-#ifndef NDOVRT_H
-#define NDOVRT_H
+#ifndef NDOVRS_H
+#define NDOVRS_H
 
 #include <memory>
 #include <vector>
 #include <string>
 
-#include "GrafoGnr.h"
+#include "../GrafoGnr.h"
+#include "../VerticeGnr.h"
 
 bool prob(double probability);
 
 using namespace std;
 
-class NdoVrt : public VerticeGnr
+class NdoVrs : public VerticeGnr
 {
 
 public:
@@ -24,9 +25,10 @@ public:
     };
 
 
-    NdoVrt();
-   // NdoVrt(string str);
-    virtual ~NdoVrt();
+    NdoVrs();
+    NdoVrs(const NdoVrs& vr);
+   // NdoVrs(string str);
+    virtual ~NdoVrs();
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el estado del vértice con índice vrt.
@@ -39,6 +41,8 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
     int obtCntChVrs() const;
+
+    Vector3 obtColor();
 
 
     /* MÉTODOS MODIFICADORES */
@@ -65,8 +69,11 @@ public:
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-    void calcEst(vector<int>adyac);
+    void calcEst(vector<VerticeGnr*>& ady);
 
+    bool operator==(const VerticeGnr& vr);
+    
+    void operator=(const NdoVrs& vr);
 
 protected:
 
@@ -77,4 +84,4 @@ private:
         // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 
-#endif // NDOVRT_H
+#endif // NDOVRS_H

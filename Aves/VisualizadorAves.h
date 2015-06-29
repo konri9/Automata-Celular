@@ -15,18 +15,15 @@
 #include <memory>
 using namespace std;
 
-#include "../VisualizadorGnr.h"
 #include "../GrafoGnr.h"
 #include "SimuladorAves.h"
+#include "../VisualizadorGnr.h"
 #include "NdoAve.h"
 
 class VisualizadorAves : public VisualizadorGnr<NdoAve>{
-    // Permite la visualizaci�n gr�fica de una instancia de Grafo.
-
 public:
     VisualizadorAves(const GrafoGnr<NdoAve>& g);
     ~VisualizadorAves();
-
     void asignaColor();
 private:
 };
