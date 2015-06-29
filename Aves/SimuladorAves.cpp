@@ -2,7 +2,7 @@
 #include "NdoAve.h"
 #include <cstdlib>
 
-bool prob(double probability) // probability < 1
+bool proba(double probability) // probability < 1
 {
     double result = (double)rand() / (double)RAND_MAX;
     if(result <= probability)

@@ -108,13 +108,11 @@ void NdoAve::calcEst(vector<VerticeGnr*>& ady)
 {
 
 }*/
-
-void NdoAve::operator=(const VerticeGnr& vr) const
+//crea una copia del vertice que r
+/*void NdoAve::operator=(const VerticeGnr& vr) const
 {
     const NdoAve *ave = (const NdoAve*)&vr;
-    e = ave->e;
-    tmpChqVrs = ave->tmpChqVrs;
-    cntChqVrs = ave->cntChqVrs;
-}
+    this->e = ave->obtEst() ;
+}*/
 
 

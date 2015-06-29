@@ -77,7 +77,7 @@ public:
 
     //bool operator==(const VerticeGnr& vr) const;
 
-	void operator=(const VerticeGnr& vr) const;
+//	void operator=(const VerticeGnr& vr) const;
 
 protected:
 
