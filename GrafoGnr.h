@@ -192,6 +192,7 @@ GrafoGnr< V >::GrafoGnr(const GrafoGnr< V >& orig)
         arrVrt.resize(this->cntVrt);
         for (int i = 0; i < this->cntVrt; i++)
         {
+            arrVrt[i].vrt = orig.arrVrt[i].vrt;
             for (int j = 0; j < orig.arrVrt[i].lstAdy.size(); j++)
                 arrVrt[i].lstAdy.push_back(orig.arrVrt[i].lstAdy[j]);
         }

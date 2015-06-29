@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 
-#include "../GrafoGnr.h" //los .. es porque el GrafoGnr.h esta una carpeta mas arriba
-#include "../VerticeGnr.h"//ok
+#include "../GrafoGnr.h"
+#include "../VerticeGnr.h"
 
 bool prob(double probability);
 
@@ -26,6 +26,7 @@ public:
 
 
     NdoVrs();
+    NdoVrs(const NdoVrs& vr);
    // NdoVrs(string str);
     virtual ~NdoVrs();
 
@@ -71,6 +72,8 @@ public:
     void calcEst(vector<VerticeGnr*>& ady);
 
     bool operator==(const VerticeGnr& vr);
+    
+    void operator=(const NdoVrs& vr);
 
 protected:
 

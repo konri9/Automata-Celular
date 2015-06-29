@@ -20,6 +20,13 @@ NdoVrs::NdoVrs(){
     azarizarTmpChqVrs();
 }
 
+NdoVrs::NdoVrs(const NdoVrs& vr)
+{
+    e = vr.e;
+    tmpChqVrs = vr.tmpChqVrs;
+    cntChqVrs = vr.cntChqVrs;
+}
+
 NdoVrs::~NdoVrs()
 {
     //dtor
@@ -96,5 +103,12 @@ void NdoVrs::calcEst(vector<VerticeGnr*>& ady)
 
 bool NdoVrs::operator==(const VerticeGnr& vr)
 {
+    
+}
 
+void NdoVrs::operator=(const NdoVrs& vr)
+{
+    e = vr.e;
+    tmpChqVrs = vr.tmpChqVrs;
+    cntChqVrs = vr.cntChqVrs;
 }

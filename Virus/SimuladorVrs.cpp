@@ -31,7 +31,7 @@ void SimuladorVrs::setup(int vrtInf)
 {
     if (obtGrafo() == NULL) return;
     srand(time(NULL));
-    int tempor ,cont = 0, contemp;
+    int tempor ,cont = 0, contemp, cant_infectados = 0, cant_resistentes = 0;
     estados.clear();
     estados.resize(obtGrafo()->obtTotVrt());
     int id = rand() % obtGrafo()->obtTotVrt();
@@ -39,8 +39,16 @@ void SimuladorVrs::setup(int vrtInf)
     {
         NdoVrs *nodo = &(*obtGrafo())[i];
         estados[i] = nodo->obtEst();
+        if (nodo->obtEst() == NdoVrs::I)
+        {
+            cant_infectados++;
+        }
+        else if (nodo->obtEst() == NdoVrs::R)
+        {
+            cant_resistentes++;
+        }
     }
-    while (cont<ios)
+    while (cont<ios && cant_infectados + cant_resistentes != obtGrafo()->obtTotVrt())
     {
         NdoVrs *ndo = &(*obtGrafo())[id];
         if (obtGrafo()->xstVrt(id)&& ndo->obtEst() == NdoVrs::S)
@@ -48,6 +56,7 @@ void SimuladorVrs::setup(int vrtInf)
             ndo->modEst(NdoVrs::I);
             estados[id] = NdoVrs::I;
             cont++;
+            cant_infectados++;
         }
         else
         {

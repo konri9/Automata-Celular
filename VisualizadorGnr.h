@@ -181,11 +181,11 @@ VisualizadorGnr<Vsz>::~VisualizadorGnr()
 template < typename Vsz >
 void VisualizadorGnr<Vsz>::visualizar() const
 {
-    glutPostRedisplay();
 #ifdef _WIN32 || WIN32
     SetForegroundWindow(hwnd);
     SetFocus(hwnd);
 #endif
+    glutPostRedisplay();
 }
 
 template < typename Vsz >
