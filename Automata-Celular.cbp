@@ -50,8 +50,6 @@
 		<Unit filename="Aves/VisualizadorAves.cpp" />
 		<Unit filename="Aves/VisualizadorAves.h" />
 		<Unit filename="GrafoGnr.h" />
-		<Unit filename="NdoVrt.cpp" />
-		<Unit filename="NdoVrt.h" />
 		<Unit filename="Parse.cpp" />
 		<Unit filename="Parse.h" />
 		<Unit filename="SimuladorGnr.h" />
