@@ -20,10 +20,10 @@ SimuladorAves::SimuladorAves(GrafoGnr<NdoAve>* g): SimuladorGnr<NdoAve>(g)
 //}
 void  SimuladorAves::asignarValores(int nios, double nvsc, double nrc, double ngrc)
 {
-	ios = nios;
-	vsc = nvsc;
-	rc = nrc;
-	grc = ngrc;
+    ios = nios;
+    vsc = nvsc;
+    rc = nrc;
+    grc = ngrc;
 }
 
 void SimuladorAves::setup(int cntIter)
@@ -34,19 +34,20 @@ void SimuladorAves::setup(int cntIter)
     estados.clear();
     estados.resize(obtGrafo()->obtTotVrt());
     int id = rand() % obtGrafo()->obtTotVrt();
-    for (int i = 0; i < estados.size(); i++)
+    for (int i = 0; i < estados.size(); i++) //Llena el vector de estados
     {
         NdoAve *nodo = &(*obtGrafo())[i];
         estados[i] = nodo->obtEst();
-		if(nodo ->obtEst() == NdoAve::S)
-		{
-			cant_estresados++;
-    	}
-		else if (nodo->obtEst()== NdoAve::R)
-		{
-			cant_prd++;
-		}
-	}
+        if(nodo ->obtEst() == NdoAve::S)
+        {
+            cant_estresados++;
+        }
+        else if (nodo->obtEst()== NdoAve::R)
+        {
+            cant_prd++;
+        }
+    }
+    //Estresador() jaja
     while (cont<ios && cant_estresados+cant_prd != obtGrafo()->obtTotVrt())
     {
         NdoAve *ndo = &(*obtGrafo())[id];
@@ -55,7 +56,7 @@ void SimuladorAves::setup(int cntIter)
             ndo->modEst(NdoAve::S);
             estados[id] = NdoAve::S;
             cont++;
-			cant_estresados++;
+            cant_estresados++;
         }
         else
         {
@@ -66,49 +67,46 @@ void SimuladorAves::setup(int cntIter)
 
 void SimuladorAves::go(int cntItr)
 {
-	if (obtGrafo() == NULL) return;
-	int tempor  ,contemp = 0 ;
-    for (int i = 0; i < cntItr; i++)
+//Esto es totalmente diferente
+// no se ocupan las probabiliades
+    if (obtGrafo() == NULL) return;
+    int cont_paridos = 0;
+    bool dele = true;
+    while (dele)
     {
-        for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
+        for (int i = 0; i < cntItr; i++)
         {
-            NdoAve *nodo = &(*obtGrafo())[j];
-            vector<int>ady;
-            obtGrafo()->obtAdy(j,ady);
-            if (nodo->obtEst() == NdoAve::S)// si el ave esta estresada
+            for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
             {
-                tempor = nodo->obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
-                contemp = nodo->obtCntChVrs(); //obtiene el contador de chequeo de virus
-                for (int k = 0; k < ady.size(); k++)
+                NdoAve *nodo = &(*obtGrafo())[j];
+                vector<int>ady;
+                obtGrafo()->obtAdy(j,ady);
+                nodo->calcEst(j);  //deberia de ser == 4 y que calc est devuelva un valor... asi le puedo mandar el radioAdy
+                // se analiza el nuevo estado (deveria retornar e)
+                // si inmediatamente adyacentes estan estresados entonces se estresa
+                if (nodo->calcEst(lstAdy[j]) == 4)
                 {
-                    NdoAve *nodo2 = &(*obtGrafo())[ady[k]];
-                    if (nodo2->obtEst() != NdoAve::P && nodo2->obtEst() != NdoAve::S && prob(vsc))// y el adyacente no es resistente
-                    {
-                        //nodo2->modEst(NdoAve::I);//infecta los demas vertices
-                        estados[ady[k]] = NdoAve::S;
-                    }
+                    estados[j] = NdoAve::S;
+
                 }
-                if (tempor == contemp)// si el temporizador es igual que el contador
+                if(nodo->calcEst(radioAdy[j] == 7) // todos los que le rodean estan estresados entonces pone un huevo :D
                 {
-                    if (prob(rc))
-                    {
-                        //nodo->modEst(NdoAve::S);
-                        estados[j] = NdoAve::R;
-                        if (prob(grc))
-                        {
-                          //  nodo->modEst(NdoAve::P);
-                            estados[j] = NdoAve::P;
-                        }
-                    }
+                estados[j] = NdoAve::P;
+                    cont_paridos++;
                 }
-                nodo->actCntChqVrs();
+                if (cont_paridos == obtGrafo()->obtTotVrt()) // ya todos parieron xD
+                {
+                // hacer algo que indique que ya se termino el programa...
+                dele = false;
+                }
+
             }
         }
+    }
 
-        for (int i = 0; i < estados.size(); i++)
-        {
-            NdoAve *nodo = &(*obtGrafo())[i];
-            nodo->modEst(estados[i]);
-        }
+for (int i = 0; i < estados.size(); i++)
+    {
+        NdoAve *nodo = &(*obtGrafo())[i];
+        nodo->modEst(estados[i]);
     }
 }

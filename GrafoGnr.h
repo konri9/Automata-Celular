@@ -43,6 +43,9 @@ public:
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
     GrafoGnr(int n, double prbAdy);
 
+    GrafoGnr(int filas, int columnas, int cntAves);
+
+
     // Construye una copia idéntica a orig.
     GrafoGnr(const GrafoGnr< V >& orig);
 
@@ -111,10 +114,12 @@ private:
     {
         V vrt;
         vector <int> lstAdy; // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
+        vector <int> radioAdy;
     };
 
     int cntVrt; // representa la cantidad total de vértices
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
+    int** carton;
 };
 
 
@@ -181,6 +186,124 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
         //}
     }
 }
+template <typename V>
+GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
+{
+    if (cntAves> 1000)  return; // ERROR el visualizador no la soporta, por el tama;o de la ventana (para mantener el orden)
+    if(cntAves>filas*columnas ) return ;//ERROR  no caben las aves
+    this->cntVrt = cntAves;
+    arrVrt.resize(cntVrt);
+    carton = new int*[filas]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
+
+    // se crea un array para cada columna
+    for(int i = 0; i < filas; i++)
+        carton [i] = new int[columnas];
+
+    // Se rellena la matriz con ceros
+    for(int i = 0; i < filas; i++)
+    {
+        for(int j = 0; j < columnas; j++)
+        {
+            carton [i][j] = 0;
+        }
+    }
+
+    // int  xstAdyD = xstAdyI / 100.0; // se genera un valor al azar entre 0 y 1.
+    // if ( xstAdyD <= prbAdy)   // determinamos si nacen o no aves adyacentes en el cercanas
+
+    // Se generan asignan posiciones a las aves al azar
+    //int rando = rand()  % filas, rando2 = rand()% columnas,
+    int val ;
+    int index = 1, cont = 0, valorFilas, valorColumnas;
+    while (cont< cntAves)
+    {
+        valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
+        valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
+        val = carton[valorFilas][valorColumnas];
+        cout<< "el valor de filas es -> " << valorFilas << endl;
+        cout<< "el valor de columnas es ->" << valorColumnas<<endl;
+       // cout << val<< endl;
+        if (val == 0)// si en esa entrada no hay un ave
+        {
+            carton[valorFilas][valorColumnas] = index ;
+            val = carton[valorFilas][valorColumnas];
+            index++;
+            cout<< "el valor es "<<val << endl;
+            cont++;
+        }
+        else
+        {
+            valorFilas = rand()%filas;
+            valorColumnas =rand()%filas;
+            val = carton[valorFilas][valorColumnas];
+        }
+
+    }
+    //Rellena las adyacencias inmediatas y el radioAdyacente
+    cont = 0;
+    while (cont < cntAves) // esto es para fijarme en todas las adyacencias por ave
+    {
+        for (int i = 0; i < filas; i++)
+        {
+            for(int j = 0; j < columnas; j++)
+            {
+                if (carton[i][j] != 1); // hay un ave
+                {
+                    //     arrVrt[cont].vrt = 1;
+                    //Ndo *banano = &grafo[cont];
+                    //banano = 1;
+                    //Busco los vecinos inmediatos(difieren en un digito...
+                    if (i>0) // se puede fijar en la fila de arriba de paso me voy a fijar en los diagonales
+                    {
+                        if(carton[i-1][j] != 0)
+                        {
+                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
+                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
+                        if (j>0){
+                        if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                       }
+                    }
+
+                    if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
+                    {
+                        if(carton[i+1][j] != 0)
+                        {
+                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
+                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
+                        if(carton[][] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        if(carton[][] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                    }
+
+                    if (j>0)
+                    {
+                        if(carton[i][j-1] != 0)
+                        {
+                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
+                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
+                    }
+
+                    if (j>columnas-1)
+                    {
+                        if(carton[i][j+1] != 0)
+                        {
+                        arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        arrVrt[cont].lstAdy.push_back(carton[i][j]);
+                        }
+                    }
+                    // ahora los que completarian el radioAdy
+                    // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
+                }
+            }
+            cont++;
+        }
+        //  delete [] carton; //evitar fugas de memoria
+    }
+}
+
 
 
 template < typename V >
