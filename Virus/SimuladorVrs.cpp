@@ -1,5 +1,16 @@
-#include "SimuladorGnr.h"
+#include "SimuladorVrs.h"
 #include "NdoVrs.h"
+#include <cstdlib>
+
+bool prob(double probability) // probability < 1
+{
+    double result = (double)rand() / (double)RAND_MAX;
+    if(result <= probability)
+    {
+        return true;
+    }
+    return false;
+}
 
 SimuladorVrs::SimuladorVrs(GrafoGnr<NdoVrs>* g): SimuladorGnr<NdoVrs>(g)
 {
@@ -8,23 +19,31 @@ SimuladorVrs::SimuladorVrs(GrafoGnr<NdoVrs>* g): SimuladorGnr<NdoVrs>(g)
 //SimuladorVrs::~SimuladorVrs() {
 //}
 
-void SimuladorVrs::setup()
+void SimuladorVrs::asignarValores(int nios, double nvsc, double nrc, double ngrc)
 {
-    if (grafo == NULL) return;
+    ios = nios;
+    vsc = nvsc;
+    rc = nrc;
+    grc = ngrc;
+}
+
+void SimuladorVrs::setup(int vrtInf)
+{
+    if (obtGrafo() == NULL) return;
     srand(time(NULL));
     int tempor ,cont = 0, contemp;
-    vector<NdoVrs::E> estados;
-    estados.resize(grafo->obtTotVrt());
-    int id = rand() % grafo->obtTotVrt();
+    estados.clear();
+    estados.resize(obtGrafo()->obtTotVrt());
+    int id = rand() % obtGrafo()->obtTotVrt();
     for (int i = 0; i < estados.size(); i++)
     {
-        NdoVrs *nodo = &(*grafo)[i];
+        NdoVrs *nodo = &(*obtGrafo())[i];
         estados[i] = nodo->obtEst();
     }
     while (cont<ios)
     {
-        NdoVrs *ndo = &(*grafo)[id];
-        if (grafo->xstVrt(id)&& ndo->obtEst() == NdoVrs::S)
+        NdoVrs *ndo = &(*obtGrafo())[id];
+        if (obtGrafo()->xstVrt(id)&& ndo->obtEst() == NdoVrs::S)
         {
             ndo->modEst(NdoVrs::I);
             estados[id] = NdoVrs::I;
@@ -32,48 +51,44 @@ void SimuladorVrs::setup()
         }
         else
         {
-            id = rand() % grafo->obtTotVrt();
+            id = rand() % obtGrafo()->obtTotVrt();
         }
     }
 }
 
-
-
-
-template < typename Vrs>
-void SimuladorVrs::go()
+void SimuladorVrs::go(int cntItr)
 {
+    if (obtGrafo() == NULL) return;
+    int tempor, contemp;
     for (int i = 0; i < cntItr; i++)
     {
-        for (int j = 0; j < grafo->obtTotVrt(); j++)
+        for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
         {
-            go(j);//
-
-            NdoVrs *nodo = &(*grafo)[j];
+            NdoVrs *nodo = &(*obtGrafo())[j];
             vector<int>ady;
-            grafo->obtAdy(j,ady);
+            obtGrafo()->obtAdy(j,ady);
             if (nodo->obtEst() == NdoVrs::I)// si el vertice esta infectado
             {
                 tempor = nodo->obtTmpChqVrs(); //obtiene el temporizador de checkeo de virus
                 contemp = nodo->obtCntChVrs(); //obtiene el contador de chequeo de virus
                 for (int k = 0; k < ady.size(); k++)
                 {
-                    NdoVrs *nodo2 = &(*grafo)[ady[k]];
+                    NdoVrs *nodo2 = &(*obtGrafo())[ady[k]];
                     if (nodo2->obtEst() != NdoVrs::R && nodo2->obtEst() != NdoVrs::I && prob(vsc))// y el adyacente no es resistente
                     {
-                        nodo2->modEst(NdoVrs::I);//infecta los demas vertices
-                        estados[k] = NdoVrs::I;
+                        //nodo2->modEst(NdoVrs::I);//infecta los demas vertices
+                        estados[ady[k]] = NdoVrs::I;
                     }
                 }
                 if (tempor == contemp)// si el temporizador es igual que el contador
                 {
                     if (prob(rc))
                     {
-                        nodo->modEst(NdoVrs::S);
+                        //nodo->modEst(NdoVrs::S);
                         estados[j] = NdoVrs::S;
                         if (prob(grc))
                         {
-                            nodo->modEst(NdoVrs::R);
+                            //nodo->modEst(NdoVrs::R);
                             estados[j] = NdoVrs::R;
                         }
                     }
@@ -84,7 +99,7 @@ void SimuladorVrs::go()
 
         for (int i = 0; i < estados.size(); i++)
         {
-            NdoVrs *nodo = &(*grafo)[i];
+            NdoVrs *nodo = &(*obtGrafo())[i];
             nodo->modEst(estados[i]);
         }
     }

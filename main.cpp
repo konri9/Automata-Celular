@@ -12,9 +12,8 @@
 #include "Parse.h"
 #include "GrafoGnr.h"
 #include "NdoVrt.h"
-#include "SimuladorGnr.h"
-#include "SimuladorVrs.h"
-#include "VisualizadorGnr.h"
+#include "Virus/SimuladorVrs.h"
+#include "Virus/VisualizadorVrs.h"
 #ifdef _WIN32 || WIN32
 #include <windows.h>
 #include <process.h>
@@ -60,8 +59,8 @@ void loop(void *arg)
 void *loop(void *arg)
 #endif
 {
-    GrafoGnr<NdoVrt> *grafo = NULL;
-    SimuladorVrs<NdoVrt> sv(grafo);
+    GrafoGnr<NdoVrs> *grafo = NULL;
+    SimuladorVrs sv(grafo);
     cout << "Automata Celular\n";
     while (true)
     {
@@ -81,7 +80,7 @@ void *loop(void *arg)
                     try
                     {
                         if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr<NdoVrt>(param.c_str());
+                        grafo = new GrafoGnr<NdoVrs>(param.c_str());
                         cout << "Grafo cargado\n";
                         cout << "Vertices: " << grafo->obtTotVrt() << endl;
                     }
@@ -106,7 +105,7 @@ void *loop(void *arg)
                     if (p1 >= 10 && p2 <1 )// 0 <= prbAdy < 1
                     {
                         if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr<NdoVrt>(p1, p2);
+                        grafo = new GrafoGnr<NdoVrs>(p1, p2);
                         cout << "Grafo creado\n";
                     }
                     else
@@ -127,8 +126,10 @@ void *loop(void *arg)
                     {
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-                        SimuladorVrs<NdoVrt> s(grafo);
-                        s.simular(it, ios, vsc, rc, grc);
+                        sv.asignarGrafo(grafo);
+                        sv.asignarValores(ios, vsc, rc, grc);
+                        sv.setup(ios);
+                        sv.go(it);
                     }
                     else
                     {
@@ -147,12 +148,14 @@ void *loop(void *arg)
                     if (grafo != NULL)
                     {
                         dibujando = true;
-                        VisualizadorGnr<NdoVrt> v(*grafo);
+                        VisualizadorVrs v(*grafo);
                         int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
                         double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-                        //   sv.simular(it, ios, vsc, rc, grc);
-
-                        v.visualizar(it, ios, vsc, rc, grc);
+                        
+                        v.asignarSimulador(&sv);
+                        sv.asignarValores(ios, vsc, rc, grc);
+                        sv.setup(ios);
+                        v.visualizar(it);
                         while (dibujando) {}
                     }
                     else
@@ -172,7 +175,7 @@ void *loop(void *arg)
                     if (grafo != NULL)
                     {
                         dibujando = true;
-                        VisualizadorGnr<NdoVrt> v(*grafo);
+                        VisualizadorVrs v(*grafo);
                         v.visualizar();
                         while (dibujando) {};
                     }
@@ -231,10 +234,10 @@ void *loop(void *arg)
             {
                 if (cant_elementos == 1)
                 {
-                    cout << "cargar\t-carga el grafo a partir del parametro %nArch" << endl <<
-                         "crear\t-crea el grafo a partir de dos parametros" << endl <<
+                    cout << "cargar\t" << endl <<
+                         "crear\t" << endl <<
                          "simular\t " << endl <<
-                         "simular-visualizar\t-fjasklf" << endl <<
+                         "simular-visualizar\t" << endl <<
                          "visualizar\t" << endl <<
                          "calcular-promedio-longitud-caminos-cortos\t" << endl <<
                          "calcular-centralidad-intermedial\t" << endl <<
@@ -275,9 +278,9 @@ int main(int argc, char** argv)
     winPos = 750 / 2;
     glutInitWindowPosition(winPos, 0);
     glutCreateWindow("Automata-Celular");
-    glutDisplayFunc(VisualizadorGnr<NdoVrt>::display);
+    glutDisplayFunc(VisualizadorVrs::display);
     //glutIdleFunc(Visualizador::idle);
-    glutKeyboardFunc(VisualizadorGnr<NdoVrt>::keyboard);
+    glutKeyboardFunc(VisualizadorVrs::keyboard);
 #ifdef _WIN32 || WIN32
     _beginthread(loop, 0, (void*)0 );
 #else // _WIN32

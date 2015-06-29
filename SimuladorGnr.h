@@ -8,7 +8,6 @@
 #ifndef SIMULADORGNR_H
 #define	SIMULADORGNR_H
 
-#include <random>
 #include <ctime>
 #include "GrafoGnr.h"
 
@@ -55,26 +54,19 @@ public:
     //      4. Sólo las transformaciones #2 y #3 pueden ser simultáneas.
 
     void asignarGrafo(GrafoGnr<Sm> *g);
+    GrafoGnr<Sm> *obtGrafo() { return grafo;};
 
     // EFE: Asigna las adyacencias del vertice vrt en el vector vec
     void obtAdy(int vrt, vector<Sm>& vec);
     //EFE: Inicializa los datos para la simulacion
-    virtual void setup() = 0;
+    virtual void setup(int vrtInf) = 0;
 
-    virtual void go() = 0;
+    virtual void go(int cntItr) = 0;
 
 private:
     GrafoGnr<Sm> *grafo;
 
 };
-
-bool prob(double probability) // probability < 1
-{
-    double result = (double)rand() / (double)RAND_MAX;
-    if(result < probability)
-        return true;
-    return false;
-}
 
 template < typename Sm>
 SimuladorGnr<Sm>::SimuladorGnr(GrafoGnr<Sm>* g) : grafo(g)

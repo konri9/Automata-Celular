@@ -34,6 +34,9 @@
 
 using namespace std;
 
+extern bool dibujando;
+extern char grafostr[];
+
 // Vslzdr es el tipo de vértice.
 template < typename Vsz >
 class VisualizadorGnr
@@ -69,14 +72,15 @@ public:
     //      4. S�lo las transformaciones #2 y #3 pueden ser simult�neas.
     // EFE: muestra gr�ficamente al grafo asociado diferenciando con distintos
     //      colores los estados de los v�rtices.
-    void visualizar(int cItr, int ios, double vsc, double rc, double grc);
-
+    void visualizar(int cItr);
+    GrafoGnr<Vsz> *obtGrafo() { return &grafo;};
+    void asignarSimulador(SimuladorGnr<Vsz> *sim) { simulador = sim; simulador->asignarGrafo(&grafo);};
 
 //hacer un metodo virtual puro que asigne el color
 //si pero eso en visualizador
     //REQ:
     //EFE:
-    void asignaColor() = 0;
+    virtual void asignaColor() = 0;
 
 private:
     GrafoGnr<Vsz> grafo;
@@ -141,27 +145,18 @@ public:
 
     SimuladorGnr<Vsz> *simulador;
 
-    struct infosim
-    {
-        int cItr, ios, vcfmax;
-        double vsc, rc, grc;
-    };
-
 #ifdef _WIN32 || WIN32
     HWND hwnd;
 #endif
 
     bool sim = false;
-    infosim info;
 };
 
 template < typename Vsz >
 VisualizadorGnr<Vsz> *VisualizadorGnr<Vsz>::ptr;
-bool dibujando = false;
-char grafostr[] = "No hay grafo cargado! por favor cree o cargue un grafo para visualizar";
 
 template < typename Vsz >
-VisualizadorGnr<Vsz>::VisualizadorGnr(const GrafoGnr<Vsz>& g) : grafo(g), simulador(&grafo)
+VisualizadorGnr<Vsz>::VisualizadorGnr(const GrafoGnr<Vsz>& g) : grafo(g)
 {
     cntVrt = grafo.obtTotVrt();
     arrAdy.resize(cntVrt);
@@ -194,15 +189,10 @@ void VisualizadorGnr<Vsz>::visualizar() const
 }
 
 template < typename Vsz >
-void VisualizadorGnr<Vsz>::visualizar(int cItr, int ios, double vsc, double rc, double grc)
+void VisualizadorGnr<Vsz>::visualizar(int cItr)
 {
-    simulador.simular(cItr, ios, vsc, rc, grc);
+    simulador->go(cItr);
     sim = true;
-    info.cItr = cItr;
-    info.grc = grc;
-    info.ios = ios;
-    info.rc = rc;
-    info.vsc = vsc;
     string line = "";
     cout << "Digite cualquier caracter y presione enter para realizar una iteracion\nO bien, presione enter en la ventana del grafo para realizar una iteracion\nEscriba \"salir\" para terminar la simulacion\n";
     do
@@ -221,7 +211,7 @@ void VisualizadorGnr<Vsz>::visualizar(int cItr, int ios, double vsc, double rc, 
 template < typename Vsz >
 void VisualizadorGnr<Vsz>::simular()
 {
-    simulador.simular(1, info.ios, info.vsc, info.rc, info.grc);
+    simulador->go(1);
     glutPostRedisplay();
 }
 
@@ -326,17 +316,9 @@ int VisualizadorGnr<Vsz>::vrtPopular()
 template < typename Vsz >
 void VisualizadorGnr<Vsz>::estadoVrt(int vrt)
 {
-    Vector3 vec = grafo[vrt].obtColor();
+    VerticeGnr *ver = &grafo[vrt];
+    Vector3 vec = ver->obtColor();
     glColor3f(vec.x, vec.y, vec.z);
-    /*if (grafo.obtEst(vrt) == Grafo::S) {
-        glColor3f(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
-    }
-    if (grafo.obtEst(vrt) == Grafo::I) {
-        glColor3f(1.0, 0.0, 0.0); //Color rojo -> vertice infectado
-    }
-    if (grafo.obtEst(vrt) == Grafo::R) {
-        glColor3f(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
-    }*/
 }
 
 template < typename Vsz >
@@ -347,7 +329,6 @@ void VisualizadorGnr<Vsz>::keyboard(unsigned char key, int x, int y)
     {
         if (key == 13)
         {
-            ptr->info.ios = 0;
             //ptr->info.vcf--;
             //if (ptr->info.vcf < 0) ptr->info.vcf = ptr->info.vcfmax;
             ptr->simular();

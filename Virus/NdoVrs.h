@@ -70,6 +70,7 @@ public:
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     void calcEst(vector<VerticeGnr*>& ady);
 
+    bool operator==(const VerticeGnr& vr);
 
 protected:
 

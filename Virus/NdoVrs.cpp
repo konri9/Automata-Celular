@@ -15,15 +15,6 @@
 
 using namespace std;
 
-
-bool prob(double probability) // probability < 1
-{
-    double result = (double)rand() / (double)RAND_MAX;
-    if(result < probability)
-        return true;
-    return false;
-}
-
 NdoVrs::NdoVrs(){
     e = S;
     azarizarTmpChqVrs();
@@ -37,18 +28,18 @@ NdoVrs::~NdoVrs()
 
 NdoVrs::E NdoVrs::obtEst() const
 {
-        return e;
+    return e;
 }
 
 Vector3 NdoVrs::obtColor()
 {
-    if (obtEst(vrt) == NdoVrs::S) {
+    if (obtEst() == NdoVrs::S) {
         return Vector3(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }
-    if (obtEst(vrt) == NdoVrs::I) {
+    if (obtEst() == NdoVrs::I) {
         return Vector3(1.0, 0.0, 0.0);//Color rojo -> vertice infectado
     }
-    if (obtEst(vrt) == NdoVrs::R) {
+    if (obtEst() == NdoVrs::R) {
         return Vector3(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
     }
     return Vector3 (1.0, 1.0, 1.0); //BLANCO
@@ -94,12 +85,16 @@ void NdoVrs::azarizarTmpChqVrs()
 
 void NdoVrs::calcEst(vector<VerticeGnr*>& ady)
 {
-    for(int i=0; i<adyac.size(); i++)
+    for(int i=0; i<ady.size(); i++)
     {
         if (obtEst() != NdoVrs::S) return;
         int cont = 0;
         if(obtEst() == NdoVrs::I) cont++;
-        if (cont == adyac.size()) modEst(NdoVrs::I);
+        if (cont == ady.size()) modEst(NdoVrs::I);
     }
 }
 
+bool NdoVrs::operator==(const VerticeGnr& vr)
+{
+
+}
