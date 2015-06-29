@@ -84,6 +84,10 @@ public:
     // EFE: retorna el total de adyacencias en *this.
     int obtTotAdy() const;
 
+    int obtFilas() const;
+
+    int obtColumnas() const;
+
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el vértice con índice vrt.
     V& operator[](int vrt);
@@ -110,7 +114,7 @@ public:
     //      vecinos del vértice indicado por vrt dividida por la cantidad total de posibles
     //      arcos entre todos los vecinos del vértice indicado por vrt.
     double coeficienteAgrupamiento(int vrt) const;
-
+  //  double  no se que era esto D: espero no haber borrado nada
 
 private:
     struct NdoVrt
@@ -119,7 +123,7 @@ private:
         vector <int> lstAdy; // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
         vector <int> radioAdy;
     };
-
+    int filas, columnas; // necesarios para la matriz
     int cntVrt; // representa la cantidad total de vértices
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
     int** carton;
@@ -216,9 +220,9 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
 
     // Se generan asignan posiciones a las aves al azar
     //int rando = rand()  % filas, rando2 = rand()% columnas,
-    int val ;
-    while (cont< cntAves)
+    int val;
     int index = 1, cont = 0, valorFilas, valorColumnas;
+    while (cont< cntAves)
     {
         valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
         valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
@@ -418,6 +422,20 @@ template < typename V >
 int GrafoGnr< V >::obtTotVrt() const
 {
     return cntVrt;
+}
+
+
+template < typename V >
+int GrafoGnr< V >::obtFilas() const
+{
+    return filas;
+}
+
+
+template < typename V >
+int GrafoGnr< V >::obtColumnas() const
+{
+    return columnas;
 }
 
 
