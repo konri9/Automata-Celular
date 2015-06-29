@@ -111,7 +111,7 @@ void NdoAve::calcEst(vector<VerticeGnr*>& ady)
 
 void NdoAve::operator=(const VerticeGnr& vr) const
 {
-    const NdoAve *ave = (const NdoAve*)vr;
+    const NdoAve *ave = (const NdoAve*)&vr;
     e = ave->e;
     tmpChqVrs = ave->tmpChqVrs;
     cntChqVrs = ave->cntChqVrs;
