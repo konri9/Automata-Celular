@@ -138,10 +138,10 @@ public:
     int *argc;
     char **argv;
 
+    vector<double>posX, posY;
     /*Variables globales que contienen las posiciones asignadas*/
     int cntVrt = 0;
     vector <int> arrAdy;
-    vector<double>posX, posY;
 
     SimuladorGnr<Vsz> *simulador;
 

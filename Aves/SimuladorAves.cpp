@@ -72,8 +72,11 @@ void SimuladorAves::go(int cntItr)
     if (obtGrafo() == NULL) return;
     int cont_paridos = 0;
     bool dele = true;
-    while (dele)
+    // dele iba a ser igual a true hasta que ya todos parieran
+    // bueno... no siempre todos van a parir...
+    // luego la quitamos..
     {
+    while (dele)
         for (int i = 0; i < cntItr; i++)
         {
             for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)

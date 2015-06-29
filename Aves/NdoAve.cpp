@@ -6,9 +6,9 @@
 #include <string>
 #include <fstream>
 #include <cstring>
-#include <stdlib.h>
 #include <vector>
 #include <random>
+#include <stdlib.h>
 #include <iostream>
 #include <ctime>
 #include <limits> // std::numeric_limits
@@ -111,7 +111,7 @@ void NdoAve::calcEst(vector<VerticeGnr*>& ady)
 //crea una copia del vertice que r
 /*void NdoAve::operator=(const VerticeGnr& vr) const
 {
-    const NdoAve *ave = (const NdoAve*)&vr;
+    NdoAve *ave = (NdoAve*)&vr;
     this->e = ave->obtEst() ;
 }*/
 
