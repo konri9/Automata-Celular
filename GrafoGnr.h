@@ -99,6 +99,9 @@ public:
 
     int **Floyd_Warshall() const;
 
+    //Reconstruye una matriz de int cont los datos de el grafo que el visualizador utiliza para saber donde hay aves
+    int **obtMatriz() const;
+
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el "local clustering coefficient" o coeficiente local de agrupamiento
     //      para el vértice indicado por vrt.
@@ -219,9 +222,9 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     {
         valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
         valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
-        val = carton[valorFilas][valorColumnas];
         cout<< "el valor de filas es -> " << valorFilas << endl;
         cout<< "el valor de columnas es ->" << valorColumnas<<endl;
+        val = carton[valorFilas][valorColumnas];
        // cout << val<< endl;
         if (val == 0)// si en esa entrada no hay un ave
         {
@@ -247,6 +250,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
         {
             for(int j = 0; j < columnas; j++)
             {
+
                 if (carton[i][j] != 1); // hay un ave
                 {
                     //     arrVrt[cont].vrt = 1;
@@ -361,7 +365,7 @@ GrafoGnr< V >::GrafoGnr(string nArch)
 template < typename V >
 GrafoGnr< V >::~GrafoGnr()
 {
-
+    if(carton != NULL) delete [] carton;
 }
 
 template < typename V >
@@ -514,6 +518,12 @@ int **GrafoGnr<V>::Floyd_Warshall() const
             }
 
     return path;
+}
+
+template < typename V >
+int **GrafoGnr<V>::obtMatriz() const
+{
+    return carton;
 }
 
 template < typename V >
