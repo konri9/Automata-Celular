@@ -74,6 +74,11 @@ public:
     //      adyacentes al vértice indicado por vrt.
     void obtAdy(int vrt, vector<int>& vec)const;
 
+    // Este metodo es para saber que no estoy reescribiendo una adyacencia
+    //por aquello
+    bool yala (int element, vector<int>& vec) const;
+
+
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna la cantidad de adyacencias del vértice vrt.
     int obtCntAdy(int vrt) const;
@@ -196,8 +201,9 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
 template <typename V>
 GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
 {
-    if (cntAves> 1000)  return; // ERROR el visualizador no la soporta, por el tama;o de la ventana (para mantener el orden)
+// solo construye matrices de 19*19
     if(cntAves>filas*columnas ) return ;//ERROR  no caben las aves
+    if(filas> 19 || columnas > 19) return;
     this->cntVrt = cntAves;
     arrVrt.resize(cntVrt);
     carton = new int*[filas]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
@@ -226,10 +232,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     {
         valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
         valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
-        cout<< "el valor de filas es -> " << valorFilas << endl;
-        cout<< "el valor de columnas es ->" << valorColumnas<<endl;
         val = carton[valorFilas][valorColumnas];
-       // cout << val<< endl;
         if (val == 0)// si en esa entrada no hay un ave
         {
             carton[valorFilas][valorColumnas] = index ;
@@ -268,21 +271,33 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                         arrVrt[cont].lstAdy.push_back(carton[i][j]);
                         arrVrt[cont].radioAdy.push_back(carton[i][j]);
                         }
-                        if (j>0){
-                        if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
-                        if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
-                       }
+                        if (j>0) //arriba izquierda
+                        {
+                            if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
+                        if(j<columnas-1)
+                        {
+                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
                     }
+                 }
 
-                    if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
+                if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
                     {
                         if(carton[i+1][j] != 0)
                         {
                         arrVrt[cont].lstAdy.push_back(carton[i][j]);
                         arrVrt[cont].radioAdy.push_back(carton[i][j]);
                         }
-                        if(carton[][] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
-                        if(carton[][] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+
+                         if (j>0) //arriba izquierda
+                        {
+                            if(carton[i-1][j+1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
+                        if(j<columnas-1)
+                        {
+                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i][j]);
+                        }
                     }
 
                     if (j>0)
@@ -294,7 +309,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                         }
                     }
 
-                    if (j>columnas-1)
+                    if (j<columnas-1)
                     {
                         if(carton[i][j+1] != 0)
                         {
@@ -309,9 +324,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
             cont++;
         }
         //  delete [] carton; //evitar fugas de memoria
-    }
 }
-
 
 
 template < typename V >
@@ -407,6 +420,20 @@ void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
         }
     }
 }
+
+template < typename V >
+bool GrafoGnr< V >::yala (int element, vector<int>& vec) const
+{
+    for(int i=0; i<vec.size(); i++){
+        if(vec[i] == element ) return false;
+    }
+    return true;
+}
+
+
+
+
+
 
 template < typename V >
 int GrafoGnr<V>::obtCntAdy(int vrt) const
