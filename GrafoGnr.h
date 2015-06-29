@@ -178,7 +178,7 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
                 if (matBits[i*n + j] == U); // Fila i, columna j.
                 {
                     arrVrt[i].lstAdy.push_back(j);
-                    arrVrt[j].lstAdy.push_back(i);
+              //      arrVrt[j].lstAdy.push_back(i);
                 }
             }
         }
@@ -214,8 +214,8 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     // Se generan asignan posiciones a las aves al azar
     //int rando = rand()  % filas, rando2 = rand()% columnas,
     int val ;
-    int index = 1, cont = 0, valorFilas, valorColumnas;
     while (cont< cntAves)
+    int index = 1, cont = 0, valorFilas, valorColumnas;
     {
         valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
         valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
