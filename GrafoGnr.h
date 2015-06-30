@@ -76,12 +76,6 @@ public:
 
     void obtRadioAdy(int vrt, vector<int>& vec) const;
 
-
-    // Este metodo es para saber que no estoy reescribiendo una adyacencia
-    //por aquello
-    bool nola (int element, vector<int>& vec) const;
-
-
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna la cantidad de adyacencias del vértice vrt.
     int obtCntAdy(int vrt) const;
@@ -436,15 +430,6 @@ void GrafoGnr< V >::obtRadioAdy(int vrt, vector<int>& vec) const
             vec.push_back(arrVrt[vrt].radioAdy[i]);
         }
     }
-}
-
-template < typename V >
-bool GrafoGnr< V >::nola (int element, vector<int>& vec) const
-{
-    for(int i=0; i<vec.size(); i++){
-        if(vec[i] == element ) return false;
-    }
-    return true;
 }
 
 template < typename V >
