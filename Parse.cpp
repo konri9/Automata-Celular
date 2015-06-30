@@ -7,6 +7,14 @@ using namespace std;
 namespace line_parse
 {
 
+bool nola (int element, vector<int>& vec) const
+{
+    for(int i=0; i<vec.size(); i++){
+        if(vec[i] == element ) return false;
+    }
+    return true;
+}
+
 unsigned int cantidad_elementos(const string& linea, char rem)
 {
     unsigned int count = 0;
