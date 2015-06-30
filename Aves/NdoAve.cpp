@@ -91,17 +91,9 @@ void NdoAve::azarizarTmpChqVrs()
         tmpChqVrs = randy;
 }
 
-void NdoAve::calcEst(vector<VerticeGnr*>& ady)
+int NdoAve::calcEst(vector<VerticeGnr*>& ady) const // recibe un vector y devuelve la cardinalidad de las adyacencias
 {
-    int cont = 0;
-    for(int i=0; i<ady.size(); i++)
-    {
-
-        NdoAve *ave = (NdoAve*)ady[i];
-        if (ave->obtEst() != NdoAve::P) return;
-        if(ave->obtEst() == NdoAve::S) cont++;
-        if (cont == ady.size()) modEst(NdoAve::S);
-    }
+    return ady.size();
 }
 
 /*bool NdoAve::operator==(const VerticeGnr& vr) const

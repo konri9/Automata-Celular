@@ -72,8 +72,8 @@ public:
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-
-    void calcEst(vector<VerticeGnr*>& ady);
+    // Devuelve el tamano del vector
+    int calcEst(vector<VerticeGnr*>& ady) const;
 
     //bool operator==(const VerticeGnr& vr) const;
 

@@ -25,7 +25,7 @@ public:
     VisualizadorAves(const GrafoGnr<NdoAve>& g);
     ~VisualizadorAves();
     void asignaColor();
-    void DrawEllipse(double rX, double rY, double x, double y)
+    void DrawEllipse(double rX, double rY, double x, double y);
     void printMatrix();
 
 

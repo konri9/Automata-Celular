@@ -74,6 +74,9 @@ public:
     //      adyacentes al vértice indicado por vrt.
     void obtAdy(int vrt, vector<int>& vec)const;
 
+    void obtRadioAdy(int vrt, vector<int>& vec) const;
+
+
     // Este metodo es para saber que no estoy reescribiendo una adyacencia
     //por aquello
     bool nola (int element, vector<int>& vec) const;
@@ -417,6 +420,20 @@ void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
         for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
         {
             vec.push_back(arrVrt[vrt].lstAdy[i]);
+        }
+    }
+}
+
+
+template < typename V >
+void GrafoGnr< V >::obtRadioAdy(int vrt, vector<int>& vec) const
+{
+    if (xstVrt(vrt))
+    {
+        vec.clear();
+        for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
+        {
+            vec.push_back(arrVrt[vrt].radioAdy[i]);
         }
     }
 }

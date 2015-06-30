@@ -1,7 +1,7 @@
 /*
  * File:   VisualizadorAves.cpp
- * Author: Alan
  *
+ * Author: Alan
  * Created on 2 de abril de 2015, 07:42 PM
  */
 
@@ -15,7 +15,11 @@
 #include <iostream>
 #include <string>
 #include <algorithm> //max element
+#include <vector>
 
+#ifndef DEG2RAD
+#define DEG2RAD 3.14159/180.0
+#endif // DEG2RAD
 
 #ifndef NULL
 #define NULL 0
@@ -30,7 +34,6 @@ VisualizadorAves::~VisualizadorAves() {
 }
 void VisualizadorAves::asignaColor()
 {
-
 
 }
 
