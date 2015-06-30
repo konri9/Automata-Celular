@@ -289,8 +289,8 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                     {
                         if(carton[i+1][j] != 0)
                         {
-                            if (nola(carton[i+1][j]), arrVrt[cont].lstAdy) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
-                            if (nola(carton[i+1][j]), arrVrt[cont].lstAdy) arrVrt[cont].radioAdy.push_back(carton[i+1][j]);
+                            if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
+                            if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].radioAdy.push_back(carton[i+1][j]);
 
                         }
 
@@ -300,7 +300,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                         }
                         if(j<columnas-1) //abajo derecha
                         {
-                            if(carton[i-1][j-1] != 0) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
+                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
                         }
                     }
 
