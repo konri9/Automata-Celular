@@ -38,12 +38,15 @@ public:
     E obtEst() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna el valor del temporizador de chequeo de antivirus del vértice con índice vrt.
-    int obtTmpChqVrs() const;
+    // EFE: retorna el nivel de estres del ave con índice vrt.
+    int obtEstres() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
-    int obtCntChVrs() const;
+    int obtCntEstres() const;
+
+
+    void estresador();
 
 	Vector3 obtColor();
 
@@ -58,17 +61,17 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: cambia el valor del temporizador de chequeo de virus del vértice vrt por el valor nt.
-    void modTmpChqVrs(int nt);
+    void modEstres(int nt);
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: actualiza el valor del contador de chequeo de virus para la siguiente iteración.
-    void actCntChqVrs();
+    void actCntEstres();
 
     // MOD: *this
     // EFE: asigna el valor del temporizador para cada vértice con un número al azar entre 1 y maxTmp.
     //      vcf o virus-check-frecuency: frecuencia máxima de chequeo antivirus.
-    void azarizarTmpChqVrs();
+    void azarizarEstres();
 
     //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
@@ -83,8 +86,8 @@ protected:
 
 private:
         E e; // representa el estado del vértice
-        int tmpChqVrs; // representa el temporizador de chequeo de virus
-        int cntChqVrs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
+        int niv_strs; // representa el temporizador de chequeo de virus
+        int cnt_niv_strs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
         // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 

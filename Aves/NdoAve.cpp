@@ -17,13 +17,13 @@ using namespace std;
 
 NdoAve::NdoAve(){
     e = S;
-    azarizarTmpChqVrs();
+    azarizarEstres();
 }
 
 NdoAve::NdoAve(const NdoAve& ave){
 	e = ave.e;
-	tmpChqVrs = ave.tmpChqVrs;
-	cntChqVrs = ave.cntChqVrs;
+	niv_strs = ave.niv_strs;
+	cnt_niv_strs = ave.cnt_niv_strs;
 
 }
 
@@ -54,14 +54,14 @@ Vector3 NdoAve::obtColor()
 }
 
 
-int NdoAve::obtTmpChqVrs() const
+int NdoAve::obtEstres() const
 {
-    return tmpChqVrs;
+    return niv_strs;
 }
 
-int NdoAve::obtCntChVrs()const
+int NdoAve::obtCntEstres()const
 {
-    return cntChqVrs;
+    return cnt_niv_strs;
 }
 
 void NdoAve::modEst(E ne)
@@ -69,26 +69,26 @@ void NdoAve::modEst(E ne)
         e = ne;
 }
 
-void NdoAve::modTmpChqVrs(int nt)
+void NdoAve::modEstres(int nt)
 {
-    tmpChqVrs = nt;
+    niv_strs = nt;
 }
 
 
-void NdoAve::actCntChqVrs()
+void NdoAve::actCntEstres()
 {
-    if(cntChqVrs == tmpChqVrs)
-        cntChqVrs = 0;
+    if(cnt_niv_strs == niv_strs) //
+        cnt_niv_strs = 0;
     else
     {
-        cntChqVrs++;
+        cnt_niv_strs++;
     }
 }
 
-void NdoAve::azarizarTmpChqVrs()
+void NdoAve::azarizarEstres()
 {
     int randy = rand() % 5 + 1;
-        tmpChqVrs = randy;
+        niv_strs = randy;
 }
 
 int NdoAve::calcEst(vector<VerticeGnr*>& ady) const // recibe un vector y devuelve la cardinalidad de las adyacencias
