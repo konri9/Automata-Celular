@@ -311,8 +311,8 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
                     {
                         if(carton[i][j+1] != 0 )
                         {
-                            if (nola(carton[i][j+1]), arrVrt[cont].lstAdy) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
-                            if (nola(carton[i][j+1]), arrVrt[cont].lstAdy) arrVrt[cont].radioAdy.push_back(carton[i][j+1]);
+                            if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
+                            if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].radioAdy.push_back(carton[i][j+1]);
                         }
                     }
                     // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
