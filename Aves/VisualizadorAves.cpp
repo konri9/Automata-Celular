@@ -50,4 +50,43 @@ void VisualizadorAves::DrawEllipse(double rX, double rY, double x, double y)
     glEnd();
 
 }
+/*
+void VisualizadorAves:: display(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glColor3f(1.0,0.0,0.0);
+    //DrawEllipse(0.04,0.06,0.5,0.5);
+    //DrawEllipse(0.04,0.06,-0.9,0.9);
+    //DrawEllipse(0.04,0.06,-0.8,0.9);
+    //DrawEllipse(0.04,0.06,0.9,0.9);
+    double lim = 0.9;//, limneg = ;
+    for(double i=-lim; i<lim; i+=0.1)
+    {
+        for(double j=-lim; j<lim; j+=0.1)
+        {
+            DrawEllipse(0.04,0.06,i,j);
+        }
+    }
+
+
+
+    glEnd();
+    glutSwapBuffers();
+}
+
+int main(int argc, char **argv)
+{
+    Grafo grf(2,2,4);
+    int **mat = grf.obtMatrizAves();
+  //  cout << mat[0][1]<< endl;
+    for(int i =0; i<3 ;i++) cout << "matriz recibida" << mat[0][0]<< endl;
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutCreateWindow("Visualizador de Aves");
+    glutDisplayFunc(display);
+    //glutIdleFunc(display);
+    glutMainLoop();
+    //if
+    return 0;
+}*/
 
