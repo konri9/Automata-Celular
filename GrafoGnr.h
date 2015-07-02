@@ -43,7 +43,7 @@ public:
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
     GrafoGnr(int n, double prbAdy);
 
-    GrafoGnr(int filas, int columnas, int cntAves);
+    GrafoGnr(int filas, int columnas);
 
 
     // Construye una copia idéntica a orig.
@@ -184,10 +184,9 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
         {
             for(int j = 0; j < n; j++)
             {
-                if (matBits[i*n + j] == U); // Fila i, columna j.
+                if (matBits[i*n + j] == U) // Fila i, columna j.
                 {
                     arrVrt[i].lstAdy.push_back(j);
-              //      arrVrt[j].lstAdy.push_back(i);
                 }
             }
         }
@@ -196,12 +195,12 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
     }
 }
 template <typename V>
-GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
+GrafoGnr< V >::GrafoGnr(int filas, int columnas)
 {
 // solo construye matrices de 19*19
-    if(cntAves>filas*columnas ) return ;//ERROR  no caben las aves
+    int cnt = filas*columnas;
     if(filas> 19 || columnas > 19) return;
-    this->cntVrt = cntAves;
+    this->cntVrt = cnt;
     arrVrt.resize(cntVrt);
     carton = new int*[filas]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
 
@@ -225,7 +224,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     //int rando = rand()  % filas, rando2 = rand()% columnas,
     int val;
     int index = 1, cont = 0, valorFilas, valorColumnas;
-    while (cont< cntAves)
+    while (cont< cnt)
     {
         valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
         valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
@@ -248,7 +247,7 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     }
     //Rellena las adyacencias inmediatas y el radioAdyacente
     cont = 0;
-    while (cont < cntAves) // esto es para fijarme en todas las adyacencias por ave
+    while (cont < cnt) // esto es para fijarme en todas las adyacencias por ave
     {
     //Inicializar vectores
     arrVrt[cont].lstAdy.resize(4);
