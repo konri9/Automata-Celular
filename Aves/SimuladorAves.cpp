@@ -79,6 +79,15 @@ void SimuladorAves::go(int cntItr)
                     NdoAve *nodo_av = &(*obtGrafo())[j];
                     vector<int>ady;
                     obtGrafo()->obtAdy(j,ady);
+
+                    // ahora con las adyacencias en un vector ocupo calcular el promedio de nivel de estres de todos los vecinos
+
+                    NdoAve *ave = &(*obtGrafo())[0];
+                    ave->obtEst()
+
+
+
+
                     //obtGrafo()->obtRadioAdy(j, radio_adyac);
                     //nodo_av->calcEst(j);
                     //deberia de ser == 4 y que calc est devuelva un valor... asi le puedo mandar el radioAdy

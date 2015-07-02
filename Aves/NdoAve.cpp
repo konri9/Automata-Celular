@@ -93,29 +93,14 @@ void NdoAve::azarizarEstres()
 
 // calcula el nuevo estado con la relacion
 // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
-double NdoAve::calcEst(double osl, double NR, double prom)//const;
+double NdoAve::calcEst(double osl, double NR, double niveles_str[])//const;
 {
-    return NR*osl*(1+NR)*prom;
-}
-
-// recibe las adyacencias y retorna el promedio del nivel de estres de los vecinos
-double promediar_vecinos(vector<VerticeGnr*>& ady)
-{
-    int tam = ady.size();
-    double contndr [tam];
-
-    //llena un array de double con los niveles de estres de los vecinos
-    for (int i=0;i<tam; i++)
-    {
-        contndr[i] = ady[i]->obtEstres();
-    }
-    // Ahora saca el promedio
-    double sum;
-    for(int i=0; i<tam; i++) sum+= contndr[i];
-    double promedio = (sum * tam)/100;
-    return promedio;
-
-}
+    double sum, res;
+    for(int i=0; i<sizeof(niveles_str); i++) sum+= niveles_str[i];
+    double promedio = (sum * sizeof(niveles_str))/100;
+    res = NR*osl*(1+NR)*promedio;
+   return res;
+ }
 
 /*bool NdoAve::operator==(const VerticeGnr& vr) const
 {
