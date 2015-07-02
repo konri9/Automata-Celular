@@ -239,7 +239,7 @@ void *loopaves(void *arg)
                 CloseHandle(hwnd);
                 return;
 #else
-                return;
+                return 0;
 #endif
             }
             else
@@ -454,7 +454,7 @@ void *loopvrs(void *arg)
                 CloseHandle(hwnd);
                 return;
 #else
-                return;
+                return 0;
 #endif
             }
             else

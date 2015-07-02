@@ -297,11 +297,18 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
 
                         if (j>0) //abajo izquierda
                         {
+                            if (i-1 > 0){
+
+
                             if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j+1]);
+                            }
                         }
                         if(j<columnas-1) //abajo derecha
                         {
+                            if(i-1>0 && j-1>0)
+                            {
                             if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
+                        }
                         }
                     }
 
