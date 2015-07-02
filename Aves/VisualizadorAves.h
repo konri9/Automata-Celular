@@ -20,14 +20,14 @@ using namespace std;
 #include "../VisualizadorGnr.h"
 #include "NdoAve.h"
 
-class VisualizadorAves : public VisualizadorGnr<NdoAve>{
+class VisualizadorAves : public VisualizadorGnr<NdoAve> {
 public:
     VisualizadorAves(const GrafoGnr<NdoAve>& g);
     ~VisualizadorAves();
     void asignaColor();
     void DrawEllipse(double rX, double rY, double x, double y);
     void printMatrix();
-private:
+    void recurCircles();
 };
 
 #endif	/* VISUALIZADORAVES_H */

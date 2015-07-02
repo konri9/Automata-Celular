@@ -11,9 +11,8 @@
 
 #include "Parse.h"
 #include "GrafoGnr.h"
-#include "NdoVrt.h"
 #include "SimuladorGnr.h"
-#include "SimuladorVrs.h"
+#include "Aves/SimuladorAves.h"
 #include "VisualizadorGnr.h"
 #ifdef _WIN32 || WIN32
 #include <windows.h>

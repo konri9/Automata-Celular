@@ -23,7 +23,7 @@
 using namespace std;
 
 VisualizadorVrs::VisualizadorVrs(const GrafoGnr<NdoVrs>& g) : VisualizadorGnr<NdoVrs>(g) {
-    
+    ptr = this;
 }
 
 VisualizadorVrs::~VisualizadorVrs() {

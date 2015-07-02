@@ -75,6 +75,10 @@ public:
     void visualizar(int cItr);
     GrafoGnr<Vsz> *obtGrafo() { return &grafo;};
     void asignarSimulador(SimuladorGnr<Vsz> *sim) { simulador = sim; simulador->asignarGrafo(&grafo);};
+    
+    //EFE:
+    //REQ:
+    virtual void recurCircles();
 
 //hacer un metodo virtual puro que asigne el color
 //si pero eso en visualizador
@@ -82,7 +86,7 @@ public:
     //EFE:
     virtual void asignaColor() = 0;
 
-private:
+protected:
     GrafoGnr<Vsz> grafo;
 
     void simular();
@@ -114,10 +118,6 @@ private:
     void linker(int lineas, vector<int>& arrV, int vrt);
 
     /*Dibuja los circulos, basandose en las posiciones ya generadas */
-
-    //EFE:
-    //REQ:
-    virtual void recurCircles();
 
     /*Revisa toda la lista de adyacencia y devuelve el indice del vertice con mas adyacencias*/
     int vrtPopular();
@@ -169,13 +169,13 @@ VisualizadorGnr<Vsz>::VisualizadorGnr(const GrafoGnr<Vsz>& g) : grafo(g)
     /*this->argc = argc;
     this->argv = argv;*/
     atragantador();
-    ptr = this;
+    this->ptr = this;
 }
 
 template < typename Vsz >
 VisualizadorGnr<Vsz>::~VisualizadorGnr()
 {
-    ptr = NULL;
+    this->ptr = NULL;
 }
 
 template < typename Vsz >
