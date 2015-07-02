@@ -93,7 +93,7 @@ void NdoAve::azarizarEstres()
 
 // calcula el nuevo estado con la relacion
 // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
-double NdoAve::calcEst(double osl, double NR, double niveles_str[])//const;
+double NdoAve::calcEstres(double osl, double NR, double niveles_str[])//const;
 {
     double sum, res;
     for(int i=0; i<sizeof(niveles_str); i++) sum+= niveles_str[i];

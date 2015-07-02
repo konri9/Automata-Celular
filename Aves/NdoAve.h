@@ -75,7 +75,7 @@ public:
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     // Retorna el nuevo nivel de estres del ave con base en la relacion
     // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
-    double calcEst(double osl, double NR,  double niveles_str[]); //const;
+    double calcEstres(double osl, double NR,  double niveles_str[]); //const;
 
     //bool operator==(const VerticeGnr& vr) const;
 

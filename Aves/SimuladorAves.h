@@ -22,7 +22,7 @@ public:
 
     //REQ: que el grafo este preparado para la simulacion
     //EFE:simula el proceso de anidacion de aves
-    void go(int cntItr);
+    void go(int cntItr, double NR);
 
 	//EFE: Realiza una matriz con
 	void creaMatrix ();

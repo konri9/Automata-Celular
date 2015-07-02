@@ -65,7 +65,7 @@ void SimuladorAves::setup(int cntAves)
     }
 }
 
-void SimuladorAves::go(int cntItr)
+void SimuladorAves::go(int cntItr, double NR)
 {
     if (obtGrafo() == NULL) return;
     int cont_paridos = 0;
@@ -79,31 +79,33 @@ void SimuladorAves::go(int cntItr)
                     NdoAve *nodo_av = &(*obtGrafo())[j];
                     vector<int>ady;
                     obtGrafo()->obtAdy(j,ady);
-
-                    // ahora con las adyacencias en un vector ocupo calcular el promedio de nivel de estres de todos los vecinos
-
-                    NdoAve *ave = &(*obtGrafo())[0];
-                    ave->obtEst()
-
-
-
-
-                    //obtGrafo()->obtRadioAdy(j, radio_adyac);
-                    //nodo_av->calcEst(j);
-                    //deberia de ser == 4 y que calc est devuelva un valor... asi le puedo mandar el radioAdy
-                    // se analiza el nuevo estado (deveria retornar e)
-                    // si inmediatamente adyacentes estan estresados entonces se estresa
-
-                    /* if (ady.size() == 4) // vecinos estresador => ave estresada
-                     {
-                         estados[j] = NdoAve::S;
-                     }*/
-                    if(ady.size() == 8) // todos los que le rodean estan estresados entonces pone un huevo :D
+                    int varas = ady.size();
+                    double estreses [varas]; // -.-
+                    for(int k = 0; k< sizeof(estreses);k++)
                     {
-                        estados[j] = NdoAve::P;
+                        NdoAve *ave = &(*obtGrafo())[ady[i]];
+                        estreses[i] = ave->obtEstres();
+                    }
+                   nodo_av->niv_strs = nodo_av->calcEstres(nodo_av->obtEstres(), NR, estreses);
+
+                    if(0 < nodo_av->niv_strs < 1.5){
+                        estados[j] = NdoAve::R; // relajada
+                    }
+
+                    if(1.5 < nodo_av->niv_strs < 4){
+                        estados[j] = NdoAve::S; //estresada
+                    }
+
+                    if(nodo_av->niv_strs >= 4 ){
+                        estados[j] = NdoAve::P; // se estreso tanto que pario
                         cont_paridos++;
                     }
-                    if (cont_paridos == obtGrafo()->obtTotVrt())dele = false;
+
+                    if(nodo_av->obtEst() == NdoAve::P){
+                        nodo_av->modEst(NdoAve::N); // ya pario entonces se pone en negro
+
+                    }
+                    if (cont_paridos == obtGrafo()->obtTotVrt()) dele = false;
 
                 }
             }
