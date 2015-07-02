@@ -59,7 +59,7 @@ public:
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
-    // EFE: cambia el valor del temporizador de chequeo de virus del vértice vrt por el valor nt.
+    // EFE: cambia el valor del nivel de estres por el valor n_estres.
     void modEstres(double n_estres);
 
     // REQ: que exista en *this un vértice con índice vrt.

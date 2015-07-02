@@ -14,7 +14,7 @@ public:
     SimuladorAves(GrafoGnr<NdoAve>* g);
     //~SimuladorAves();
 
-	void asignarValores (int nios, double nvsc, double nrc, double ngrc);
+	void asignarValores (int navs, double nanr);
 
     //REQ: que el grafo este bien construido
     //EFE: inicializa todos los valores para llevar a cabo la simulacion
@@ -29,8 +29,8 @@ public:
 
 protected:
 private:
-	int ios;
-	double vsc, rc, grc;
+	int avs;
+	double anr;
 	vector<NdoAve::E>estados;
 };
 

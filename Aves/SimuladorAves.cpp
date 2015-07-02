@@ -18,12 +18,10 @@ SimuladorAves::SimuladorAves(GrafoGnr<NdoAve>* g): SimuladorGnr<NdoAve>(g)
 }
 //SimuladorAves::~SimuladorAves() {
 //}
-void  SimuladorAves::asignarValores(int nios, double nvsc, double nrc, double ngrc)
+void  SimuladorAves::asignarValores(int navs, double nanr)
 {
-    ios = nios;
-    vsc = nvsc;
-    rc = nrc;
-    grc = ngrc;
+    avs = navs;
+    anr = nanr;
 }
 
 void SimuladorAves::setup(int cntAves)
@@ -47,8 +45,7 @@ void SimuladorAves::setup(int cntAves)
             cant_prd++;
         }
     }
-    //Estresador() jaja
-    while (cont<ios && cant_estresados+cant_prd != obtGrafo()->obtTotVrt())
+    while (cont<avs && cant_estresados+cant_prd != obtGrafo()->obtTotVrt())
     {
         NdoAve *ndo = &(*obtGrafo())[id];
         if (obtGrafo()->xstVrt(id)&& ndo->obtEst() == NdoAve::R)
@@ -86,27 +83,38 @@ void SimuladorAves::go(int cntItr, double NR)
                         NdoAve *ave = &(*obtGrafo())[ady[i]];
                         estreses[i] = ave->obtEstres();
                     }
-                   nodo_av->niv_strs = nodo_av->calcEstres(nodo_av->obtEstres(), NR, estreses);
+                    //ok
+                   nodo_av->modEstres(nodo_av->calcEstres(nodo_av->obtEstres(), NR, estreses));
 
-                    if(0 < nodo_av->niv_strs < 1.5){
+                    if(0 < nodo_av->obtEstres() < 1.5)
+                    {
                         estados[j] = NdoAve::R; // relajada
                     }
 
-                    if(1.5 < nodo_av->niv_strs < 4){
+                    if(1.5 < nodo_av->obtEstres() < 4)
+                    {
                         estados[j] = NdoAve::S; //estresada
                     }
 
-                    if(nodo_av->niv_strs >= 4 ){
+                    if(nodo_av->obtEstres() >= 4 )
+                    {
                         estados[j] = NdoAve::P; // se estreso tanto que pario
+                    }
+
+                    if(nodo_av->obtEst() == NdoAve::P)
+                    {
+                        nodo_av->modEst(NdoAve::M); // ya pario entonces se pone en negro
+                    }
+
+                    if(nodo_av->obtEst() == NdoAve::M)
+                    {
                         cont_paridos++;
                     }
 
-                    if(nodo_av->obtEst() == NdoAve::P){
-                        nodo_av->modEst(NdoAve::N); // ya pario entonces se pone en negro
-
+                    if (cont_paridos == obtGrafo()->obtTotVrt())
+                    {
+                    dele = false;
                     }
-                    if (cont_paridos == obtGrafo()->obtTotVrt()) dele = false;
-
                 }
             }
     }

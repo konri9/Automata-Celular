@@ -101,16 +101,16 @@ void *loopaves(void *arg)
             }
             else if (prim == "simular")
             {
-                if (cant_elementos == 6)
+                if (cant_elementos == 4)
                 {
                     if (grafo != NULL)
                     {
-                        int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
-                        double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
+                        int it = elemento(linea, 1, ' '), avs = elemento(linea, 2, ' ');
+                        double pb = elemento_double(linea, 3, ' ');
                         sv.asignarGrafo(grafo);
-                        sv.asignarValores(ios, vsc, rc, grc);
-                        sv.setup(ios);
-                        sv.go(it);
+                        sv.asignarValores(it, avs,pb);
+                        sv.setup(avs);
+                        sv.go(it,pb);
                     }
                     else
                     {
@@ -119,23 +119,22 @@ void *loopaves(void *arg)
                 }
                 else
                 {
-                    cout << "Este comando requiere 5 parametros\n";
+                    cout << "Este comando requiere 4 parametros\n";
                 }
             }
             else if (prim == "simular-visualizar")
             {
-                if (cant_elementos == 6)
+                if (cant_elementos == 4)
                 {
                     if (grafo != NULL)
                     {
                         dibujando = true;
                         VisualizadorAves v(*grafo);
-                        int it = elemento(linea, 1, ' '), ios = elemento(linea, 2, ' ');//, vcf = elemento(linea, 4, ' ');
-                        double vsc = elemento_double(linea, 3, ' '), rc = elemento_double(linea, 4, ' '), grc = elemento_double(linea, 5, ' ');
-
+                        int it = elemento(linea, 1, ' '), avs = elemento(linea, 2, ' ');
+                        double pb = elemento_double(linea, 3, ' ');
                         v.asignarSimulador(&sv);
-                        sv.asignarValores(ios, vsc, rc, grc);
-                        sv.setup(ios);
+                        sv.asignarValores(it, avs,pb);
+                        sv.setup(avs);
                         v.visualizar(it);
                         while (dibujando) {}
                     }
@@ -146,7 +145,7 @@ void *loopaves(void *arg)
                 }
                 else
                 {
-                    cout << "Este comando requiere 6 parametros\n";
+                    cout << "Este comando requiere 4 parametros\n";
                 }
             }
             else if (prim == "visualizar")
