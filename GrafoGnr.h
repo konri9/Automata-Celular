@@ -250,6 +250,9 @@ GrafoGnr< V >::GrafoGnr(int filas, int columnas, int cntAves)
     cont = 0;
     while (cont < cntAves) // esto es para fijarme en todas las adyacencias por ave
     {
+    //Inicializar vectores
+    arrVrt[cont].lstAdy.resize(4);
+    arrVrt[cont].radioAdy.resize(8);
         for (int i = 0; i < filas; i++)
         {
             for(int j = 0; j < columnas; j++)

@@ -7,7 +7,7 @@ using namespace std;
 namespace line_parse
 {
 
-bool nola (int element, vector<int>& vec) const
+bool nola (int element, vector<int>& vec)
 {
     for(int i=0; i<vec.size(); i++){
         if(vec[i] == element ) return false;

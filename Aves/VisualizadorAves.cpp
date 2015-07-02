@@ -50,6 +50,43 @@ void VisualizadorAves::DrawEllipse(double rX, double rY, double x, double y)
     glEnd();
 
 }
+
+
+/*
+void printMatrix()
+{
+    int fil = 17;
+    int col = 17;
+    int av = 78;
+    Grafo grf(fil,col,av);
+    int **mat = grf.obtMatrizAves();
+    //int fil = grf.obtFilas();
+   // int col = grf.obtCol();
+    //int aves = grf.obtCntAves();
+    // imprime el carton de huevos
+    double lim = 0.9;//, limneg = ;
+
+    // hay que adaptarlo a la cantidad de huevos...
+
+    for(double i=-lim; i<lim; i+=0.1)
+    {
+        for(double j=-lim; j<lim; j+=0.1)
+        {
+
+            DrawEllipse(0.04,0.06,i,j);
+        }
+    }
+
+
+    cout << mat[0][1]<< endl;
+    for(int i =0; i<3 ;i++) cout << "matriz recibida" << mat[0][0]<< endl;
+
+
+}
+
+
+
+*/
 /*
 void VisualizadorAves:: display(void)
 {
