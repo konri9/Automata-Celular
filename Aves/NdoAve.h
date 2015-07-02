@@ -40,14 +40,12 @@ public:
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el nivel de estres del ave con índice vrt.
-    int obtEstres() const;
+    double obtEstres() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
-    int obtCntEstres() const;
+    double obtCntEstres() const;
 
-
-    void estresador();
 
 	Vector3 obtColor();
 
@@ -62,7 +60,7 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
     // EFE: cambia el valor del temporizador de chequeo de virus del vértice vrt por el valor nt.
-    void modEstres(int nt);
+    void modEstres(double n_estres);
 
     // REQ: que exista en *this un vértice con índice vrt.
     // MOD: *this.
@@ -74,21 +72,25 @@ public:
     //      vcf o virus-check-frecuency: frecuencia máxima de chequeo antivirus.
     void azarizarEstres();
 
-    //MOD:*this
     //EFE: calcula el estado de un vertice a partir de sus vecinos
-    // Devuelve el tamano del vector
-    int calcEst(vector<VerticeGnr*>& ady) const;
+    // Retorna el nuevo nivel de estres del ave con base en la relacion
+    // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
+    double calcEst(double osl, double NR, double prom); //const;
+
+    // recibe las adyacencias y retorna el promedio del nivel de estres de los vecinos
+    // EFE: retorna el promedio del nivel de estres de los vecinos de *this
+    double promediar_vecinos(vector<VerticeGnr*>& ady);
 
     //bool operator==(const VerticeGnr& vr) const;
 
-//	void operator=(const VerticeGnr& vr) const;
+    //void operator=(const VerticeGnr& vr) const;
 
 protected:
 
 private:
         E e; // representa el estado del vértice
-        int niv_strs; // representa el temporizador de chequeo de virus
-        int cnt_niv_strs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
+        double niv_strs; // representa el temporizador de chequeo de virus
+        double cnt_niv_strs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
         // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 

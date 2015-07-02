@@ -54,12 +54,12 @@ Vector3 NdoAve::obtColor()
 }
 
 
-int NdoAve::obtEstres() const
+double NdoAve::obtEstres() const
 {
     return niv_strs;
 }
 
-int NdoAve::obtCntEstres()const
+double NdoAve::obtCntEstres()const
 {
     return cnt_niv_strs;
 }
@@ -69,9 +69,9 @@ void NdoAve::modEst(E ne)
         e = ne;
 }
 
-void NdoAve::modEstres(int nt)
+void NdoAve::modEstres(double n_estres)
 {
-    niv_strs = nt;
+    niv_strs = n_estres;
 }
 
 
@@ -87,13 +87,34 @@ void NdoAve::actCntEstres()
 
 void NdoAve::azarizarEstres()
 {
-    int randy = rand() % 5 + 1;
+    double randy =(double) (rand() % 5 + 1);
         niv_strs = randy;
 }
 
-int NdoAve::calcEst(vector<VerticeGnr*>& ady) const // recibe un vector y devuelve la cardinalidad de las adyacencias
+// calcula el nuevo estado con la relacion
+// La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
+double NdoAve::calcEst(double osl, double NR, double prom)//const;
 {
-    return ady.size();
+    return NR*osl*(1+NR)*prom;
+}
+
+// recibe las adyacencias y retorna el promedio del nivel de estres de los vecinos
+double promediar_vecinos(vector<VerticeGnr*>& ady)
+{
+    int tam = ady.size();
+    double contndr [tam];
+
+    //llena un array de double con los niveles de estres de los vecinos
+    for (int i=0;i<tam; i++)
+    {
+        contndr[i] = ady[i]->obtEstres();
+    }
+    // Ahora saca el promedio
+    double sum;
+    for(int i=0; i<tam; i++) sum+= contndr[i];
+    double promedio = (sum * tam)/100;
+    return promedio;
+
 }
 
 /*bool NdoAve::operator==(const VerticeGnr& vr) const
