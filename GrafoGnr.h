@@ -43,7 +43,7 @@ public:
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
     GrafoGnr(int n, double prbAdy);
 
-    GrafoGnr(int cntFilas, int cntColumnas, int cantidad);
+    GrafoGnr(int cntFilas, int cntColumnas);
 
 
     // Construye una copia idéntica a orig.
@@ -73,8 +73,6 @@ public:
     // EFE: retorna un vector de enteros con las posiciones de los vértices
     //      adyacentes al vértice indicado por vrt.
     void obtAdy(int vrt, vector<int>& vec)const;
-
-    void obtRadioAdy(int vrt, vector<int>& vec) const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna la cantidad de adyacencias del vértice vrt.
@@ -123,7 +121,6 @@ private:
     {
         V vrt;
         vector <int> lstAdy; // Escoja entre <vector>, <list> y <forward_list> para representar la lista de adyacencias del vértice.
-        vector <int> radioAdy;
     };
     int filas, columnas; // necesarios para la matriz
     int cntVrt; // representa la cantidad total de vértices
@@ -195,10 +192,11 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
     }
 }
 template <typename V>
-GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
+GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas)
 {
 // solo construye matrices de 19*19
     if (cntFilas <= 0 || cntColumnas <= 0) return;
+    int cantidad = cntFilas*cntColumnas;
     this->cntVrt = cantidad;
     filas = cntFilas;
     columnas = cntColumnas;
@@ -214,58 +212,32 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
     {
         for(int j = 0; j < columnas; j++)
         {
+
             carton [i][j] = 0;
         }
     }
 
-    // int  xstAdyD = xstAdyI / 100.0; // se genera un valor al azar entre 0 y 1.
-    // if ( xstAdyD <= prbAdy)   // determinamos si nacen o no aves adyacentes en el cercanas
-
     // Se generan asignan posiciones a las aves al azar
     //int rando = rand()  % filas, rando2 = rand()% columnas,
-    int val;
-    int index = 1, cont = 0, valorFilas, valorColumnas;
-    while (cont< cantidad)
-    {
-        valorFilas = rand()%filas; // se genera un valor al azar entre 0 y el numero de filas
-        valorColumnas = rand()%columnas;// se genera un valor al azar entre 0 y el numero de columnas
-        val = carton[valorFilas][valorColumnas];
-        if (val == 0)// si en esa entrada no hay un ave
-        {
-            carton[valorFilas][valorColumnas] = index;
-            val = carton[valorFilas][valorColumnas];
-            index++;
-            cout<< "el valor es "<<val << endl;
-            cont++;
-        }
-        else
-        {
-            valorFilas = rand()%filas;
-            valorColumnas =rand()%filas;
-            val = carton[valorFilas][valorColumnas];
-        }
 
-    }
-    for(int i = 0; i < filas; i++)
+    /*for(int i = 0; i < filas; i++)
     {
         for(int j = 0; j < columnas; j++)
         {
             cout << carton[i][j] << "\t";
         }
         cout << endl;
-    }
+    }*/
     //Rellena las adyacencias inmediatas y el radioAdyacente
-    cont = 0;
+    int cont = 0;
     while (cont < cantidad) // esto es para fijarme en todas las adyacencias por ave
     {
         //Inicializar vectores
-        arrVrt[cont].lstAdy.resize(4);
-        arrVrt[cont].radioAdy.resize(8);
+        arrVrt[cont].lstAdy.resize(8);
         for (int i = 0; i < filas; i++)
         {
             for(int j = 0; j < columnas; j++)
             {
-                int banano = carton[i][j];
                 if (carton[i][j] != 0) // hay un ave entonces se fija en sus vecinos
                 {
                     //Busco los vecinos inmediatos(difieren en un digito...
@@ -274,15 +246,14 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
                         if(carton[i-1][j] != 0) //arriba
                         {
                             if(nola(carton[i-1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j]);
-                            if(nola(carton[i-1][j],arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j]);
                         }
                         if (j>0) //arriba izquierda
                         {
-                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j+1]);
+                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
                         }
                         if(j<columnas-1) //arriba derecha
                         {
-                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
+                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
                         }
                     }
 
@@ -291,7 +262,6 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
                         if(carton[i+1][j] != 0)
                         {
                             if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
-                            if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].radioAdy.push_back(carton[i+1][j]);
 
                         }
 
@@ -300,14 +270,14 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
                             if (i-1 > 0){
 
 
-                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j+1]);
+                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
                             }
                         }
                         if(j<columnas-1) //abajo derecha
                         {
                             if(i-1>0 && j-1>0)
                             {
-                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].radioAdy)) arrVrt[cont].radioAdy.push_back(carton[i-1][j-1]);
+                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
                         }
                         }
                     }
@@ -317,7 +287,6 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
                         if(carton[i][j-1] != 0)
                         {
                             if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].lstAdy.push_back(carton[i][j-1]);
-                            if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].radioAdy.push_back(carton[i][j-1]);
                         }
                     }
 
@@ -326,7 +295,6 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas, int cantidad)
                         if(carton[i][j+1] != 0 )
                         {
                             if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
-                            if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].radioAdy.push_back(carton[i][j+1]);
                         }
                     }
                 }
@@ -436,20 +404,6 @@ void GrafoGnr< V >::obtAdy(int vrt, vector<int>& vec) const
         for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
         {
             vec.push_back(arrVrt[vrt].lstAdy[i]);
-        }
-    }
-}
-
-
-template < typename V >
-void GrafoGnr< V >::obtRadioAdy(int vrt, vector<int>& vec) const
-{
-    if (xstVrt(vrt))
-    {
-        vec.clear();
-        for (int i = 0; i < arrVrt[vrt].lstAdy.size(); i++)
-        {
-            vec.push_back(arrVrt[vrt].radioAdy[i]);
         }
     }
 }

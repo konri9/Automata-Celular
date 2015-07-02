@@ -79,15 +79,14 @@ void *loopaves(void *arg)
             }
             else if (prim == "crear")
             {
-                if (cant_elementos == 4)
+                if (cant_elementos == 3)
                 {
                     int p1 = elemento(linea, 1, ' ');
                     int p2 = elemento(linea, 2, ' ');
-                    int p3 = elemento(linea, 3, ' ');
-                    if (p1 >= 1 && p2 >=1 && p3 >= 1 && p3 <= p1*p2)// 0 <= prbAdy < 1
+                    if (p1 >= 1 && p2 >=1)// 0 <= prbAdy < 1
                     {
                         if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr<NdoAve>(p1, p2, p3);
+                        grafo = new GrafoGnr<NdoAve>(p1, p2);
                         cout << "Grafo creado\n";
                     }
                     else

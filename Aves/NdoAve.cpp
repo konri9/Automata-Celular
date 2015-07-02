@@ -36,7 +36,7 @@ NdoAve::~NdoAve()
 
 NdoAve::E NdoAve::obtEst() const
 {
-        return e;
+    return e;
 }
 
 Vector3 NdoAve::obtColor()

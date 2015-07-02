@@ -36,7 +36,7 @@ VisualizadorAves::~VisualizadorAves() {
 
 void VisualizadorAves::asignaColor()
 {
-    
+
 }
 
 
@@ -57,26 +57,18 @@ void VisualizadorAves::recurCircles()
 {
     int filas = obtGrafo()->obtFilas(), columnas = obtGrafo()->obtColumnas();
     double cantidad = filas*columnas;
-    double tamanin = 1/cantidad;
+    double tamaninfilas = (double)1/filas, tamanincolumnas = (double)1/columnas;
     for (double i = 0; i < filas; i++)
     {
         for (double j = 0; j < columnas; j++)
         {
-            /*VerticeGnr *ver = &grafo[vrt];
+            int vrt = i*filas + j;
+            VerticeGnr *ver = &grafo[vrt];
             Vector3 vec = ver->obtColor();
-            glColor3f(vec.x, vec.y, vec.z);*/
-            glColor3f(1, 1, 1);
-            dibujar_circulo(tamanin, -1 + (tamanin*2 * i/cantidad), 1 - (tamanin*2 * j/cantidad));
+            glColor3f(vec.x, vec.y, vec.z);
+            DrawEllipse(tamaninfilas, tamanincolumnas, tamaninfilas - 1 + (2*i*tamaninfilas), -1*tamanincolumnas + 1 - (2*j*tamanincolumnas));
         }
     }
-    /*double lim = 0.9;//, limneg = ;
-    for(double i=-lim; i<lim; i+=0.1)
-    {
-        for(double j=-lim; j<lim; j+=0.1)
-        {
-            DrawEllipse(0.04,0.06,i,j);
-        }
-    }*/
 }
 
 /*

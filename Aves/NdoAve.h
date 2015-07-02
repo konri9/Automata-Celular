@@ -20,6 +20,7 @@ public:
 // Nivel de estres de las aves!
     enum E  // representa el nivel de estres de las aves
     {
+        M, // representa un vertice sin ave
         R, // representa un vertice de ave relajada
 		S, // representa un vértice de ave con estresada
         P, // representa un vértice de ave ya terminada

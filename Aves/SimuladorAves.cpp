@@ -26,23 +26,23 @@ void  SimuladorAves::asignarValores(int nios, double nvsc, double nrc, double ng
     grc = ngrc;
 }
 
-void SimuladorAves::setup(int cntIter)
+void SimuladorAves::setup(int cntAves)
 {
     if (obtGrafo() == NULL) return;
     srand(time(NULL));
-    int cont = 0, cant_estresados = 0, cant_prd = 0;
+    int cont = 0, cant_estresados = 0, cant_prd = 0; // REPARTIR ACA LOS
     estados.clear();
     estados.resize(obtGrafo()->obtTotVrt());
     int id = rand() % obtGrafo()->obtTotVrt();
     for (int i = 0; i < estados.size(); i++) //Llena el vector de estados
     {
-       NdoAve *nodo_av = &(*obtGrafo())[i];
+        NdoAve *nodo_av = &(*obtGrafo())[i];
         estados[i] = nodo_av->obtEst();
-        if(nodo_av ->obtEst() == NdoAve::S)
+        if(nodo_av ->obtEst() == NdoAve::R)
         {
             cant_estresados++;
         }
-        else if (nodo_av->obtEst()== NdoAve::R)
+        else if (nodo_av->obtEst()== NdoAve::S)
         {
             cant_prd++;
         }
@@ -71,36 +71,36 @@ void SimuladorAves::go(int cntItr)
     int cont_paridos = 0;
     bool dele = true;
     {
-    while (dele)
-        for (int i = 0; i < cntItr; i++)
-        {
-            for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
+        while (dele)
+            for (int i = 0; i < cntItr; i++)
             {
-                NdoAve *nodo_av = &(*obtGrafo())[j];
-                vector<int>ady, radio_adyac;
-                obtGrafo()->obtAdy(j,ady);
-                obtGrafo()->obtRadioAdy(j, radio_adyac);
-                //nodo_av->calcEst(j);
-                  //deberia de ser == 4 y que calc est devuelva un valor... asi le puedo mandar el radioAdy
-                // se analiza el nuevo estado (deveria retornar e)
-                // si inmediatamente adyacentes estan estresados entonces se estresa
-
-                if (ady.size() == 4) // vecinos estresador => ave estresada
+                for (int j = 0; j < obtGrafo()->obtTotVrt(); j++)
                 {
-                    estados[j] = NdoAve::S;
-                }
-                if(radio_adyac.size() == 7) // todos los que le rodean estan estresados entonces pone un huevo :D
-                {
-                    estados[j] = NdoAve::P;
-                    cont_paridos++;
-                }
-                if (cont_paridos == obtGrafo()->obtTotVrt())dele = false;
+                    NdoAve *nodo_av = &(*obtGrafo())[j];
+                    vector<int>ady;
+                    obtGrafo()->obtAdy(j,ady);
+                    //obtGrafo()->obtRadioAdy(j, radio_adyac);
+                    //nodo_av->calcEst(j);
+                    //deberia de ser == 4 y que calc est devuelva un valor... asi le puedo mandar el radioAdy
+                    // se analiza el nuevo estado (deveria retornar e)
+                    // si inmediatamente adyacentes estan estresados entonces se estresa
 
+                    /* if (ady.size() == 4) // vecinos estresador => ave estresada
+                     {
+                         estados[j] = NdoAve::S;
+                     }*/
+                    if(ady.size() == 8) // todos los que le rodean estan estresados entonces pone un huevo :D
+                    {
+                        estados[j] = NdoAve::P;
+                        cont_paridos++;
+                    }
+                    if (cont_paridos == obtGrafo()->obtTotVrt())dele = false;
+
+                }
             }
-        }
     }
 
-for (int i = 0; i < estados.size(); i++)
+    for (int i = 0; i < estados.size(); i++)
     {
         NdoAve *nodo_av = &(*obtGrafo())[i];
         nodo_av->modEst(estados[i]);
