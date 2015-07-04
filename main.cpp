@@ -83,7 +83,7 @@ void *loopaves(void *arg)
                 {
                     int p1 = elemento(linea, 1, ' ');
                     int p2 = elemento(linea, 2, ' ');
-                    if (p1 >= 1 && p2 >=1)// 0 <= prbAdy < 1
+                    if (p1 >= 1 && p2 >= 1)// 0 <= prbAdy < 1
                     {
                         if (grafo != NULL) delete grafo;
                         grafo = new GrafoGnr<NdoAve>(p1, p2);
@@ -108,9 +108,10 @@ void *loopaves(void *arg)
                         int it = elemento(linea, 1, ' '), avs = elemento(linea, 2, ' ');
                         double pb = elemento_double(linea, 3, ' ');
                         sv.asignarGrafo(grafo);
-                        sv.asignarValores(it, avs,pb);
+                        sv.asignarValores(it, avs);
+                        sv.asignarNR(pb);
                         sv.setup(avs);
-                        sv.go(it,pb);
+                        sv.go(it);
                     }
                     else
                     {
@@ -133,7 +134,8 @@ void *loopaves(void *arg)
                         int it = elemento(linea, 1, ' '), avs = elemento(linea, 2, ' ');
                         double pb = elemento_double(linea, 3, ' ');
                         v.asignarSimulador(&sv);
-                        sv.asignarValores(it, avs,pb);
+                        sv.asignarValores(it, avs);
+                        sv.asignarNR(pb);
                         sv.setup(avs);
                         v.visualizar(it);
                         while (dibujando) {}
@@ -481,9 +483,11 @@ int main(int argc, char** argv)
     case 1:
         glutDisplayFunc(VisualizadorVrs::display);
         glutKeyboardFunc(VisualizadorVrs::keyboard);
+        break;
     case 2:
         glutDisplayFunc(VisualizadorAves::display);
         glutKeyboardFunc(VisualizadorAves::keyboard);
+        break;
     }
 #ifdef _WIN32 || WIN32
     switch (ch)

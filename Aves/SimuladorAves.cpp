@@ -62,7 +62,12 @@ void SimuladorAves::setup(int cntAves)
     }
 }
 
-void SimuladorAves::go(int cntItr, double NR)
+void SimuladorAves::asignarNR(double nNR)
+{
+    NR = nNR;
+}
+
+void SimuladorAves::go(int cntItr)
 {
     if (obtGrafo() == NULL) return;
     int cont_paridos = 0;
