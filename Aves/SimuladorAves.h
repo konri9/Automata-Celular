@@ -35,6 +35,7 @@ private:
 	double NR = 0;
 	double anr;
 	vector<NdoAve::E>estados;
+	vector<double>estreses;
 };
 
 #endif	/* SIMULADOR_H */

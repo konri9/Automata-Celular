@@ -16,14 +16,13 @@
 using namespace std;
 
 NdoAve::NdoAve(){
-    e = S;
+    e = R;
     azarizarEstres();
 }
 
 NdoAve::NdoAve(const NdoAve& ave){
 	e = ave.e;
 	niv_strs = ave.niv_strs;
-	cnt_niv_strs = ave.cnt_niv_strs;
 
 }
 
@@ -39,16 +38,16 @@ NdoAve::E NdoAve::obtEst() const
     return e;
 }
 
-Vector3 NdoAve::obtColor()
+Vector3 NdoAve::obtColor() 
 {
 	if (obtEst() == NdoAve::R) {
         return Vector3(1.0, 1.0, 1.0); //Color blanco -> ave relajada
     }
     if (obtEst() == NdoAve::S) {
-        return Vector3(1.0, 0.0, 0.0); //Color rojo-> ave estresada
+        return Vector3(niv_strs/5.0f, 0.0, 0.0); //Color rojo-> ave estresada
     }
     if (obtEst() == NdoAve::P) {
-        return Vector3(1.0, 0.5, 0.0); //Color naranja-> ave ya terminada
+        return Vector3(0.0, 0.0, 1.0); //Color azul-> ave ya terminada
     }
     return Vector3 (1.0, 1.0, 1.0); //BLANCO
 }
@@ -57,11 +56,6 @@ Vector3 NdoAve::obtColor()
 double NdoAve::obtEstres() const
 {
     return niv_strs;
-}
-
-double NdoAve::obtCntEstres()const
-{
-    return cnt_niv_strs;
 }
 
 void NdoAve::modEst(E ne)
@@ -74,32 +68,24 @@ void NdoAve::modEstres(double n_estres)
     niv_strs = n_estres;
 }
 
-
-void NdoAve::actCntEstres()
-{
-    if(cnt_niv_strs == niv_strs) //
-        cnt_niv_strs = 0;
-    else
-    {
-        cnt_niv_strs++;
-    }
-}
-
 void NdoAve::azarizarEstres()
 {
-    double randy =(double) (rand() % 5 + 1);
+    double randy =((double)rand() / (double)RAND_MAX)*5;
         niv_strs = randy;
 }
 
 // calcula el nuevo estado con la relacion
 // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
-double NdoAve::calcEstres(double osl, double NR, double niveles_str[])//const;
+double NdoAve::calcEstres(double NR, vector<double>& niveles_str)//const;
 {
-    double sum, res;
-    for(int i=0; i<sizeof(niveles_str); i++) sum+= niveles_str[i];
-    double promedio = (sum * sizeof(niveles_str))/100;
-    res = NR*osl*(1+NR)*promedio;
-   return res;
+    double sum = 0, res = 0;
+    for(int i=0; i<niveles_str.size(); i++)
+    {
+        sum+= niveles_str[i];
+    }
+    double promedio = (double)(sum / (double)niveles_str.size());
+    res = NR*niv_strs*(1-NR)*promedio;
+    return res;
  }
 
 /*bool NdoAve::operator==(const VerticeGnr& vr) const

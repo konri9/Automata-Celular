@@ -229,79 +229,104 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas)
         cout << endl;
     }*/
     //Rellena las adyacencias inmediatas y el radioAdyacente
-    int cont = 0;
-    while (cont < cantidad) // esto es para fijarme en todas las adyacencias por ave
-    {
         //Inicializar vectores
-        arrVrt[cont].lstAdy.resize(8);
-        for (int i = 0; i < filas; i++)
+        //arrVrt[cont].lstAdy.resize(8);
+    for (int i = 0; i < filas; i++)
+    {
+        for(int j = 0; j < columnas; j++)
         {
-            for(int j = 0; j < columnas; j++)
+            int cont = i*filas + j;
+            int ni = i-1, nj = j-1;
+            if (ni < 0) ni = filas-1;
+            if (nj < 0) nj = columnas-1;
+            int pos = ni*filas + nj;
+            /*if (ni >= filas) ni = 0;
+            if (nj >= columnas) nj = 0;*/
+            arrVrt[cont].lstAdy.push_back(pos);
+            pos = i*filas + nj;
+            arrVrt[cont].lstAdy.push_back(pos);
+            
+            pos = ni*filas + j;
+            arrVrt[cont].lstAdy.push_back(pos);
+            nj = j+1;
+            if (nj >= columnas) nj = 0;
+            pos = ni*filas + nj;
+            arrVrt[cont].lstAdy.push_back(pos);
+            pos = i*filas + nj;
+            arrVrt[cont].lstAdy.push_back(pos);
+            ni = i+1;
+            if (ni >= filas) ni = 0;
+            nj = j-1;
+            if (nj < 0) nj = columnas-1;
+            pos = ni*filas + nj;
+            arrVrt[cont].lstAdy.push_back(pos);
+            pos = ni*filas + j;
+            arrVrt[cont].lstAdy.push_back(pos);
+            nj = j+1;
+            if (nj >= columnas) nj = 0;
+            pos = ni*filas + nj;
+            arrVrt[cont].lstAdy.push_back(pos);
+            
+            //Busco los vecinos inmediatos(difieren en un digito...
+            /*if (i>0) // se puede fijar en la fila de arriba de paso me voy a fijar en los diagonales
             {
-                if (carton[i][j] != 0) // hay un ave entonces se fija en sus vecinos
+                if(carton[i-1][j] != 0) //arriba
                 {
-                    //Busco los vecinos inmediatos(difieren en un digito...
-                    if (i>0) // se puede fijar en la fila de arriba de paso me voy a fijar en los diagonales
+                    if(nola(carton[i-1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j]);
+                }
+                if (j>0) //arriba izquierda
+                {
+                    if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
+                }
+                if(j<columnas-1) //arriba derecha
+                {
+                    if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
+                }
+            }
+
+            if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
+            {
+                if(carton[i+1][j] != 0)
+                {
+                    if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
+
+                }
+
+                if (j>0) //abajo izquierda
+                {
+                    if (i-1 > 0)
                     {
-                        if(carton[i-1][j] != 0) //arriba
-                        {
-                            if(nola(carton[i-1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j]);
-                        }
-                        if (j>0) //arriba izquierda
-                        {
-                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
-                        }
-                        if(j<columnas-1) //arriba derecha
-                        {
-                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
-                        }
-                    }
-
-                    if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
-                    {
-                        if(carton[i+1][j] != 0)
-                        {
-                            if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
-
-                        }
-
-                        if (j>0) //abajo izquierda
-                        {
-                            if (i-1 > 0){
 
 
-                            if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
-                            }
-                        }
-                        if(j<columnas-1) //abajo derecha
-                        {
-                            if(i-1>0 && j-1>0)
-                            {
-                            if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
-                        }
-                        }
-                    }
-
-                    if (j>0) //Agrega a la izquierda
-                    {
-                        if(carton[i][j-1] != 0)
-                        {
-                            if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].lstAdy.push_back(carton[i][j-1]);
-                        }
-                    }
-
-                    if (j<columnas-1) //agrega a la derecha
-                    {
-                        if(carton[i][j+1] != 0 )
-                        {
-                            if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
-                        }
+                        if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
                     }
                 }
-                // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
+                if(j<columnas-1) //abajo derecha
+                {
+                    if(i-1>0 && j-1>0)
+                    {
+                        if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
+                    }
+                }
             }
+
+            if (j>0) //Agrega a la izquierda
+            {
+                if(carton[i][j-1] != 0)
+                {
+                    if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].lstAdy.push_back(carton[i][j-1]);
+                }
+            }
+
+            if (j<columnas-1) //agrega a la derecha
+            {
+                if(carton[i][j+1] != 0 )
+                {
+                    if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
+                }
+            }*/
+            // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
         }
-        cont++;
     }
     for (int i = 0; i < filas; i++)
     {

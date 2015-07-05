@@ -120,7 +120,7 @@ void *loopaves(void *arg)
                 }
                 else
                 {
-                    cout << "Este comando requiere 4 parametros\n";
+                    cout << "Este comando requiere 3 parametros\n";
                 }
             }
             else if (prim == "simular-visualizar")

@@ -42,10 +42,6 @@ public:
     // EFE: retorna el nivel de estres del ave con índice vrt.
     double obtEstres() const;
 
-    // REQ: que exista en *this un vértice con índice vrt.
-    // EFE: retorna el valor del contador de chequeo de antivirus del vértice con índice vrt.
-    double obtCntEstres() const;
-
 
 	Vector3 obtColor();
 
@@ -62,11 +58,6 @@ public:
     // EFE: cambia el valor del nivel de estres por el valor n_estres.
     void modEstres(double n_estres);
 
-    // REQ: que exista en *this un vértice con índice vrt.
-    // MOD: *this.
-    // EFE: actualiza el valor del contador de chequeo de virus para la siguiente iteración.
-    void actCntEstres();
-
     // MOD: *this
     // EFE: asigna el valor del temporizador para cada vértice con un número al azar entre 1 y maxTmp.
     //      vcf o virus-check-frecuency: frecuencia máxima de chequeo antivirus.
@@ -75,7 +66,7 @@ public:
     //EFE: calcula el estado de un vertice a partir de sus vecinos
     // Retorna el nuevo nivel de estres del ave con base en la relacion
     // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
-    double calcEstres(double osl, double NR,  double niveles_str[]); //const;
+    double calcEstres(double NR, vector<double>& niveles_str); //const;
 
     //bool operator==(const VerticeGnr& vr) const;
 
@@ -86,8 +77,6 @@ protected:
 private:
         E e; // representa el estado del vértice
         double niv_strs; // representa el temporizador de chequeo de virus
-        double cnt_niv_strs; // representa el contador de chequeo de virus: va de 0 a tmpChqVrs
-        // No va a ser necesario un destructor porque ahora todo se manejará automáticamente
 };
 
 #endif // NDOAVE_H
