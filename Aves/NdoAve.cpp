@@ -98,7 +98,7 @@ double NdoAve::calcEstres(double NR, vector<double>& niveles_str)//const;
         sum+= niveles_str[i];
     }
     double promedio = (double)(sum / (double)niveles_str.size());
-    res = NR*niv_strs*(1+NR)*promedio;
+    res = NR*niv_strs*(1-NR)*promedio;
     return res;
  }
 
