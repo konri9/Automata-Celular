@@ -24,7 +24,6 @@ class VisualizadorVrs : public VisualizadorGnr<NdoVrs>{
 public:
     VisualizadorVrs(const GrafoGnr<NdoVrs>& g);
     ~VisualizadorVrs();
-    void asignaColor();
 };
 
 #endif	/* VISUALIZADOR_H */

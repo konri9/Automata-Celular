@@ -11,7 +11,6 @@
 
 #include "Parse.h"
 #include "GrafoGnr.h"
-//#include "NdoVrt.h"
 #include "Virus/SimuladorVrs.h"
 #include "Virus/VisualizadorVrs.h"
 #include "Aves/SimuladorAves.h"
@@ -27,11 +26,6 @@
 using namespace std;
 using namespace line_parse;
 
-/*
- *
- */
-
-//extern bool dibujando;
 int *gargc;
 char **gargv;
 
@@ -52,32 +46,7 @@ void *loopaves(void *arg)
         if (cant_elementos > 0)
         {
             string prim = parametro(linea, 0, ' ');
-            if (prim == "cargar")
-            {
-                if (cant_elementos == 2)
-                {
-                    cout << "Cargando grafo...\n";
-                    string param = remover_comillas(parametro(linea, 1, ' '));
-                    try
-                    {
-                        if (grafo != NULL) delete grafo;
-                        grafo = new GrafoGnr<NdoAve>(param.c_str());
-                        cout << "Grafo cargado\n";
-                        cout << "Vertices: " << grafo->obtTotVrt() << endl;
-                    }
-                    catch (int exc)
-                    {
-                        delete grafo;
-                        cout << "Error cargando el grafo\n";
-                        grafo = NULL;
-                    }
-                }
-                else
-                {
-                    cout << "Este comando requiere 2 parametros\n";
-                }
-            }
-            else if (prim == "crear")
+            if (prim == "crear")
             {
                 if (cant_elementos == 3)
                 {
@@ -216,8 +185,7 @@ void *loopaves(void *arg)
             {
                 if (cant_elementos == 1)
                 {
-                    cout << "cargar\t" << endl <<
-                         "crear\t" << endl <<
+                    cout << "crear\t" << endl <<
                          "simular\t " << endl <<
                          "simular-visualizar\t" << endl <<
                          "visualizar\t" << endl <<

@@ -42,9 +42,11 @@ public:
     // REQ: ( cntVrt >= 10 ) && ( 0 <= prbAdy < 1  )
     // Construye una red al azar no vacía. La probabilidad de que exista una adyacencia (i,j) es prbAdy.
     GrafoGnr(int n, double prbAdy);
-
+    
+    // Constructor de matrices.
+    // REQ: cntFilas > 2 && cntColumnas > 2
+    // Construye un grafo con forma de matriz.
     GrafoGnr(int cntFilas, int cntColumnas);
-
 
     // Construye una copia idéntica a orig.
     GrafoGnr(const GrafoGnr< V >& orig);
@@ -83,9 +85,11 @@ public:
 
     // EFE: retorna el total de adyacencias en *this.
     int obtTotAdy() const;
-
+    
+    // EFE: retorna la cantidad de filas de la matriz si el grafo fue creado con el constructor de matrices
     int obtFilas() const;
-
+    
+    //EFE: retorna la cantidad de columnas de la matriz si el grafo fue creado con el constructor de matrices
     int obtColumnas() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
@@ -102,9 +106,6 @@ public:
     double promLongCmnsCrts() const;
 
     int **Floyd_Warshall() const;
-
-    //Reconstruye una matriz de int cont los datos de el grafo que el visualizador utiliza para saber donde hay aves
-    int **obtMatriz() const;
 
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el "local clustering coefficient" o coeficiente local de agrupamiento
@@ -125,7 +126,6 @@ private:
     int filas, columnas; // necesarios para la matriz
     int cntVrt; // representa la cantidad total de vértices
     vector<NdoVrt>arrVrt;// Escoja entre <vector>, <map> y <unordered_map> en lugar del arreglo de nodos de vértices.
-    int** carton;
 };
 
 
@@ -194,43 +194,18 @@ GrafoGnr< V >::GrafoGnr(int n, double prbAdy)
 template <typename V>
 GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas)
 {
-// solo construye matrices de 19*19
-    if (cntFilas <= 0 || cntColumnas <= 0) return;
+    if (cntFilas <= 2 || cntColumnas <= 2)
+    {
+        cntVrt = 0;
+        filas = 0;
+        columnas = 0;
+        return;
+    }
     int cantidad = cntFilas*cntColumnas;
     this->cntVrt = cantidad;
     filas = cntFilas;
     columnas = cntColumnas;
     arrVrt.resize(cntVrt);
-    carton = new int*[filas]; // Guardaremos las adyacencias en una matriz representada por un arreglo.
-
-    // se crea un array para cada columna
-    for(int i = 0; i < filas; i++)
-        carton [i] = new int[columnas];
-
-    // Se rellena la matriz con ceros
-    for(int i = 0; i < filas; i++)
-    {
-        for(int j = 0; j < columnas; j++)
-        {
-
-            carton [i][j] = 0;
-        }
-    }
-
-    // Se generan asignan posiciones a las aves al azar
-    //int rando = rand()  % filas, rando2 = rand()% columnas,
-
-    /*for(int i = 0; i < filas; i++)
-    {
-        for(int j = 0; j < columnas; j++)
-        {
-            cout << carton[i][j] << "\t";
-        }
-        cout << endl;
-    }*/
-    //Rellena las adyacencias inmediatas y el radioAdyacente
-        //Inicializar vectores
-        //arrVrt[cont].lstAdy.resize(8);
     for (int i = 0; i < filas; i++)
     {
         for(int j = 0; j < columnas; j++)
@@ -240,8 +215,6 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas)
             if (ni < 0) ni = filas-1;
             if (nj < 0) nj = columnas-1;
             int pos = ni*filas + nj;
-            /*if (ni >= filas) ni = 0;
-            if (nj >= columnas) nj = 0;*/
             arrVrt[cont].lstAdy.push_back(pos);
             pos = i*filas + nj;
             arrVrt[cont].lstAdy.push_back(pos);
@@ -266,74 +239,8 @@ GrafoGnr< V >::GrafoGnr(int cntFilas, int cntColumnas)
             if (nj >= columnas) nj = 0;
             pos = ni*filas + nj;
             arrVrt[cont].lstAdy.push_back(pos);
-            
-            //Busco los vecinos inmediatos(difieren en un digito...
-            /*if (i>0) // se puede fijar en la fila de arriba de paso me voy a fijar en los diagonales
-            {
-                if(carton[i-1][j] != 0) //arriba
-                {
-                    if(nola(carton[i-1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j]);
-                }
-                if (j>0) //arriba izquierda
-                {
-                    if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1],arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
-                }
-                if(j<columnas-1) //arriba derecha
-                {
-                    if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
-                }
-            }
-
-            if (i<filas-1) // si no esta en la ultima fila, de paso me fijo en los diagonales
-            {
-                if(carton[i+1][j] != 0)
-                {
-                    if (nola(carton[i+1][j], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i+1][j]);
-
-                }
-
-                if (j>0) //abajo izquierda
-                {
-                    if (i-1 > 0)
-                    {
-
-
-                        if(carton[i-1][j+1] != 0 && nola(carton[i-1][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j+1]);
-                    }
-                }
-                if(j<columnas-1) //abajo derecha
-                {
-                    if(i-1>0 && j-1>0)
-                    {
-                        if(carton[i-1][j-1] != 0 && nola(carton[i-1][j-1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i-1][j-1]);
-                    }
-                }
-            }
-
-            if (j>0) //Agrega a la izquierda
-            {
-                if(carton[i][j-1] != 0)
-                {
-                    if(nola(carton[i][j-1],arrVrt[cont].lstAdy))arrVrt[cont].lstAdy.push_back(carton[i][j-1]);
-                }
-            }
-
-            if (j<columnas-1) //agrega a la derecha
-            {
-                if(carton[i][j+1] != 0 )
-                {
-                    if (nola(carton[i][j+1], arrVrt[cont].lstAdy)) arrVrt[cont].lstAdy.push_back(carton[i][j+1]);
-                }
-            }*/
-            // Idea.. rellenar los bordes de la matriz SIEMPRE.. asi queda mas fino (;
         }
     }
-    for (int i = 0; i < filas; i++)
-    {
-        delete[] carton[i];
-    }
-    delete[] carton;
-    //  delete [] carton; //evitar fugas de memoria
 }
 
 
@@ -394,7 +301,7 @@ GrafoGnr< V >::GrafoGnr(string nArch)
 template < typename V >
 GrafoGnr< V >::~GrafoGnr()
 {
-    if(carton != NULL) delete [] carton;
+    
 }
 
 template < typename V >
@@ -561,12 +468,6 @@ int **GrafoGnr<V>::Floyd_Warshall() const
             }
 
     return path;
-}
-
-template < typename V >
-int **GrafoGnr<V>::obtMatriz() const
-{
-    return carton;
 }
 
 template < typename V >

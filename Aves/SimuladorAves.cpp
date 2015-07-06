@@ -16,8 +16,7 @@ SimuladorAves::SimuladorAves(GrafoGnr<NdoAve>* g): SimuladorGnr<NdoAve>(g)
 {
     //ctor
 }
-//SimuladorAves::~SimuladorAves() {
-//}
+
 void  SimuladorAves::asignarValores(int navs, double nanr)
 {
     avs = navs;
@@ -28,7 +27,7 @@ void SimuladorAves::setup(int cntAves)
 {
     if (obtGrafo() == NULL) return;
     srand(time(NULL));
-    int cont = 0, cant_estresados = 0, cant_prd = 0; // REPARTIR ACA LOS
+    int cont = 0, cant_estresados = 0, cant_prd = 0;
     estados.clear();
     estreses.clear();
     estados.resize(obtGrafo()->obtTotVrt());
@@ -53,7 +52,7 @@ void SimuladorAves::setup(int cntAves)
         NdoAve *ndo = &(*obtGrafo())[id];
         if (obtGrafo()->xstVrt(id) && !ndo->esAve())
         {
-            //ndo->modEst(NdoAve::S);
+            ndo->modEst(NdoAve::S);
             ndo->ponerAve();
             estados[id] = NdoAve::S;
             cont++;
@@ -105,13 +104,8 @@ void SimuladorAves::go(int cntItr)
 
                 if(estreses[j] >= 4 )
                 {
-                    estados[j] = NdoAve::P; // se estreso tanto que pario
+                    estados[j] = NdoAve::P; // se estreso tanto que puso un huevo
                 }
-                /*if(nodo_av->obtEst() == NdoAve::P)
-                {
-                    nodo_av->modEst(NdoAve::M); // ya pario entonces se pone en negro
-                }*/
-
                 if(nodo_av->obtEst() == NdoAve::M)
                 {
                     cont_paridos++;

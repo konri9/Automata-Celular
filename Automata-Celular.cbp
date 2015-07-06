@@ -18,10 +18,9 @@
 					<Add directory="../Automata-Celular" />
 				</Compiler>
 				<Linker>
-					<Add option="-lGL" />
-					<Add option="-lGLU" />
-					<Add option="-lglut" />
-					<Add option="-lpthread" />
+					<Add option="-lopengl32" />
+					<Add option="-lglu32" />
+					<Add option="-lglut32" />
 				</Linker>
 			</Target>
 			<Target title="Release">

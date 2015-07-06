@@ -30,7 +30,5 @@ private:
     vector<NdoVrs::E> estados;
 };
 
-//hacer un metodo virtual puro que asigne el color
-
 #endif // SIMULADORVRS_H
 

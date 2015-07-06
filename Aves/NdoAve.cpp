@@ -26,12 +26,10 @@ NdoAve::NdoAve(const NdoAve& ave){
 
 }
 
-
 NdoAve::~NdoAve()
 {
-    //dtor
+    
 }
-
 
 NdoAve::E NdoAve::obtEst() const
 {
@@ -43,17 +41,6 @@ Vector3 NdoAve::obtColor()
     if (!esAve()) return Vector3(0.0, 0.0, 0.0);
     if (niv_strs >= MAX_ESTRES-0.2) return Vector3(0.0, 0.0, 1.0);
     return Vector3(niv_strs/MAX_ESTRES, 0.0, 0.0);
-	/*if (obtEst() == NdoAve::R) {
-        return Vector3(1.0, 1.0, 1.0); //Color blanco -> ave relajada
-    }
-    if (obtEst() == NdoAve::S) {
-        if (niv_strs > )
-        return Vector3(niv_strs/MAX_ESTRES, 0.0, 0.0); //Color rojo-> ave estresada
-    }
-    if (obtEst() == NdoAve::P) {
-        return Vector3(0.0, 0.0, 1.0); //Color azul-> ave ya terminada
-    }
-    return Vector3 (1.0, 1.0, 1.0); //BLANCO*/
 }
 
 
@@ -89,7 +76,7 @@ void NdoAve::azarizarEstres()
 }
 
 // calcula el nuevo estado con la relacion
-// La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
+// La relacion es osl = oslanterior  (1+NR) + promedio*NR del nivel de estres de los vecinos
 double NdoAve::calcEstres(double NR, vector<double>& niveles_str)//const;
 {
     double sum = 0, res = 0;
@@ -98,19 +85,8 @@ double NdoAve::calcEstres(double NR, vector<double>& niveles_str)//const;
         sum+= niveles_str[i];
     }
     double promedio = (double)(sum / (double)niveles_str.size());
-    res = niv_strs*(1-NR)+promedio*NR;
+    res = niv_strs*(1+NR)+promedio*NR;
     return res;
  }
-
-/*bool NdoAve::operator==(const VerticeGnr& vr) const
-{
-
-}*/
-//crea una copia del vertice que r
-/*void NdoAve::operator=(const VerticeGnr& vr) const
-{
-    NdoAve *ave = (NdoAve*)&vr;
-    this->e = ave->obtEst() ;
-}*/
 
 

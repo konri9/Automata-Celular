@@ -73,16 +73,12 @@ public:
     // La relacion es os = NR*oslanterior  (1+NR) * promedio del nivel de estres de los vecinos
     double calcEstres(double NR, vector<double>& niveles_str); //const;
 
-    //bool operator==(const VerticeGnr& vr) const;
-
-    //void operator=(const VerticeGnr& vr) const;
-
 protected:
-
+    
 private:
         E e; // representa el estado del vértice
         double niv_strs; // representa el temporizador de chequeo de virus
-        bool es_ave = false;
+        bool es_ave = false; // representa si hay un ave o no en este vertice
 };
 
 #endif // NDOAVE_H

@@ -6,8 +6,6 @@
  */
 
 #include "VisualizadorVrs.h"
-//#include <windows.h>
-//#include <process.h>
 #include <GL/glut.h>
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
@@ -28,9 +26,4 @@ VisualizadorVrs::VisualizadorVrs(const GrafoGnr<NdoVrs>& g) : VisualizadorGnr<Nd
 
 VisualizadorVrs::~VisualizadorVrs() {
     ptr = NULL;
-}
-
-void VisualizadorVrs::asignaColor()
-{
-
 }

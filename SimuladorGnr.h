@@ -19,7 +19,7 @@ using namespace std;
 using namespace line_parse;
 
 
-// Smldr es el tipo de vértice.
+// Sm es el tipo de vértice.
 template < typename Sm>
 class SimuladorGnr
 {

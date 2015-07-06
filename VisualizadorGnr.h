@@ -37,7 +37,7 @@ using namespace std;
 extern bool dibujando;
 extern char grafostr[];
 
-// Vslzdr es el tipo de vértice.
+// Vsz es el tipo de vértice.
 template < typename Vsz >
 class VisualizadorGnr
 {
@@ -73,18 +73,14 @@ public:
     // EFE: muestra gr�ficamente al grafo asociado diferenciando con distintos
     //      colores los estados de los v�rtices.
     void visualizar(int cItr);
+    
     GrafoGnr<Vsz> *obtGrafo() { return &grafo;};
+    
     void asignarSimulador(SimuladorGnr<Vsz> *sim) { simulador = sim; simulador->asignarGrafo(&grafo);};
     
     //EFE:
     //REQ:
     virtual void recurCircles();
-
-//hacer un metodo virtual puro que asigne el color
-//si pero eso en visualizador
-    //REQ:
-    //EFE:
-    virtual void asignaColor() = 0;
 
 protected:
     GrafoGnr<Vsz> grafo;
@@ -346,7 +342,6 @@ void VisualizadorGnr<Vsz>::display(void)
         dibujando = false;
         glutSwapBuffers();
         return;
-        //if (!ptr->sim) ptr = NULL;
     }
     else
     {

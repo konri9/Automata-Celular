@@ -14,10 +14,8 @@ bool prob(double probability) // probability < 1
 
 SimuladorVrs::SimuladorVrs(GrafoGnr<NdoVrs>* g): SimuladorGnr<NdoVrs>(g)
 {
-    //ctor
+    
 }
-//SimuladorVrs::~SimuladorVrs() {
-//}
 
 void SimuladorVrs::asignarValores(int nios, double nvsc, double nrc, double ngrc)
 {
@@ -85,7 +83,6 @@ void SimuladorVrs::go(int cntItr)
                     NdoVrs *nodo2 = &(*obtGrafo())[ady[k]];
                     if (nodo2->obtEst() != NdoVrs::R && nodo2->obtEst() != NdoVrs::I && prob(vsc))// y el adyacente no es resistente
                     {
-                        //nodo2->modEst(NdoVrs::I);//infecta los demas vertices
                         estados[ady[k]] = NdoVrs::I;
                     }
                 }
@@ -93,11 +90,9 @@ void SimuladorVrs::go(int cntItr)
                 {
                     if (prob(rc))
                     {
-                        //nodo->modEst(NdoVrs::S);
                         estados[j] = NdoVrs::S;
                         if (prob(grc))
                         {
-                            //nodo->modEst(NdoVrs::R);
                             estados[j] = NdoVrs::R;
                         }
                     }
@@ -105,7 +100,7 @@ void SimuladorVrs::go(int cntItr)
                 nodo->actCntChqVrs();
             }
         }
-
+        // actualiza los estados de los vertices
         for (int i = 0; i < estados.size(); i++)
         {
             NdoVrs *nodo = &(*obtGrafo())[i];

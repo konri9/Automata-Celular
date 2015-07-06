@@ -1,21 +1,10 @@
 #include "NdoVrs.h"
 #include "GrafoGnr.h"
-#include <iostream>
-#include <chrono>
-#include <memory>
-#include <string>
-#include <fstream>
-#include <cstring>
-#include <stdlib.h>
-#include <vector>
-#include <random>
-#include <iostream>
-#include <ctime>
-#include <limits> // std::numeric_limits
 
 using namespace std;
 
-NdoVrs::NdoVrs(){
+NdoVrs::NdoVrs()
+{
     e = S;
     azarizarTmpChqVrs();
 }
@@ -40,13 +29,16 @@ NdoVrs::E NdoVrs::obtEst() const
 
 Vector3 NdoVrs::obtColor()
 {
-    if (obtEst() == NdoVrs::S) {
+    if (obtEst() == NdoVrs::S)
+    {
         return Vector3(0.0, 1.0, 0.0); //Color verde -> vertice suceptible
     }
-    if (obtEst() == NdoVrs::I) {
+    if (obtEst() == NdoVrs::I)
+    {
         return Vector3(1.0, 0.0, 0.0);//Color rojo -> vertice infectado
     }
-    if (obtEst() == NdoVrs::R) {
+    if (obtEst() == NdoVrs::R)
+    {
         return Vector3(1.0, 0.5, 0.0); //Color naranja-> vertice resistente
     }
     return Vector3 (1.0, 1.0, 1.0); //BLANCO
@@ -64,7 +56,7 @@ int NdoVrs::obtCntChVrs()const
 
 void NdoVrs::modEst(E ne)
 {
-        e = ne;
+    e = ne;
 }
 
 void NdoVrs::modTmpChqVrs(int nt)
@@ -86,7 +78,7 @@ void NdoVrs::actCntChqVrs()
 void NdoVrs::azarizarTmpChqVrs()
 {
     int randy = rand() % 5 + 1;
-        tmpChqVrs = randy;
+    tmpChqVrs = randy;
 }
 
 
@@ -100,17 +92,3 @@ void NdoVrs::calcEst(vector<VerticeGnr*>& ady)
         if (cont == ady.size()) modEst(NdoVrs::I);
     }
 }
-
-/*bool NdoVrs::operator==(const VerticeGnr& vr)
-{
-
-}
-
-void NdoVrs::operator=(const VerticeGnr& vr)
-{
-    NdoVrs *vrs = (NdoVrs*)&vr;
-    e = vrs.e;
-    tmpChqVrs = vrs.tmpChqVrs;
-    cntChqVrs = vrs.cntChqVrs;
-}
-*/

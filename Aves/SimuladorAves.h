@@ -26,9 +26,6 @@ public:
     //EFE:simula el proceso de anidacion de aves
     void go(int cntItr);
 
-	//EFE: Realiza una matriz con
-	void creaMatrix ();
-
 protected:
 private:
 	int avs;
