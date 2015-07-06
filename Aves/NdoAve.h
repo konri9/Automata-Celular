@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#define MAX_ESTRES 5.0f
+
 #include "../GrafoGnr.h"
 #include "../VerticeGnr.h"
 
@@ -41,7 +43,10 @@ public:
     // REQ: que exista en *this un vértice con índice vrt.
     // EFE: retorna el nivel de estres del ave con índice vrt.
     double obtEstres() const;
-
+    
+    void ponerAve();
+    
+    bool esAve();
 
 	Vector3 obtColor();
 
@@ -77,6 +82,7 @@ protected:
 private:
         E e; // representa el estado del vértice
         double niv_strs; // representa el temporizador de chequeo de virus
+        bool es_ave = false;
 };
 
 #endif // NDOAVE_H

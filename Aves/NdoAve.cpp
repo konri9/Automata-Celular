@@ -40,22 +40,36 @@ NdoAve::E NdoAve::obtEst() const
 
 Vector3 NdoAve::obtColor() 
 {
-	if (obtEst() == NdoAve::R) {
+    if (!esAve()) return Vector3(0.0, 0.0, 0.0);
+    if (niv_strs > MAX_ESTRES) return Vector3(0.0, 0.0, 1.0);
+    return Vector3(niv_strs/MAX_ESTRES, 0.0, 0.0);
+	/*if (obtEst() == NdoAve::R) {
         return Vector3(1.0, 1.0, 1.0); //Color blanco -> ave relajada
     }
     if (obtEst() == NdoAve::S) {
-        return Vector3(niv_strs/5.0f, 0.0, 0.0); //Color rojo-> ave estresada
+        if (niv_strs > )
+        return Vector3(niv_strs/MAX_ESTRES, 0.0, 0.0); //Color rojo-> ave estresada
     }
     if (obtEst() == NdoAve::P) {
         return Vector3(0.0, 0.0, 1.0); //Color azul-> ave ya terminada
     }
-    return Vector3 (1.0, 1.0, 1.0); //BLANCO
+    return Vector3 (1.0, 1.0, 1.0); //BLANCO*/
 }
 
 
 double NdoAve::obtEstres() const
 {
     return niv_strs;
+}
+
+void NdoAve::ponerAve()
+{
+    es_ave = true;
+}
+
+bool NdoAve::esAve()
+{
+    return es_ave;
 }
 
 void NdoAve::modEst(E ne)
@@ -70,7 +84,7 @@ void NdoAve::modEstres(double n_estres)
 
 void NdoAve::azarizarEstres()
 {
-    double randy =((double)rand() / (double)RAND_MAX)*5;
+    double randy =((double)rand() / (double)RAND_MAX)*MAX_ESTRES;
         niv_strs = randy;
 }
 

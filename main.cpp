@@ -298,7 +298,6 @@ void *loopvrs(void *arg)
                 {
                     int p1 = elemento(linea, 1, ' ');
                     double p2 = elemento_double(linea, 2, ' ');
-                    cout << p2;
                     if (p1 >= 10 && p2 <1 )// 0 <= prbAdy < 1
                     {
                         if (grafo != NULL) delete grafo;
