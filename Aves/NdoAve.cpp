@@ -38,10 +38,10 @@ NdoAve::E NdoAve::obtEst() const
     return e;
 }
 
-Vector3 NdoAve::obtColor() 
+Vector3 NdoAve::obtColor()
 {
     if (!esAve()) return Vector3(0.0, 0.0, 0.0);
-    if (niv_strs > MAX_ESTRES) return Vector3(0.0, 0.0, 1.0);
+    if (niv_strs >= MAX_ESTRES) return Vector3(0.0, 0.0, 1.0);
     return Vector3(niv_strs/MAX_ESTRES, 0.0, 0.0);
 	/*if (obtEst() == NdoAve::R) {
         return Vector3(1.0, 1.0, 1.0); //Color blanco -> ave relajada
@@ -98,7 +98,7 @@ double NdoAve::calcEstres(double NR, vector<double>& niveles_str)//const;
         sum+= niveles_str[i];
     }
     double promedio = (double)(sum / (double)niveles_str.size());
-    res = NR*niv_strs*(1-NR)*promedio;
+    res = NR*niv_strs*(1+NR)*promedio;
     return res;
  }
 

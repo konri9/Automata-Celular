@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#define MAX_ESTRES 5.0f
+#define MAX_ESTRES 100.0f
 
 #include "../GrafoGnr.h"
 #include "../VerticeGnr.h"
